@@ -2,6 +2,7 @@ bower_components/
 node_modules/
 temp/
 tmp/
+dist/
 logs/
 log/
 results/
