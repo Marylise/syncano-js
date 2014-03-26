@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>syncano devel demo</title>
+	<link rel="stylesheet" href="./assets/normalize.css" />
+	<link rel="stylesheet" href="./assets/main.css" />
+</head>
+<body>
+	<script>
+	var root = window;
+	</script>
+	<script type="text/javascript" charset="utf-8" src="../src/tools.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/pubsub.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
+	<script>
+	
+	var callback1 = function(params){
+		console.log('CALLBACK 1: ', params);
+	};
+	var callback2 = function(params){
+		console.log('CALLBACK 2: ', params);
+	};
+
+	console.log('on start: ', PubSub.hasSubscribers('MY MESSAGE'));
+	PubSub.on('MY MESSAGE', callback1);
+	console.log('after on: ', PubSub.hasSubscribers('MY MESSAGE'));
+	PubSub.on('MY MESSAGE', callback2);
+	console.log('after on: ', PubSub.hasSubscribers('MY MESSAGE'));
+	PubSub.off('MY MESSAGE', callback1);
+	console.log('after off: ', PubSub.hasSubscribers('MY MESSAGE'));
+	PubSub.trigger('MY MESSAGE', 'hello world!', 17);
+	PubSub.off('MY MESSAGE', callback2);
+	console.log('after off: ', PubSub.hasSubscribers('MY MESSAGE'));
+	PubSub.trigger('MY MESSAGE', 'new!');
+	
+	</script>
+</body>
+</html>
