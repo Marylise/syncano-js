@@ -6,8 +6,11 @@ var PubSub = {};
 var messages = {};
 var lastUID = 0;
 
+
 /**
- *  
+ * Register specified function as a callback for given message
+ * @param {string} message - message identifier
+ * @param {function} callback - function to call when message is triggered
  */
 PubSub.on = function(message, callback){
 	if(typeof callback !== 'function'){
@@ -25,9 +28,9 @@ PubSub.on = function(message, callback){
 
 
 /**
- *  Does message have subscribers?
- *  @param: message
- *  @return: boolean
+ * Does message have subscribers?
+ * @param {string} message - message identifier
+ * @return: boolean
  */
 PubSub.hasSubscribers = function(message){
 	if(typeof message !== 'string'){
@@ -41,7 +44,9 @@ PubSub.hasSubscribers = function(message){
 
 
 /**
- *  Remove specified function callback. If no func is given, removes all callbacks for given message
+ * Remove specified function callback. If no func is given, removes all callbacks for given message
+ * @param {string} message - message identifier
+ * @param {function} func - function to remove
  */
 PubSub.off = function(message, func){
 	if(!this.hasSubscribers(message)){
@@ -63,13 +68,31 @@ PubSub.off = function(message, func){
 
 
 /**
- *  Calls asynchronically all registered functions for given message
- *  @param: message 
- *  @return: boolean (true = success, false = fail)
+ * Calls asynchronically all registered functions for given message. Shortcut method for doTrigger(message, false)
+ * @param {string} message - message identifier
+ * @return: boolean (true = success, false = fail)
  */
 PubSub.trigger = function(message){
-	var params = Array.prototype.slice.call(arguments, 1);
-		
+	return PubSub.doTrigger(message, false, Array.prototype.slice.call(arguments, 1));
+};
+
+
+/**
+ * Calls synchronically all registered functions for given message. Shortcut method for doTrigger(message, true)
+ * @param {string} message - message identifier 
+ */
+PubSub.triggerSync = function(message){
+	return PubSub.doTrigger(message, true, Array.prototype.slice.call(arguments, 1));
+};
+
+
+/**
+ * Calls all registered functions for given message
+ * @param {string} message - message identifier
+ * @param {boolean} sync - true for synchronous calls, false for asynchronous
+ */
+PubSub.doTrigger = function(message, sync){
+	var params = Array.prototype.slice.call(arguments, 2)[0];
 	if(!this.hasSubscribers(message)){
 		return false;
 	}
@@ -77,7 +100,11 @@ PubSub.trigger = function(message){
 	for(var uuid in list){
 		if(list.hasOwnProperty(uuid)){
 			var func = list[uuid];
-			setTimeout(func.call(func, params), 0);
+			if(sync === false){
+				setTimeout(func.call(func, params), 0);
+			} else {
+				func.call(func, params);
+			}
 		}
 	}
 	return true;
