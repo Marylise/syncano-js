@@ -1,0 +1,12 @@
+{
+  "name": "syncano",
+  "version": "0.0.0",
+  "main": "dist/syncano.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {}
+}
