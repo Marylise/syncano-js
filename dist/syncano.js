@@ -226,6 +226,49 @@ PubSub.doTrigger = function(message, sync){
 };
 
 /**
+ * methods for handling projects - creating, reading, updating, deleting 
+ */
+
+var Project = {
+	new: function(name, description){
+		var method = 'project.new';
+		this.__super__.sendRequest(method, {name: name, description: description}, function(data){
+			console.log(data);
+		});
+	},
+	
+	get: function(){
+		var method = 'project.get';
+		this.__super__.sendRequest(method, {}, function(data){
+			console.log('Calling callback with data: ', data);
+		});
+	},
+	
+	getOne: function(id){
+		var method = 'project.get_one';
+		this.__super__.sendRequest(method, {id: id}, function(data){
+			console.log(data);
+		});
+	},
+	
+	update: function(id, name, description){
+		var method = 'project.update';
+		this.__super__.sendRequest(method, {name: name, description: description}, function(data){
+			console.log(data);
+		});
+	},
+	
+	delete: function(id){
+		var method = 'project.delete';
+		this.__super__.sendRequest(method, {id: id}, function(data){
+			console.log(data);
+		});
+	}
+};
+
+
+
+/**
  *  
  */
 var states = {
@@ -256,6 +299,12 @@ var Syncano = function(){
 	 *  when answer to message arrives. The list is indexed with message_id attribute
 	 */
 	this.waitingForResponse = {};
+	
+	/**
+	 *  High-level function mixins
+	 */
+	this.Project = Project;
+	this.Project.__super__ = this;
 };
 
 
@@ -268,14 +317,23 @@ Syncano.prototype = extend(Syncano.prototype, PubSub);
 /**
  *  @param {object} params - {instance, api_key, optional timezone}
  */
-Syncano.prototype.connect = function(params){
-	if(typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
+Syncano.prototype.connect = function(params, callback){
+	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
 	if(typeof root.SockJS === 'undefined'){
 		throw new Error('SockJS is required');
 	}
 	this.connectionParams = params;
+	if(this.status != states.DISCONNECTED){
+		this.reconnectOnSocketClose = true;
+		return;
+	}
+
+	if(typeof callback === 'function'){
+		this.waitingForResponse.auth = ['auth', callback];
+	}
+
 	this.socket = new root.SockJS(this.socketURL);
 	this.socket.onopen = this.onSocketOpen.bind(this);
 	this.socket.onclose = this.onSocketClose.bind(this);
@@ -298,6 +356,10 @@ Syncano.prototype.onSocketOpen = function(){
 Syncano.prototype.onSocketClose = function(){
 	this.status = states.DISCONNECTED;
 	this.socket = null;
+	if(this.reconnectOnSocketClose === true){
+		this.reconnectOnSocketClose = false;
+		this.connect(this.connectionParams);
+	}
 };
 
 
@@ -310,6 +372,11 @@ Syncano.prototype.onMessage = function(e){
 	
 	if(data.result === 'NOK'){
 		this.trigger('syncano:error', data.error);
+		if(data.type === 'auth'){
+			this.socket.close();
+			this.trigger('syncano:auth:error');
+		}
+		return;
 	} else {
 		this.trigger('syncano:received', data);
 	}
@@ -333,6 +400,7 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
 	this.trigger('syncano:authorized', this.uuid);
+	this.parseCallResponse({message_id: 'auth', data:data});
 	this.sendQueue();
 };
 

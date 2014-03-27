@@ -13,6 +13,7 @@ module.exports = function(grunt) {
           'src/_intro.js',
 		  'src/tools.js',
 		  'src/pubsub.js',
+		  'src/projects.js',
           'src/main.js',
           'src/_outro.js'
         ],

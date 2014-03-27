@@ -29,6 +29,12 @@ var Syncano = function(){
 	 *  when answer to message arrives. The list is indexed with message_id attribute
 	 */
 	this.waitingForResponse = {};
+	
+	/**
+	 *  High-level function mixins
+	 */
+	this.Project = Project;
+	this.Project.__super__ = this;
 };
 
 
@@ -55,7 +61,7 @@ Syncano.prototype.connect = function(params, callback){
 	}
 
 	if(typeof callback === 'function'){
-		this.waitingForResponse['auth'] = ['auth', callback];
+		this.waitingForResponse.auth = ['auth', callback];
 	}
 
 	this.socket = new root.SockJS(this.socketURL);

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>syncano devel demo</title>
 	<link rel="stylesheet" href="./assets/normalize.css" />
 	<link rel="stylesheet" href="./assets/main.css" />
@@ -12,6 +13,7 @@
 	<script src="../bower_components/sockjs/sockjs.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/tools.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/pubsub.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/projects.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -25,9 +27,9 @@
 		api_key: '2a8fac000d915af306dfc0e8df835619c5445e72',
 		timezone: 'Europe/Warsaw'
 	});
-	s.sendRequest('project.get', {}, function(data){
+/*	s.sendRequest('project.get', {}, function(data){
 		console.log('Calling callback with data: ', data);
-	});
+	});*/
 	
 	
 	
