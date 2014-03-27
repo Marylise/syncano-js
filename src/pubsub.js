@@ -92,17 +92,21 @@ PubSub.triggerSync = function(message){
  * @param {boolean} sync - true for synchronous calls, false for asynchronous
  */
 PubSub.doTrigger = function(message, sync){
+	var list, uuid, func;
+	var called = false;
+
 	var params = Array.prototype.slice.call(arguments, 2)[0];
 	if(this.hasSubscribers(message)){
-		var list = messages[message];
-		for(var uuid in list){
+		list = messages[message];
+		for(uuid in list){
 			if(list.hasOwnProperty(uuid)){
-				var func = list[uuid];
+				func = list[uuid];
 				if(sync === false){
 					setTimeout(func.call(func, params), 0);
 				} else {
 					func.call(func, params);
 				}
+				called = true;
 			}
 		}
 	}
@@ -111,18 +115,19 @@ PubSub.doTrigger = function(message, sync){
 	 */
 	var allMessage = 'all';
 	if(this.hasSubscribers(allMessage)){
-		var list = messages[allMessage];
-		for(var uuid in list){
+		list = messages[allMessage];
+		for(uuid in list){
 			if(list.hasOwnProperty(uuid)){
-				var func = list[uuid];
+				func = list[uuid];
 				if(sync === false){
 					setTimeout(func.call(func, message, params), 0);
 				} else {
 					func.call(func, message, params);
 				}
+				called = true;
 			}
 		}
 	}
 
-	return true;
+	return called;
 };
