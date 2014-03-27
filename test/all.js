@@ -1,5 +1,5 @@
 test("the base function exists", function() {
-  ok(syncano);
+  ok(SyncanoConnector);
 });
 
 test("PubSub tests", function(){
@@ -14,7 +14,7 @@ test("PubSub tests", function(){
 		equal(params.length, 2, 'Arguments array should have 2 elements');
 	};
 	
-	var s = new syncano();
+	var s = SyncanoConnector.getInstance();
 	var msg = 'MY MESSAGE';
 	
 	ok(

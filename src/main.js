@@ -11,7 +11,7 @@ var states = {
 /**
  * @constructor 
  */
-var syncano = function(){
+var Syncano = function(){
 	// TODO: in final version change url
 	this.socketURL = 'https://api.hydraengine.com/ws';
 	this.socket = null;
@@ -35,13 +35,13 @@ var syncano = function(){
 /**
  *  add PubSub mixin
  */
-syncano.prototype = extend(syncano.prototype, PubSub);
+Syncano.prototype = extend(Syncano.prototype, PubSub);
 
 
 /**
  *  @param {object} params - {instance, api_key, optional timezone}
  */
-syncano.prototype.connect = function(params){
+Syncano.prototype.connect = function(params){
 	if(typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
@@ -59,7 +59,7 @@ syncano.prototype.connect = function(params){
 /**
  *  Immediately after opening socket, send auth request
  */
-syncano.prototype.onSocketOpen = function(){
+Syncano.prototype.onSocketOpen = function(){
 	this.status = states.CONNECTED;
 	this.sendAuthRequest();
 };
@@ -68,7 +68,7 @@ syncano.prototype.onSocketOpen = function(){
 /**
  *  
  */
-syncano.prototype.onSocketClose = function(){
+Syncano.prototype.onSocketClose = function(){
 	this.status = states.DISCONNECTED;
 	this.socket = null;
 };
@@ -78,7 +78,7 @@ syncano.prototype.onSocketClose = function(){
  *  Method called every time the message is received. Message is passed as e.data
  *  If there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.
  */
-syncano.prototype.onMessage = function(e){
+Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
 	if(data.result === 'NOK'){
@@ -102,7 +102,7 @@ syncano.prototype.onMessage = function(e){
 /**
  *  After successful authorization trigger event and send all queued messages
  */
-syncano.prototype.parseAuthorizationResponse = function(data){
+Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
 	this.trigger('syncano:authorized', this.uuid);
@@ -114,7 +114,7 @@ syncano.prototype.parseAuthorizationResponse = function(data){
  *  Receiven new callresponse message. If we were waiting for this response, handle it (call callback, etc). Otherwise - ignore
  *  @param {object} data - data received
  */
-syncano.prototype.parseCallResponse = function(data){
+Syncano.prototype.parseCallResponse = function(data){
 	var messageId = data.message_id;
 	if(typeof messageId !== 'undefined' && typeof this.waitingForResponse[messageId] !== 'undefined'){
 		var rec = this.waitingForResponse[messageId];
@@ -134,7 +134,7 @@ syncano.prototype.parseCallResponse = function(data){
 /**
  *  Sends all requests waiting in the queue
  */
-syncano.prototype.sendQueue = function(){
+Syncano.prototype.sendQueue = function(){
 	while(this.requestsQueue.length > 0){
 		var request = this.requestsQueue.shift();
 		this.socketSend(request);
@@ -145,7 +145,7 @@ syncano.prototype.sendQueue = function(){
 /**
  *  Generated unique message id
  */
-syncano.prototype.getNextRequestId = function(){
+Syncano.prototype.getNextRequestId = function(){
 	return this.requestId++;
 };
 
@@ -154,7 +154,7 @@ syncano.prototype.getNextRequestId = function(){
  *  Sends request as a string. Internal low-level function, should not be used outside
  *  @param {object} request
  */
-syncano.prototype.socketSend = function(request){
+Syncano.prototype.socketSend = function(request){
 	this.socket.send(JSON.stringify(request) + "\n");
 };
 
@@ -162,7 +162,7 @@ syncano.prototype.socketSend = function(request){
 /**
  *  Universal high-level function for sending requests to syncano.
  */
-syncano.prototype.sendRequest = function(method, params, callback){
+Syncano.prototype.sendRequest = function(method, params, callback){
 	if(typeof params === 'undefined'){
 		params = {};
 	}
@@ -196,14 +196,22 @@ syncano.prototype.sendRequest = function(method, params, callback){
 /**
  *  sendAuthRequest has to be the first request sent to socket. Contains instance, api_key and optional timezone
  */
-syncano.prototype.sendAuthRequest = function(){
+Syncano.prototype.sendAuthRequest = function(){
 	this.socketSend(this.connectionParams);
 };
 
-syncano.VERSION = '0.0.1';
+
+var instance = null;
 
 
 /**
  * Export to the root, which is probably `window`. 
  */
-root.syncano = syncano;
+root.SyncanoConnector = {
+	getInstance: function(){
+		if(instance === null){
+			instance = new Syncano();
+		}
+		return instance;
+	}
+};
