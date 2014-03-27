@@ -75,7 +75,8 @@ syncano.prototype.onSocketClose = function(){
 
 
 /**
- *  
+ *  Method called every time the message is received. Message is passed as e.data
+ *  If there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.
  */
 syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
@@ -83,12 +84,16 @@ syncano.prototype.onMessage = function(e){
 	if(data.result === 'NOK'){
 		this.trigger('syncano:error', data.error);
 	} else {
-		this.trigger('syncano:message', data);
+		this.trigger('syncano:received', data);
 	}
 	
 	switch(data.type){
 		case 'auth':
-			this.doAuthorize(data);
+			this.parseAuthorizationResponse(data);
+			break;
+			
+		case 'callresponse':
+			this.parseCallResponse(data);
 			break;
 	}
 };
@@ -97,11 +102,32 @@ syncano.prototype.onMessage = function(e){
 /**
  *  After successful authorization trigger event and send all queued messages
  */
-syncano.prototype.doAuthorize = function(data){
+syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
 	this.trigger('syncano:authorized', this.uuid);
 	this.sendQueue();
+};
+
+
+/**
+ *  Receiven new callresponse message. If we were waiting for this response, handle it (call callback, etc). Otherwise - ignore
+ *  @param {object} data - data received
+ */
+syncano.prototype.parseCallResponse = function(data){
+	var messageId = data.message_id;
+	if(typeof messageId !== 'undefined' && typeof this.waitingForResponse[messageId] !== 'undefined'){
+		var rec = this.waitingForResponse[messageId];
+		var actionType = rec[0].replace('.', ':');
+		var callback = rec[1];
+		this.trigger('syncano:' + actionType, data.data);
+		if(typeof callback === 'function'){
+			callback(data.data);
+		}
+		delete this.waitingForResponse[messageId];
+	} else {
+		this.trigger('syncano:ignored', data);
+	}
 };
 
 
@@ -125,10 +151,45 @@ syncano.prototype.getNextRequestId = function(){
 
 
 /**
- *  Sends request as a string. Internal function, should not be used outside
+ *  Sends request as a string. Internal low-level function, should not be used outside
+ *  @param {object} request
  */
 syncano.prototype.socketSend = function(request){
 	this.socket.send(JSON.stringify(request) + "\n");
+};
+
+
+/**
+ *  Universal high-level function for sending requests to syncano.
+ */
+syncano.prototype.sendRequest = function(method, params, callback){
+	if(typeof params === 'undefined'){
+		params = {};
+	}
+	
+	var request = {
+		type: 'call',
+		method: method,
+		params: params
+	};
+	
+	request.message_id = this.getNextRequestId();
+
+	/**
+	 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
+	 */
+	this.waitingForResponse[request.message_id] = [method, callback];
+	
+	/**
+	 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
+	 */
+	if(this.status == states.AUTHORIZED){
+		this.trigger('syncano:call', request);
+		this.socketSend(request);
+	} else {
+		this.trigger('syncano:queued', request);
+		this.requestsQueue.push(request);
+	}
 };
 
 
