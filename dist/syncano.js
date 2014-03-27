@@ -101,9 +101,9 @@ var lastUID = 0;
 
 
 /**
- *  Register specified function as a callback for given message
- *  @param {string} message - message identifier
- *  @param {function} callback - function to call when message is triggered
+ * Register specified function as a callback for given message
+ * @param {string} message - message identifier
+ * @param {function} callback - function to call when message is triggered
  */
 PubSub.on = function(message, callback){
 	if(typeof callback !== 'function'){
@@ -121,9 +121,9 @@ PubSub.on = function(message, callback){
 
 
 /**
- *  Does message have subscribers?
- *  @param {string} message - message identifier
- *  @return: boolean
+ * Does message have subscribers?
+ * @param {string} message - message identifier
+ * @return: boolean
  */
 PubSub.hasSubscribers = function(message){
 	if(typeof message !== 'string'){
@@ -137,9 +137,9 @@ PubSub.hasSubscribers = function(message){
 
 
 /**
- *  Remove specified function callback. If no func is given, removes all callbacks for given message
- *  @param {string} message - message identifier
- *  @param {function} func - function to remove
+ * Remove specified function callback. If no func is given, removes all callbacks for given message
+ * @param {string} message - message identifier
+ * @param {function} func - function to remove
  */
 PubSub.off = function(message, func){
 	if(!this.hasSubscribers(message)){
@@ -161,9 +161,9 @@ PubSub.off = function(message, func){
 
 
 /**
- *  Calls asynchronically all registered functions for given message. Shortcut method for doTrigger(message, false)
- *  @param {string} message - message identifier
- *  @return: boolean (true = success, false = fail)
+ * Calls asynchronically all registered functions for given message. Shortcut method for doTrigger(message, false)
+ * @param {string} message - message identifier
+ * @return: boolean (true = success, false = fail)
  */
 PubSub.trigger = function(message){
 	return PubSub.doTrigger(message, false, Array.prototype.slice.call(arguments, 1));
@@ -185,43 +185,193 @@ PubSub.triggerSync = function(message){
  * @param {boolean} sync - true for synchronous calls, false for asynchronous
  */
 PubSub.doTrigger = function(message, sync){
+	var list, uuid, func;
+	var called = false;
+
 	var params = Array.prototype.slice.call(arguments, 2)[0];
-	if(!this.hasSubscribers(message)){
-		return false;
-	}
-	var list = messages[message];
-	for(var uuid in list){
-		if(list.hasOwnProperty(uuid)){
-			var func = list[uuid];
-			if(sync === false){
-				setTimeout(func.call(func, params), 0);
-			} else {
-				func.call(func, params);
+	if(this.hasSubscribers(message)){
+		list = messages[message];
+		for(uuid in list){
+			if(list.hasOwnProperty(uuid)){
+				func = list[uuid];
+				if(sync === false){
+					setTimeout(func.call(func, params), 0);
+				} else {
+					func.call(func, params);
+				}
+				called = true;
 			}
 		}
 	}
-	return true;
+	/**
+	 *  trigger event for 'all'. Send original message name as the first parameter
+	 */
+	var allMessage = 'all';
+	if(this.hasSubscribers(allMessage)){
+		list = messages[allMessage];
+		for(uuid in list){
+			if(list.hasOwnProperty(uuid)){
+				func = list[uuid];
+				if(sync === false){
+					setTimeout(func.call(func, message, params), 0);
+				} else {
+					func.call(func, message, params);
+				}
+				called = true;
+			}
+		}
+	}
+
+	return called;
 };
 
-/* syncano main */
-
-// Base function.
-var syncano = function() {
-	// Add functionality here.
-	return true;
+/**
+ *  
+ */
+var states = {
+	DISCONNECTED: 1,
+	CONNECTED: 2,
+	AUTHORIZED: 3
 };
 
+
+/**
+ * @constructor 
+ */
+var syncano = function(){
+	// TODO: in final version change url
+	this.socketURL = 'https://api.hydraengine.com/ws';
+	this.socket = null;
+	this.status = states.DISCONNECTED;
+	this.requestId = 1;
+	this.uuid = null;
+	
+	/**
+	 *  queue for messages which could not be sent because of no connection 
+	 */
+	this.requestsQueue = [];
+	
+	/**
+	 *  in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function
+	 *  when answer to message arrives. The list is indexed with message_id attribute
+	 */
+	this.waitingForResponse = {};
+};
+
+
+/**
+ *  add PubSub mixin
+ */
 syncano.prototype = extend(syncano.prototype, PubSub);
 
-syncano.prototype.test = function(){
-	console.log('test', this.hasSubscribers('message'));
+
+/**
+ *  @param {object} params - {instance, api_key, optional timezone}
+ */
+syncano.prototype.connect = function(params){
+	if(typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
+		throw new Error('syncano.connect requires instance name and api_key');
+	}
+	if(typeof root.SockJS === 'undefined'){
+		throw new Error('SockJS is required');
+	}
+	this.connectionParams = params;
+	this.socket = new root.SockJS(this.socketURL);
+	this.socket.onopen = this.onSocketOpen.bind(this);
+	this.socket.onclose = this.onSocketClose.bind(this);
+	this.socket.onmessage = this.onMessage.bind(this);
 };
 
-// Version.
+
+/**
+ *  Immediately after opening socket, send auth request
+ */
+syncano.prototype.onSocketOpen = function(){
+	this.status = states.CONNECTED;
+	this.sendAuthRequest();
+};
+
+
+/**
+ *  
+ */
+syncano.prototype.onSocketClose = function(){
+	this.status = states.DISCONNECTED;
+	this.socket = null;
+};
+
+
+/**
+ *  
+ */
+syncano.prototype.onMessage = function(e){
+	var data = JSON.parse(e.data);
+	
+	if(data.result === 'NOK'){
+		this.trigger('syncano:error', data.error);
+	} else {
+		this.trigger('syncano:message', data);
+	}
+	
+	switch(data.type){
+		case 'auth':
+			this.doAuthorize(data);
+			break;
+	}
+};
+
+
+/**
+ *  After successful authorization trigger event and send all queued messages
+ */
+syncano.prototype.doAuthorize = function(data){
+	this.uuid = data.uuid;
+	this.status = states.AUTHORIZED;
+	this.trigger('syncano:authorized', this.uuid);
+	this.sendQueue();
+};
+
+
+/**
+ *  Sends all requests waiting in the queue
+ */
+syncano.prototype.sendQueue = function(){
+	while(this.requestsQueue.length > 0){
+		var request = this.requestsQueue.shift();
+		this.socketSend(request);
+	}
+};
+
+
+/**
+ *  Generated unique message id
+ */
+syncano.prototype.getNextRequestId = function(){
+	return this.requestId++;
+};
+
+
+/**
+ *  Sends request as a string. Internal function, should not be used outside
+ */
+syncano.prototype.socketSend = function(request){
+	this.socket.send(JSON.stringify(request) + "\n");
+};
+
+
+/**
+ *  sendAuthRequest has to be the first request sent to socket. Contains instance, api_key and optional timezone
+ */
+syncano.prototype.sendAuthRequest = function(){
+	this.socketSend(this.connectionParams);
+};
+
 syncano.VERSION = '0.0.1';
 
 
-// Export to the root, which is probably `window`.
+/**
+ * Export to the root, which is probably `window`. 
+ */
 root.syncano = syncano;
 
 
