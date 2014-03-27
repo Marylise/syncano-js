@@ -76,6 +76,7 @@ Syncano.prototype.onSocketClose = function(){
 	this.status = states.DISCONNECTED;
 	this.socket = null;
 	if(this.reconnectOnSocketClose === true){
+		this.reconnectOnSocketClose = false;
 		this.connect(this.connectionParams);
 	}
 };
