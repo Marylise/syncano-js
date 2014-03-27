@@ -93,19 +93,36 @@ PubSub.triggerSync = function(message){
  */
 PubSub.doTrigger = function(message, sync){
 	var params = Array.prototype.slice.call(arguments, 2)[0];
-	if(!this.hasSubscribers(message)){
-		return false;
-	}
-	var list = messages[message];
-	for(var uuid in list){
-		if(list.hasOwnProperty(uuid)){
-			var func = list[uuid];
-			if(sync === false){
-				setTimeout(func.call(func, params), 0);
-			} else {
-				func.call(func, params);
+	if(this.hasSubscribers(message)){
+		var list = messages[message];
+		for(var uuid in list){
+			if(list.hasOwnProperty(uuid)){
+				var func = list[uuid];
+				if(sync === false){
+					setTimeout(func.call(func, params), 0);
+				} else {
+					func.call(func, params);
+				}
 			}
 		}
 	}
+	/**
+	 *  trigger event for 'all'. Send original message name as the first parameter
+	 */
+	var allMessage = 'all';
+	if(this.hasSubscribers(allMessage)){
+		var list = messages[allMessage];
+		for(var uuid in list){
+			if(list.hasOwnProperty(uuid)){
+				var func = list[uuid];
+				if(sync === false){
+					setTimeout(func.call(func, message, params), 0);
+				} else {
+					func.call(func, message, params);
+				}
+			}
+		}
+	}
+
 	return true;
 };
