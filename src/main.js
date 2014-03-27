@@ -41,7 +41,7 @@ Syncano.prototype = extend(Syncano.prototype, PubSub);
 /**
  *  @param {object} params - {instance, api_key, optional timezone}
  */
-Syncano.prototype.connect = function(params){
+Syncano.prototype.connect = function(params, callback){
 	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
@@ -53,6 +53,11 @@ Syncano.prototype.connect = function(params){
 		this.reconnectOnSocketClose = true;
 		return;
 	}
+
+	if(typeof callback === 'function'){
+		this.waitingForResponse['auth'] = ['auth', callback];
+	}
+
 	this.socket = new root.SockJS(this.socketURL);
 	this.socket.onopen = this.onSocketOpen.bind(this);
 	this.socket.onclose = this.onSocketClose.bind(this);
@@ -119,6 +124,7 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
 	this.trigger('syncano:authorized', this.uuid);
+	this.parseCallResponse({message_id: 'auth', data:data});
 	this.sendQueue();
 };
 
