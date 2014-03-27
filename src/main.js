@@ -42,13 +42,17 @@ Syncano.prototype = extend(Syncano.prototype, PubSub);
  *  @param {object} params - {instance, api_key, optional timezone}
  */
 Syncano.prototype.connect = function(params){
-	if(typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
+	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
 	if(typeof root.SockJS === 'undefined'){
 		throw new Error('SockJS is required');
 	}
 	this.connectionParams = params;
+	if(this.status != states.DISCONNECTED){
+		this.reconnectOnSocketClose = true;
+		return;
+	}
 	this.socket = new root.SockJS(this.socketURL);
 	this.socket.onopen = this.onSocketOpen.bind(this);
 	this.socket.onclose = this.onSocketClose.bind(this);
@@ -71,6 +75,9 @@ Syncano.prototype.onSocketOpen = function(){
 Syncano.prototype.onSocketClose = function(){
 	this.status = states.DISCONNECTED;
 	this.socket = null;
+	if(this.reconnectOnSocketClose === true){
+		this.connect(this.connectionParams);
+	}
 };
 
 
@@ -83,6 +90,11 @@ Syncano.prototype.onMessage = function(e){
 	
 	if(data.result === 'NOK'){
 		this.trigger('syncano:error', data.error);
+		if(data.type === 'auth'){
+			this.socket.close();
+			this.trigger('syncano:auth:error');
+		}
+		return;
 	} else {
 		this.trigger('syncano:received', data);
 	}
