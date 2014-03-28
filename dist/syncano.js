@@ -330,9 +330,9 @@ Project.update = function(id, name, description, callback){
  */
 Project.delete = function(id, callback){
 	var method = 'project.delete';
-	this.__super__.sendRequest(method, {id: id}, function(data){
+	this.__super__.sendRequest(method, {project_id: id}, function(){
 		if(typeof callback === 'function'){
-			callback(data);
+			callback();
 		}
 	});
 };
@@ -457,7 +457,7 @@ Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
 	if(data.result === 'NOK'){
-		this.trigger('syncano:error', data.error);
+		this.trigger('syncano:error', data.data.error);
 		if(data.type === 'auth'){
 			this.socket.close();
 			this.trigger('syncano:auth:error');

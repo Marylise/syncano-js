@@ -117,7 +117,7 @@ Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
 	if(data.result === 'NOK'){
-		this.trigger('syncano:error', data.error);
+		this.trigger('syncano:error', data.data.error);
 		if(data.type === 'auth'){
 			this.socket.close();
 			this.trigger('syncano:auth:error');

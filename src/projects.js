@@ -103,9 +103,9 @@ Project.update = function(id, name, description, callback){
  */
 Project.delete = function(id, callback){
 	var method = 'project.delete';
-	this.__super__.sendRequest(method, {id: id}, function(data){
+	this.__super__.sendRequest(method, {project_id: id}, function(){
 		if(typeof callback === 'function'){
-			callback(data);
+			callback();
 		}
 	});
 };
