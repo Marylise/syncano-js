@@ -3,38 +3,67 @@
  */
 
 var Project = {
-	new: function(name, description){
+	new: function(name, description, callback){
 		var method = 'project.new';
 		this.__super__.sendRequest(method, {name: name, description: description}, function(data){
-			console.log(data);
+			var res = data.project;
+			if(typeof callback === 'function'){
+				callback(res);
+			}
 		});
 	},
 	
-	get: function(){
+	/**
+	 *  
+	 */
+	get: function(callback){
 		var method = 'project.get';
 		this.__super__.sendRequest(method, {}, function(data){
-			console.log('Calling callback with data: ', data);
+			var res = data.project;
+			if(typeof callback === 'function'){
+				callback(res);
+			}
 		});
 	},
 	
-	getOne: function(id){
+	/**
+	 *  
+	 */
+	getOne: function(id, callback){
+		if(typeof id !== 'number'){
+			throw new Error('Project.getOne() - id must be a number');
+		}
 		var method = 'project.get_one';
 		this.__super__.sendRequest(method, {id: id}, function(data){
-			console.log(data);
+			var res = data.project;
+			if(typeof callback === 'function'){
+				callback(res);
+			}
 		});
 	},
 	
-	update: function(id, name, description){
+	
+	update: function(id, name, description, callback){
+		if(typeof name === 'undefined' && typeof description === 'undefined'){
+			return false;
+		}
 		var method = 'project.update';
 		this.__super__.sendRequest(method, {name: name, description: description}, function(data){
-			console.log(data);
+			var res = data.project;
+			if(typeof callback === 'function'){
+				callback(res);
+			}
 		});
+		return true;
 	},
-	
-	delete: function(id){
+
+
+	delete: function(id, callback){
 		var method = 'project.delete';
 		this.__super__.sendRequest(method, {id: id}, function(data){
-			console.log(data);
+			if(typeof callback === 'function'){
+				callback(data);
+			}
 		});
 	}
 };
