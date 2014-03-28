@@ -1,6 +1,6 @@
 {
   "name": "syncano",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/syncano.min.js",
   "description": "library description",
   "repository": {
@@ -11,7 +11,9 @@
   "author": "Artur Wrobel",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "dependencies": {},
+  "dependencies": {
+    "grunt-contrib-yuidoc": "~0.5.2"
+  },
   "devDependencies": {
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-jshint": "~0.6.4",

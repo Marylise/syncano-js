@@ -35,6 +35,19 @@ module.exports = function(grunt) {
     qunit: {
       files: ['test/*.html']
     },
+	
+	yuidoc: {
+		all: {
+			name: '<%= pkg.name %>',
+			description: '<%= pkg.description %>',
+			version: '<%= pkg.version %>',
+			url: '<%= pkg.homepage %>',
+			options: {
+				paths: ['src'],
+				outdir: './docs/'
+			}
+		}
+	},
 
     jshint: {
       files: ['dist/syncano.js'],
@@ -60,8 +73,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks("grunt-contrib-yuidoc");
 
   grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('default', ['concat', 'jshint', 'qunit', 'uglify']);
+  grunt.registerTask('default', ['concat', 'jshint', 'qunit', 'uglify', 'docs']);
+  grunt.registerTask("docs", ["yuidoc"]);
 
 };

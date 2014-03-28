@@ -9,7 +9,10 @@ var states = {
 
 
 /**
- * @constructor 
+ * Real time high level library for Syncano (www.syncano.com)
+ *
+ * @class Syncano
+ * @constructor
  */
 var Syncano = function(){
 	// TODO: in final version change url
@@ -45,7 +48,11 @@ Syncano.prototype = extend(Syncano.prototype, PubSub);
 
 
 /**
- *  @param {object} params - {instance, api_key, optional timezone}
+ *  Establishes connecion to the server and sends authorization request.
+ *  
+ *  @method connect
+ *  @param {object} params Connection parameters {instance, api_key, optional timezone}. If any of them is not defined, error is thrown
+ *  @param {function} callback Optional callback to be called after successful connection and authorization.
  */
 Syncano.prototype.connect = function(params, callback){
 	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
@@ -72,16 +79,22 @@ Syncano.prototype.connect = function(params, callback){
 
 
 /**
- *  Immediately after opening socket, send auth request
+ *  Internal method called after the socket is open. Sends authorization request - instance, api_key and (optional) timezone 
+ *  defined in this.connectionParams.
+ *
+ *  @method onSocketOpen
  */
 Syncano.prototype.onSocketOpen = function(){
 	this.status = states.CONNECTED;
-	this.sendAuthRequest();
+	this.socketSend(this.connectionParams);
 };
 
 
 /**
- *  
+ *  Internal method called automatically when socket is closed. Clears SockJS instance, changes state to DISCONNECTED. If there was
+ *  waiting request to reconnect, handles reconnection with the same params.
+ *
+ *  @method onSocketClose
  */
 Syncano.prototype.onSocketClose = function(){
 	this.status = states.DISCONNECTED;
@@ -96,6 +109,9 @@ Syncano.prototype.onSocketClose = function(){
 /**
  *  Method called every time the message is received. Message is passed as e.data
  *  If there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.
+ * 
+ *  @method onMessage
+ *  @param {object} e event object
  */
 Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
@@ -125,6 +141,9 @@ Syncano.prototype.onMessage = function(e){
 
 /**
  *  After successful authorization trigger event and send all queued messages
+ *
+ *  @method parseAuthorizationResponse
+ *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
  */
 Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
@@ -137,7 +156,9 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 
 /**
  *  Receiven new callresponse message. If we were waiting for this response, handle it (call callback, etc). Otherwise - ignore
- *  @param {object} data - data received
+ *
+ *  @method parseCallResponse
+ *  @param {object} data - data received. Fields: type (=callresponse), message_id, result, data
  */
 Syncano.prototype.parseCallResponse = function(data){
 	var messageId = data.message_id;
@@ -157,7 +178,9 @@ Syncano.prototype.parseCallResponse = function(data){
 
 
 /**
- *  Sends all requests waiting in the queue
+ *  Sends all requests waiting in the queue and clears the queue.
+ *
+ *  @method sendQueue
  */
 Syncano.prototype.sendQueue = function(){
 	while(this.requestsQueue.length > 0){
@@ -168,7 +191,10 @@ Syncano.prototype.sendQueue = function(){
 
 
 /**
- *  Generated unique message id
+ *  Generates unique message id
+ * 
+ *  @method getNextRequestId
+ *  @return {number} next unique identifier
  */
 Syncano.prototype.getNextRequestId = function(){
 	return this.requestId++;
@@ -177,7 +203,9 @@ Syncano.prototype.getNextRequestId = function(){
 
 /**
  *  Sends request as a string. Internal low-level function, should not be used outside
- *  @param {object} request
+ * 
+ *  @method socketSend
+ *  @param {object} request 
  */
 Syncano.prototype.socketSend = function(request){
 	this.socket.send(JSON.stringify(request) + "\n");
@@ -185,7 +213,14 @@ Syncano.prototype.socketSend = function(request){
 
 
 /**
- *  Universal high-level function for sending requests to syncano.
+ *  Universal high-level function for sending requests to syncano. 
+ *  Sends request to 'method' with given 'params' if the socket is connected. If not, puts request on the queue to be sent later.
+ *  Uses internal 'waitingForResponse' object to match request with response.
+ *
+ *  @method sendRequest
+ *  @param {string} method Name of the Syncano method to call (check syncano docs)
+ *  @param {object} params Parameters to send. Every method needs different parameters (check syncano docs)
+ *  @param {function} callback Function to call after receiving response from server
  */
 Syncano.prototype.sendRequest = function(method, params, callback){
 	if(typeof params === 'undefined'){
@@ -215,14 +250,6 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 		this.trigger('syncano:queued', request);
 		this.requestsQueue.push(request);
 	}
-};
-
-
-/**
- *  sendAuthRequest has to be the first request sent to socket. Contains instance, api_key and optional timezone
- */
-Syncano.prototype.sendAuthRequest = function(){
-	this.socketSend(this.connectionParams);
 };
 
 
