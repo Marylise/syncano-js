@@ -38,3 +38,33 @@ Delete project with id 1000
 	s.Project.delete(1000, function(r){
 		console.log('Deleted project.', r);
 	});
+
+
+Create new collection
+
+	s.Collection.new(projectId, collectionName, collectionDescription, function(data){
+		console.log('Created collection, received: ', data);
+	});
+
+Get collection by id (or key
+
+	s.Collection.getOne(projectId, collectionIdOrKey, function(data){
+		console.log('Got collection: ', data);
+	});
+)
+
+Activate collection
+
+	s.Collection.activate(projectId, collectionId, null, function(){
+		console.log('Activated collection');
+	});
+
+Deactivate collection
+
+	s.Collection.deactivate(defaultProject, collectionId, function(){
+		console.log('Deactivated collection');
+	});
+
+#todo
+
+1. check collection.get with server-side guys

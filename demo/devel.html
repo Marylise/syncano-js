@@ -14,6 +14,7 @@
 	<script type="text/javascript" charset="utf-8" src="../src/tools.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/pubsub.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/projects.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/collections.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -26,6 +27,13 @@
 		instance: 'develjs',
 		api_key: '2a8fac000d915af306dfc0e8df835619c5445e72',
 		timezone: 'Europe/Warsaw'
+	});
+	
+	var defaultProject = 6827;
+	var collectionId = 5100;
+	
+	s.Collection.deactivate(defaultProject, collectionId, function(){
+		console.log('Deactivated collection');
 	});
 	
 	</script>

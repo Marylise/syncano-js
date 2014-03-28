@@ -38,6 +38,8 @@ var Syncano = function(){
 	 */
 	this.Project = Project;
 	this.Project.__super__ = this;
+	this.Collection = Collection;
+	this.Collection.__super__ = this;
 };
 
 

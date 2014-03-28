@@ -14,6 +14,7 @@ module.exports = function(grunt) {
 		  'src/tools.js',
 		  'src/pubsub.js',
 		  'src/projects.js',
+		  'src/collections.js',
           'src/main.js',
           'src/_outro.js'
         ],
