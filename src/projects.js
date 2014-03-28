@@ -105,7 +105,7 @@ Project.delete = function(id, callback){
 	var method = 'project.delete';
 	this.__super__.sendRequest(method, {project_id: id}, function(){
 		if(typeof callback === 'function'){
-			callback();
+			callback(true);
 		}
 	});
 };
