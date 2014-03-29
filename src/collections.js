@@ -77,7 +77,7 @@ Collection.get = function(projectId, status, withTags, callback){
  *
  * @method Collection.getOne
  * @param {number} projectId Project id
- * @param {string/number} collection Either collection id (number) or key (string)
+ * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.getOne = function(projectId, collection, callback){
@@ -93,6 +93,8 @@ Collection.getOne = function(projectId, collection, callback){
 		params.collection_key = collection;
 	} else if (typeof collection == 'number'){
 		params.collection_id = collection;
+	} else {
+		throw new Error('Collection.getOne - collection key/id must be passed');
 	}
 	
 	this.__super__.sendRequest(method, params, function(data){
@@ -146,9 +148,9 @@ Collection.activate = function(projectId, collectionId, force, callback){
  * Deactivates specified collection
  * collection_id/collection_key parameter means that one can use either one of them - collection_id or collection_key 
  *
- * @method Collection.activate
+ * @method Collection.deactivate
  * @param {number} projectId Project id
- * @param {string/number} collection Either collection id (number) or key (string)
+ * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.deactivate = function(projectId, collection, callback){
@@ -164,6 +166,8 @@ Collection.deactivate = function(projectId, collection, callback){
 		params.collection_key = collection;
 	} else if (typeof collection == 'number'){
 		params.collection_id = collection;
+	} else {
+		throw new Error('Collection.deactivate - collection key/id must be passed');
 	}
 	
 	this.__super__.sendRequest(method, params, function(){
@@ -174,20 +178,186 @@ Collection.deactivate = function(projectId, collection, callback){
 };
 
 
-/*
-Collection.update = function(projectId, collection, name, description){
-};
-
-Collection.delete = function(projectId, collection){
+/**
+ * Update existing collections name and/or description
+ * 
+ * @method Collection.update
+ * @param {number} projectId Project id
+ * @param {string / Number} collection Either collection id (number) or key (string)
+ * @param {string} name (optional) New collection name
+ * @param {string} description (optional) New collection description
+ * @param {function} callback (optional) Function to be called when successful response comes 
+ */
+Collection.update = function(projectId, collection, name, description, callback){
+	if(typeof projectId !== 'number'){
+		throw new Error('Collection.update - projectId must be a number');
+	}
+	var method = 'collection.update';
+	var params = {
+		project_id: projectId
+	};
+	if(typeof collection == 'string'){
+		params.collection_key = collection;
+	} else if (typeof collection == 'number'){
+		params.collection_id = collection;
+	} else {
+		throw new Error('Collection.update - collection key/id must be passed');
+	}
 	
-};
-
-Collection.addTag = function(projectId, collection, tags, weight, remove_other){
+	if(typeof name !== 'undefined' && name !== null){
+		params.name = name;
+	}
+	if(typeof description !== 'undefined' && description !== null){
+		params.name = description;
+	}
 	
+	this.__super__.sendRequest(method, params, function(data){
+		var res = data.collection;
+		if(typeof callback === 'function'){
+			callback(res);
+		}
+	});
 };
 
 
-Collection.deleteTag = function(projectId, collection, tags){
+/**
+ * Add a tag to specific event.
+ * Note: tags are case sensitive. 
+ * 
+ * @method Collection.addTag
+ * @param {number} projectId Project id
+ * @param {string / Number} collection Either collection id (number) or key (string)
+ * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
+ * @param {float} weight Tags weight. Default value = 1
+ * @param {boolean} removeOther If true, will remove all other tags of specified collection. Default value: False
+ * @param {function} callback (optional) Function to be called when successful response comes 
+ */
+Collection.addTag = function(projectId, collection, tags, weight, removeOther, callback){
+	if(typeof projectId !== 'number'){
+		throw new Error('Collection.addTag - projectId must be a number');
+	}
+	var method = 'collection.add_tag';
+	var params = {
+		project_id: projectId
+	};
+	if(typeof collection == 'string'){
+		params.collection_key = collection;
+	} else if (typeof collection == 'number'){
+		params.collection_id = collection;
+	} else {
+		throw new Error('Collection.addTag - collection key/id must be passed');
+	}
 	
+	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
+		throw new Error('Collection.addTag - tags must be passed');
+	}
+	
+	/**
+	 *  currently only ascii chars are supported
+	 */
+	var testTagString;
+	if(typeof tags === 'string'){
+		testTagString = tags;
+	} else {
+		testTagString = tags.join(',');
+	}
+	if(!/^[\000-\177]*$/.test(testTagString)){
+		throw new Error('Collection.addTag - non ascii characters found in tag name');
+	}
+	
+	params.tags = tags;
+
+	params.weight = weight || 1;
+	params.remove_other = !!removeOther || false;
+	
+	this.__super__.sendRequest(method, params, function(){
+		if(typeof callback === 'function'){
+			callback(true);
+		}
+	});
 };
-*/
+
+
+/**
+ * Delete a tag or tags from specified collection.
+ * Note: tags are case sensitive 
+ *
+ * @method Collection.deleteTag
+ * @param {number} projectId Project id
+ * @param {string / Number} collection Either collection id (number) or key (string)
+ * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
+ * @param {function} callback (optional) Function to be called when successful response comes 
+ */
+Collection.deleteTag = function(projectId, collection, tags, callback){
+	if(typeof projectId !== 'number'){
+		throw new Error('Collection.deleteTag - projectId must be a number');
+	}
+	var method = 'collection.delete_tag';
+	var params = {
+		project_id: projectId
+	};
+	if(typeof collection == 'string'){
+		params.collection_key = collection;
+	} else if (typeof collection == 'number'){
+		params.collection_id = collection;
+	} else {
+		throw new Error('Collection.deleteTag - collection key/id must be passed');
+	}
+	
+	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
+		throw new Error('Collection.deleteTag - tags must be passed');
+	}
+	
+	/**
+	 *  currently only ascii chars are supported
+	 */
+	var testTagString;
+	if(typeof tags === 'string'){
+		testTagString = tags;
+	} else {
+		testTagString = tags.join(',');
+	}
+	if(!/^[\000-\177]*$/.test(testTagString)){
+		throw new Error('Collection.deleteTag - non ascii characters found in tag name');
+	}
+	
+	params.tags = tags;
+	
+	this.__super__.sendRequest(method, params, function(){
+		if(typeof callback === 'function'){
+			callback(true);
+		}
+	});
+};
+
+
+/**
+ * Permanently delete specified collection and all associated data.
+ * 
+ * @method Collection.delete
+ * @param {number} projectId Project id
+ * @param {string / Number} collection Either collection id (number) or key (string)
+ * @param {function} callback (optional) Function to be called when successful response comes 
+ */
+Collection.delete = function(projectId, collection, callback){
+	if(typeof projectId !== 'number'){
+		throw new Error('Collection.delete - projectId must be a number');
+	}
+	var method = 'collection.delete';
+	var params = {
+		project_id: projectId
+	};
+	if(typeof collection == 'string'){
+		params.collection_key = collection;
+	} else if (typeof collection == 'number'){
+		params.collection_id = collection;
+	} else {
+		throw new Error('Collection.delete - collection key/id must be passed');
+	}
+
+	this.__super__.sendRequest(method, params, function(){
+		if(typeof callback === 'function'){
+			callback(true);
+		}
+	});
+};

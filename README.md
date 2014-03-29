@@ -14,11 +14,16 @@ Get syncano instance
 
 Register listener for all events:
 	
-	s.on('all', function(type, data){console.log(type, data);});
+	s.on('all', function(type, data){
+		console.log(type, data);
+	});
 
 Connect to instance
 
-	s.connect({instance: 'your-instance',api_key: 'your-api-key'});
+	s.connect({
+		instance: 'your-instance',
+		api_key: 'your-api-key'
+	});
 
 Create new project
 
@@ -48,6 +53,15 @@ Create new collection
 		console.log('Created collection, received: ', data);
 	});
 
+Get all collections
+
+	s.Collection.get(projectId, null, null, function(data){
+		console.log('Received ' + data.length + ' collections');
+		data.forEach(function(c){
+			console.log(c);
+		});
+	});
+
 Get collection by id (or key
 
 	s.Collection.getOne(projectId, collectionIdOrKey, function(data){
@@ -69,4 +83,5 @@ Deactivate collection
 
 #todo
 
-1. check collection.get with server-side guys
+1. change test suit to mocha
+2. prepare async tests

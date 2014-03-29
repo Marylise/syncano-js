@@ -29,11 +29,13 @@
 		timezone: 'Europe/Warsaw'
 	});
 	
-	var defaultProject = 6827;
+	var projectId = 6827;
 	var collectionId = 5100;
 	
-	s.Collection.deactivate(defaultProject, collectionId, function(){
-		console.log('Deactivated collection');
+	s.Collection.delete(projectId, collectionId, function(data){
+		s.Collection.getOne(projectId, collectionId, function(c){
+			console.log(c);
+		});
 	});
 	
 	</script>
