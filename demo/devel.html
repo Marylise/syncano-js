@@ -33,11 +33,8 @@
 	var projectId = 6827;
 	var collectionKey = 'default';
 	
-	s.Collection.get(projectId, null, function(data){
-		console.log('Pobrano ' + data.length + ' katalogów');
-		data.forEach(function(f){
-			console.log(f);
-		});
+	s.Folder.delete(projectId, collectionKey, 'Folder', function(data){
+		console.log('Pobrano ', data);
 	});
 	
 	</script>
