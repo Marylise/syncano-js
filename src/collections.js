@@ -9,8 +9,8 @@ var Collection = {};
  *  
  *  @method Collection.new
  *  @param {number} projectId Project id that collection will be created for
- *  @param {string} name New collection's name
- *  @param {string} key (optional) New collection's key
+ *  @param {string} name New collections name
+ *  @param {string} key (optional) New collections key
  *  @param {string} description (optional) New collection's description
  *  @param {function} callback (optional) Function to be called when successful response comes
  */

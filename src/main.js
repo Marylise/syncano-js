@@ -40,6 +40,8 @@ var Syncano = function(){
 	this.Project.__super__ = this;
 	this.Collection = Collection;
 	this.Collection.__super__ = this;
+	this.Folder = Folder;
+	this.Folder.__super__ = this;
 };
 
 

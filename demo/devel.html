@@ -15,6 +15,7 @@
 	<script type="text/javascript" charset="utf-8" src="../src/pubsub.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/projects.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/collections.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/folders.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -30,11 +31,12 @@
 	});
 	
 	var projectId = 6827;
-	var collectionId = 5100;
+	var collectionKey = 'default';
 	
-	s.Collection.delete(projectId, collectionId, function(data){
-		s.Collection.getOne(projectId, collectionId, function(c){
-			console.log(c);
+	s.Folder.get(projectId, collectionKey, function(data){
+		console.log('Pobrano ' + data.length + ' katalogów');
+		data.forEach(function(f){
+			console.log(f);
 		});
 	});
 	

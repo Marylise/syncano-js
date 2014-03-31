@@ -15,6 +15,7 @@ module.exports = function(grunt) {
 		  'src/pubsub.js',
 		  'src/projects.js',
 		  'src/collections.js',
+		  'src/folders.js',
           'src/main.js',
           'src/_outro.js'
         ],
@@ -44,10 +45,10 @@ module.exports = function(grunt) {
 			version: '<%= pkg.version %>',
 			url: '<%= pkg.homepage %>',
 			options: {
+				linkNatives: true,
 				paths: ['dist'],
 				outdir: './docs/'
-			}
-		}
+			}		}
 	},
 
     jshint: {
