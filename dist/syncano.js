@@ -677,16 +677,23 @@ Folder.getOne = function(projectId, collection, folderName, callback){
 
 /**
  *  Update existing folder
+ *  Params newName and sourceId can be passed as a single object: {newName: '', sourceId: ''} 
  * 
  *  @method Folder.update
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {string} newName New folder name
- *  @sourceId {string} New source id, can be used for mapping folders to external source
+ *  @param {string} sourceId New source id, can be used for mapping folders to external source
  *  @param {function} callback (optional) Function to be called when successful response comes
  */
 Folder.update = function(projectId, collection, folderName, newName, sourceId, callback){
+	if(typeof arguments[3] === 'object'){
+		var obj = Object.create(arguments[3]);
+		callback = arguments[4];
+		newName = obj.newName;
+		sourceId = obj.sourceId;
+	}
 	this.__super__.__checkProjectId(projectId);
 	var method = 'folder.update';
 	var params = {

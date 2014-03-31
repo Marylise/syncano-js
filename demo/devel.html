@@ -33,8 +33,15 @@
 	var projectId = 6827;
 	var collectionKey = 'default';
 	
-	s.Folder.delete(projectId, collectionKey, 'Folder', function(data){
+	/*s.Folder.delete(projectId, collectionKey, 'Folder', function(data){
 		console.log('Pobrano ', data);
+	});*/
+		
+	s.Folder.update(projectId, collectionKey, 'Katalog', {
+		newName: 'Folder', 
+		sourceId: '100'
+	}, function(){
+		console.log('ok');
 	});
 	
 	</script>
