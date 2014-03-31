@@ -14,31 +14,17 @@ var Folder = {};
  *  @param {function} callback (optional) Function to be called when successful response comes
  */
 Folder.new = function(projectId, collection, name, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Folder.new - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	if(!name){
-		throw new Error('Folder.new - folder must have a name');
+		throw new Error('Folder must have a name');
 	}
 	var method = 'folder.new';
 	var params = {
 		name: name,
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Folder.new - collection key/id must be passed');
-	}
-	
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.folder;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, 'folder', callback);
 };
 
 
@@ -51,26 +37,12 @@ Folder.new = function(projectId, collection, name, callback){
  *  @param {function} callback (optional) Function to be called when successful response comes
  */
 Folder.get = function(projectId, collection, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Folder.get - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'folder.get';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Folder.get - collection key/id must be passed');
-	}
-	
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.folder;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, 'folder', callback);
 };

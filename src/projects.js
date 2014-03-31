@@ -48,9 +48,7 @@ Project.get = function(callback){
  *  @param {function} callback Optional function to be called when successful response comes
  */
 Project.getOne = function(id, callback){
-	if(typeof id !== 'number'){
-		throw new Error('Project.getOne() - id must be a number');
-	}
+	this.__super__.__checkProjectId(id);
 	var method = 'project.get_one';
 	this.__super__.sendRequest(method, {id: id}, function(data){
 		var res = data.project;
@@ -71,9 +69,7 @@ Project.getOne = function(id, callback){
  *  @param {function} callback Optional function to be called when successful response comes
  */
 Project.update = function(id, name, description, callback){
-	if(typeof id !== 'number'){
-		throw new Error('Project.update() - id must be a number');
-	}
+	this.__super__.__checkProjectId(id);
 	if((typeof name === 'undefined' || name === null) && (typeof description === 'undefined' || name === null)){
 		return false;
 	}
@@ -102,6 +98,7 @@ Project.update = function(id, name, description, callback){
  *  @param {function} callback Optional function to be called when successful response comes
  */
 Project.delete = function(id, callback){
+	this.__super__.__checkProjectId(id);
 	var method = 'project.delete';
 	this.__super__.sendRequest(method, {project_id: id}, function(){
 		if(typeof callback === 'function'){

@@ -275,9 +275,7 @@ Project.get = function(callback){
  *  @param {function} callback Optional function to be called when successful response comes
  */
 Project.getOne = function(id, callback){
-	if(typeof id !== 'number'){
-		throw new Error('Project.getOne() - id must be a number');
-	}
+	this.__super__.__checkProjectId(id);
 	var method = 'project.get_one';
 	this.__super__.sendRequest(method, {id: id}, function(data){
 		var res = data.project;
@@ -298,9 +296,7 @@ Project.getOne = function(id, callback){
  *  @param {function} callback Optional function to be called when successful response comes
  */
 Project.update = function(id, name, description, callback){
-	if(typeof id !== 'number'){
-		throw new Error('Project.update() - id must be a number');
-	}
+	this.__super__.__checkProjectId(id);
 	if((typeof name === 'undefined' || name === null) && (typeof description === 'undefined' || name === null)){
 		return false;
 	}
@@ -329,6 +325,7 @@ Project.update = function(id, name, description, callback){
  *  @param {function} callback Optional function to be called when successful response comes
  */
 Project.delete = function(id, callback){
+	this.__super__.__checkProjectId(id);
 	var method = 'project.delete';
 	this.__super__.sendRequest(method, {project_id: id}, function(){
 		if(typeof callback === 'function'){
@@ -355,9 +352,7 @@ var Collection = {};
  *  @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.new = function(projectId, name, key, description, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.new - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.new';
 	var params = {
 		name: name,
@@ -369,12 +364,7 @@ Collection.new = function(projectId, name, key, description, callback){
 	if(typeof key !== 'undefined' && key !== null){
 		params.key = key;
 	}
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.collection;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };
 
 
@@ -388,9 +378,7 @@ Collection.new = function(projectId, name, key, description, callback){
  * @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.get = function(projectId, status, withTags, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.get - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.get';
 	var params = {
 		project_id: projectId
@@ -402,12 +390,7 @@ Collection.get = function(projectId, status, withTags, callback){
 	if(typeof withTags !== 'undefined' && withTags !== null){
 		params.with_tags = withTags;
 	}
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.collection;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };
 
 
@@ -421,28 +404,14 @@ Collection.get = function(projectId, status, withTags, callback){
  * @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.getOne = function(projectId, collection, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.getOne - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'collection.get_one';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Collection.getOne - collection key/id must be passed');
-	}
-	
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.collection;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };
 
 
@@ -456,9 +425,7 @@ Collection.getOne = function(projectId, collection, callback){
  * @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.activate = function(projectId, collectionId, force, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.activate - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	
 	if(typeof collectionId !== 'number'){
 		throw new Error('Collection.activate - collectionId must be a number');
@@ -475,12 +442,7 @@ Collection.activate = function(projectId, collectionId, force, callback){
 	} else {
 		params.force = force;
 	}
-	
-	this.__super__.sendRequest(method, params, function(){
-		if(typeof callback === 'function'){
-			callback(true);
-		}
-	});
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 
@@ -494,27 +456,14 @@ Collection.activate = function(projectId, collectionId, force, callback){
  * @param {function} callback (optional) Function to be called when successful response comes
  */
 Collection.deactivate = function(projectId, collection, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.deactivate - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 
 	var method = 'collection.deactivate';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Collection.deactivate - collection key/id must be passed');
-	}
-	
-	this.__super__.sendRequest(method, params, function(){
-		if(typeof callback === 'function'){
-			callback(true);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 
@@ -529,20 +478,12 @@ Collection.deactivate = function(projectId, collection, callback){
  * @param {function} callback (optional) Function to be called when successful response comes 
  */
 Collection.update = function(projectId, collection, name, description, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.update - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.update';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Collection.update - collection key/id must be passed');
-	}
+	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
 	if(typeof name !== 'undefined' && name !== null){
 		params.name = name;
@@ -550,13 +491,7 @@ Collection.update = function(projectId, collection, name, description, callback)
 	if(typeof description !== 'undefined' && description !== null){
 		params.name = description;
 	}
-	
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.collection;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };
 
 
@@ -573,20 +508,12 @@ Collection.update = function(projectId, collection, name, description, callback)
  * @param {function} callback (optional) Function to be called when successful response comes 
  */
 Collection.addTag = function(projectId, collection, tags, weight, removeOther, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.addTag - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.add_tag';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Collection.addTag - collection key/id must be passed');
-	}
+	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
 	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
 		throw new Error('Collection.addTag - tags must be passed');
@@ -606,15 +533,10 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
 	}
 	
 	params.tags = tags;
-
 	params.weight = weight || 1;
 	params.remove_other = !!removeOther || false;
 	
-	this.__super__.sendRequest(method, params, function(){
-		if(typeof callback === 'function'){
-			callback(true);
-		}
-	});
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 
@@ -629,20 +551,12 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
  * @param {function} callback (optional) Function to be called when successful response comes 
  */
 Collection.deleteTag = function(projectId, collection, tags, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.deleteTag - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.delete_tag';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Collection.deleteTag - collection key/id must be passed');
-	}
+	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
 	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
 		throw new Error('Collection.deleteTag - tags must be passed');
@@ -662,12 +576,7 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
 	}
 	
 	params.tags = tags;
-	
-	this.__super__.sendRequest(method, params, function(){
-		if(typeof callback === 'function'){
-			callback(true);
-		}
-	});
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 
@@ -680,26 +589,13 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
  * @param {function} callback (optional) Function to be called when successful response comes 
  */
 Collection.delete = function(projectId, collection, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Collection.delete - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.delete';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Collection.delete - collection key/id must be passed');
-	}
-
-	this.__super__.sendRequest(method, params, function(){
-		if(typeof callback === 'function'){
-			callback(true);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 
@@ -719,31 +615,17 @@ var Folder = {};
  *  @param {function} callback (optional) Function to be called when successful response comes
  */
 Folder.new = function(projectId, collection, name, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Folder.new - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	if(!name){
-		throw new Error('Folder.new - folder must have a name');
+		throw new Error('Folder must have a name');
 	}
 	var method = 'folder.new';
 	var params = {
 		name: name,
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Folder.new - collection key/id must be passed');
-	}
-	
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.folder;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, 'folder', callback);
 };
 
 
@@ -756,28 +638,14 @@ Folder.new = function(projectId, collection, name, callback){
  *  @param {function} callback (optional) Function to be called when successful response comes
  */
 Folder.get = function(projectId, collection, callback){
-	if(typeof projectId !== 'number'){
-		throw new Error('Folder.get - projectId must be a number');
-	}
+	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'folder.get';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
-		params.collection_id = collection;
-	} else {
-		throw new Error('Folder.get - collection key/id must be passed');
-	}
-	
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.folder;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, 'folder', callback);
 };
 
 /**
@@ -1038,6 +906,45 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 	}
 };
 
+/**
+ *  Internal method to check if projectId is a number - so I don't have to write this manualy again and again
+ */
+Syncano.prototype.__checkProjectId = function(projectId){
+	if(typeof projectId !== 'number'){
+		throw new Error('projectId must be a number');
+	}
+};
+
+/**
+ *  Internal method to check the variable name (string or number) and add correct key to passed object
+ */
+Syncano.prototype.__addCollectionIdentifier = function(params, collection){
+	if(typeof collection == 'string'){
+		params.collection_key = collection;
+	} else if (typeof collection == 'number'){
+		params.collection_id = collection;
+	} else {
+		throw new Error('Collection key/id must be passed');
+	}
+	return params;
+};
+
+/**
+ *  Internal shortcut method to send request and run the callback function with proper data as parameter
+ */
+Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
+	this.sendRequest(method, params, function(data){
+		var res;
+		if(key === null){
+			res = true;
+		} else {
+			res = data[key];
+		}
+		if(typeof callback === 'function'){
+			callback(res);
+		}
+	});
+};
 
 var instance = null;
 

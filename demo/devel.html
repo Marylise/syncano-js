@@ -33,7 +33,7 @@
 	var projectId = 6827;
 	var collectionKey = 'default';
 	
-	s.Folder.get(projectId, collectionKey, function(data){
+	s.Collection.get(projectId, null, function(data){
 		console.log('Pobrano ' + data.length + ' katalogów');
 		data.forEach(function(f){
 			console.log(f);

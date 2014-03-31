@@ -256,6 +256,45 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 	}
 };
 
+/**
+ *  Internal method to check if projectId is a number - so I don't have to write this manualy again and again
+ */
+Syncano.prototype.__checkProjectId = function(projectId){
+	if(typeof projectId !== 'number'){
+		throw new Error('projectId must be a number');
+	}
+};
+
+/**
+ *  Internal method to check the variable name (string or number) and add correct key to passed object
+ */
+Syncano.prototype.__addCollectionIdentifier = function(params, collection){
+	if(typeof collection == 'string'){
+		params.collection_key = collection;
+	} else if (typeof collection == 'number'){
+		params.collection_id = collection;
+	} else {
+		throw new Error('Collection key/id must be passed');
+	}
+	return params;
+};
+
+/**
+ *  Internal shortcut method to send request and run the callback function with proper data as parameter
+ */
+Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
+	this.sendRequest(method, params, function(data){
+		var res;
+		if(key === null){
+			res = true;
+		} else {
+			res = data[key];
+		}
+		if(typeof callback === 'function'){
+			callback(res);
+		}
+	});
+};
 
 var instance = null;
 
