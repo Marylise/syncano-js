@@ -43,9 +43,7 @@
 			val: 'wartość'
 		}
 	};
-	s.Data.move(projectId, collectionKey, 2609001, {
-		newFolder: 'Folder'
-	}, function(data){
+	s.Data.copy(projectId, collectionKey, 2609001, function(data){
 		console.log('Received', data);
 	});
 	

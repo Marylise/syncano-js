@@ -374,3 +374,37 @@ Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callbac
 	
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
+
+
+/**
+ *  Copies data with data_id. Copy has data_key cleared
+ *
+ *  @method Data.copy
+ *  @param {number} projectId Project id that collection will be created for
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {string / Array} dataId Data id or ids
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.copy = function(projectId, collection, dataId, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.copy';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	if(isNumber(dataId)){
+		params.data_ids = [dataId + ''];
+	} else if(typeof dataId.length !== 'undefined'){
+		params.data_ids = [];
+		for(var i=0; i<dataId.length; i++){
+			if(!isNumber(dataId[i])){
+				throw new Error('dataId must be integer or array of integers');
+			} else {
+				params.data_ids.push(dataId[i] + '');
+			}
+		}
+	}
+
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
