@@ -1625,7 +1625,7 @@ User.getAll = function(sinceId, limit, callback){
 /**
  *  Get users of specified criteria that are associated with Data Objects within specified collection 
  *
- *  @method Data.count
+ *  @method User.count
  *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
  *  @param {object} [optionalParams] Optional parameters:
@@ -1666,6 +1666,133 @@ User.get = function(projectId, collection, optionalParams, callback){
 	}
 	
 	this.__super__.__sendWithCallback(method, params, &#x27;user&#x27;, callback);
+};
+
+
+/**
+ *  Get one user
+ *
+ *  @method User.getOne
+ *  @param {string / Number} user User id or name
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+User.getOne = function(user, callback){
+	var method = &#x27;user.get_one&#x27;;
+	var params = {};
+	if(typeof user === &#x27;number&#x27;){
+		params.user_id = user;
+	} else if(typeof user === &#x27;string&#x27;){
+		params.user_name = user;
+	}
+	this.__super__.__sendWithCallback(method, params, &#x27;user&#x27;, callback);
+};
+
+
+/**
+ *  Updates specified user
+ *
+ *  @method User.update
+ *  @param {string / Number} user User id or name
+ *  @param {string} [nick] User&#x27;s nick
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+User.update = function(user, nick, callback){
+	var method = &#x27;user.update&#x27;;
+	var params = {};
+	if(typeof user === &#x27;number&#x27;){
+		params.user_id = user;
+	} else if(typeof user === &#x27;string&#x27;){
+		params.user_name = user;
+	}
+	
+	if(isset(nick) &amp;&amp; typeof nick === &#x27;string&#x27;){
+		params.nick = nick;
+	}
+	
+	this.__super__.__sendWithCallback(method, params, &#x27;user&#x27;, callback);
+};
+
+
+/**
+ *  Count users of specified criteria 
+ *
+ *  @method User.count
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {number} [optionalParams.projectId] Project id. If defined, will only count users that has a Data Object associated within project.
+ *  @param {string / Number} [optionalParams.collection] Collection id or key defining collection. If defined, will only count users that has a Data Object associated within collection
+ *  @param {string} [optionalParams.state] Return only users whose Data Objects are in specified state. Accepted values: Pending, Moderated, All. Default value: All
+ *  @param {string / Array} [optionalParams.folders] Folder name that data will be returned from. Max 100 values per request. If not present returns data from across all collection folders
+ *  @param {string} [optionalParams.filter] TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+User.count = function(optionalParams, callback){
+
+	var method = &#x27;user.count&#x27;;
+	var params = {};
+	
+	if(arguments.length === 1){
+		callback = arguments[0];
+		optionalParams = undefined;
+	}
+
+	if(isset(optionalParams)){
+		if(isset(optionalParams.projectId)){
+			if(isNumber(optionalParams.projectId)){
+				params.project_id = optionalParams.projectId;
+			}
+		}
+
+		if(isset(optionalParams.collection)){
+			if(typeof optionalParams.collection === &#x27;string&#x27;){
+				params.collection_key = optionalParams.collection;
+			} else if(typeof optionalParams.collection === &#x27;number&#x27;){
+				params.collection_id = optionalParams.collection;
+			} else {
+				throw new Error(&#x27;collection identifier must be a string (key) or number (id)&#x27;);
+			}
+		}
+
+		if(isset(optionalParams.folders)){
+			params.folders = optionalParams.folders;
+		}
+
+		if(isset(optionalParams.state)){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;,&#x27;all&#x27;])){
+				params.state = optionalParams.state;
+			} else {
+				throw new Error(&#x27;incorrect value of state param&#x27;);
+			}
+		}
+
+		if(isset(optionalParams.filter)){
+			if(inArray(optionalParams.filter.toLowerCase(), [&#x27;text&#x27;, &#x27;image&#x27;])){
+				params.filter = optionalParams.filter;
+			} else {
+				throw new Error(&#x27;incorrect value of filter param - only &quot;text&quot; and &quot;image&quot; are allowed&#x27;);
+			}
+		}
+	}
+
+	this.__super__.__sendWithCallback(method, params, &#x27;count&#x27;, callback);
+};
+
+
+/**
+ *  Deletes (permanently) specified user and all associated data
+ *
+ *  @method User.delete
+ *  @param {string / Number} user User id or name
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+User.delete = function(user, callback){
+	var method = &#x27;user.delete&#x27;;
+	var params = {};
+	if(typeof user === &#x27;number&#x27;){
+		params.user_id = user;
+	} else if(typeof user === &#x27;string&#x27;){
+		params.user_name = user;
+	}
+	this.__super__.__sendWithCallback(method, params, true, callback);
 };
 
 /**

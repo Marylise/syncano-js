@@ -34,21 +34,9 @@
 	
 	var projectId = 6827;
 	var collectionKey = 'default';
-		
-	var params = {
-		dataKey: 'klucz',
-		title: 'Jakiś obiekt',
-		state: 'Pending',
-		additional: {
-			key: 'klucz',
-			val: 'wartość'
-		}
-	};
-	s.User.getAll(null, 1, function(data){
-		console.log(data.length);
-		data.forEach(function(u){
-			console.log('user = ', u);
-		});
+
+	s.User.delete('Ktoś', function(data){
+		console.log(data);
 	});
 	
 	</script>
