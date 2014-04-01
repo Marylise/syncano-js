@@ -81,7 +81,30 @@ Deactivate collection
 		console.log('Deactivated collection');
 	});
 
-#todo
+Add new data object
 
-1. change test suit to mocha
-2. prepare async tests
+	var params = {
+		dataKey: 'my_object',
+		title: 'Object title',
+		state: 'Pending',
+		additional: {
+			start_date: 'yesterday',
+			end_date: 'tomorrow'
+		}
+	};
+	s.Data.new(projectId, collectionKey, params, function(data){
+		console.log('Created new data object: ', data);
+	});
+
+Get data objects
+
+	s.Data.get(projectId, collectionKey, {
+		include_children: false,
+		depth: 2,
+		limit: 3
+	}, function(data){
+		console.log('Received', data.length, 'objects');
+		data.forEach(function(d){
+			console.log(d);
+		});
+	});
