@@ -1006,6 +1006,37 @@ Data.get = function(projectId, collection, optionalParams, callback){
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
+
+/**
+ * Get data by data_id or data_key
+ * 
+ *  @method Data.getOne 
+ *  @param {number} projectId Project id that collection will be created for
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {string / Number} data Either data id (number) or key (string)
+ *  @param {function} callback (optional) Function to be called when successful response comes
+ */
+Data.getOne = function(projectId, collection, data, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.get_one';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	if(typeof data === 'string'){
+		params.data_key = data;
+	} else if (typeof data == 'number'){
+		params.data_id = data;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+	
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+
 /**
  *  
  */

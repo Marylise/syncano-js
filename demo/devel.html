@@ -43,12 +43,8 @@
 			val: 'wartość'
 		}
 	};
-	s.Data.get(projectId, collectionKey, {
-	}, function(data){
-		console.log('Received', data.length, 'objects');
-		data.forEach(function(d){
-			console.log(d);
-		});
+	s.Data.getOne(projectId, collectionKey, 2609001, function(data){
+		console.log('Received', data);
 	});
 	
 	</script>
