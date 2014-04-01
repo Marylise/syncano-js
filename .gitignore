@@ -3,7 +3,6 @@ node_modules/
 temp/
 tmp/
 dist/
-docs/
 logs/
 log/
 results/

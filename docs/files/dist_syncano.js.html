@@ -1,40 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>dist/syncano.js - syncano</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="syncano"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Syncano.html">Syncano</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: dist/syncano.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
 (function(root, undefined) {
 
-  "use strict";
+  &quot;use strict&quot;;
 
 
 /**
- * Library agnostic version of jQuery's Extend by @jonjaques 
+ * Library agnostic version of jQuery&#x27;s Extend by @jonjaques 
  */
 
 function type(obj) {
 	var checker = {};
-	var types = "Boolean Number String Function Array Date RegExp Object".split(" ");
+	var types = &quot;Boolean Number String Function Array Date RegExp Object&quot;.split(&quot; &quot;);
 	for(var i in types){
-		checker[ "[object " + types[i] + "]" ] = types[i].toLowerCase();
+		checker[ &quot;[object &quot; + types[i] + &quot;]&quot; ] = types[i].toLowerCase();
 	}
 	return obj === null ?
 		String( obj ) :
-		checker[ Object.prototype.toString.call(obj) ] || "object";
+		checker[ Object.prototype.toString.call(obj) ] || &quot;object&quot;;
 }
 
 function isFunction(obj) {
-	return type(obj) === "function";
+	return type(obj) === &quot;function&quot;;
 }
 
 function isWindow(obj) {
-	return obj !== null && obj == obj.window;
+	return obj !== null &amp;&amp; obj == obj.window;
 }
 
 function isPlainObject(obj) {
 	var hasOwn = Object.prototype.hasOwnProperty;
-	if ( !obj || type(obj) !== "object" || obj.nodeType || isWindow( obj ) ) {
+	if ( !obj || type(obj) !== &quot;object&quot; || obj.nodeType || isWindow( obj ) ) {
 		return false;
 	}
 	try {
-		if ( obj.constructor &&
-			!hasOwn.call(obj, "constructor") &&
-			!hasOwn.call(obj.constructor.prototype, "isPrototypeOf") ) {
+		if ( obj.constructor &amp;&amp;
+			!hasOwn.call(obj, &quot;constructor&quot;) &amp;&amp;
+			!hasOwn.call(obj.constructor.prototype, &quot;isPrototypeOf&quot;) ) {
 				return false;
 		}
 	} catch ( e ) {
@@ -46,7 +134,7 @@ function isPlainObject(obj) {
 }
 
 function isArray(obj){
-	return type(obj) === "array";
+	return type(obj) === &quot;array&quot;;
 }
 
 
@@ -57,16 +145,16 @@ function extend() {
 		length = arguments.length,
 		deep = false;
  
-	if ( typeof target === "boolean" ) {
+	if ( typeof target === &quot;boolean&quot; ) {
 		deep = target;
 		target = arguments[1] || {};
 		i = 2;
 	}
-	if ( typeof target !== "object" && !isFunction(target) ) {
+	if ( typeof target !== &quot;object&quot; &amp;&amp; !isFunction(target) ) {
 		target = {};
 	}
 
-	for ( ; i < length; i++ ) {
+	for ( ; i &lt; length; i++ ) {
 		if ( (options = arguments[ i ]) !== null ) {
 			for ( name in options ) {
 				src = target[ name ];
@@ -74,12 +162,12 @@ function extend() {
 				if ( target === copy ) {
 					continue;
 				}
-				if ( deep && copy && ( isPlainObject(copy) || (copyIsArray = isArray(copy)) ) ) {
+				if ( deep &amp;&amp; copy &amp;&amp; ( isPlainObject(copy) || (copyIsArray = isArray(copy)) ) ) {
 					if ( copyIsArray ) {
 						copyIsArray = false;
-						clone = src && isArray(src) ? src : [];
+						clone = src &amp;&amp; isArray(src) ? src : [];
 					} else {
-						clone = src && isPlainObject(src) ? src : {};
+						clone = src &amp;&amp; isPlainObject(src) ? src : {};
 					}
 					target[ name ] = extend( deep, clone, copy );
 				} else if ( copy !== undefined ) {
@@ -97,30 +185,30 @@ function extend() {
  */
 function uncamelize(s){
 	var res = [];
-	for(var i=0, l=s.length; i<l; i++){
+	for(var i=0, l=s.length; i&lt;l; i++){
 		var letter = s[i];
-		if(s.charCodeAt(i) >= 97){
+		if(s.charCodeAt(i) &gt;= 97){
 			res.push(letter);
 		} else {
-			res.push('_');
+			res.push(&#x27;_&#x27;);
 			res.push(letter.toLowerCase());
 		}
 	}
-	return res.join('');
+	return res.join(&#x27;&#x27;);
 }
 
 /**
  *  
  */
 function isset(v){
-	return typeof v !== 'undefined' && v !== null;
+	return typeof v !== &#x27;undefined&#x27; &amp;&amp; v !== null;
 }
 
 /**
  *  
  */
 function isNumber(v){
-	if(typeof v === 'number' || parseInt(v, 10) == v){
+	if(typeof v === &#x27;number&#x27; || parseInt(v, 10) == v){
 		return true;
 	}
 	return false;
@@ -131,7 +219,7 @@ function isNumber(v){
  */
 function isDate(v){
 	var d = new Date(v);
-	if(Object.prototype.toString.call(d) !== "[object Date]"){
+	if(Object.prototype.toString.call(d) !== &quot;[object Date]&quot;){
 		return false;
 	}
 	return !isNaN(d.getTime());
@@ -151,7 +239,7 @@ function inArray(v,a){
  *  
  */
 function isBool(v){
-	return typeof v === 'boolean';
+	return typeof v === &#x27;boolean&#x27;;
 }
 
 /**
@@ -169,7 +257,7 @@ var lastUID = 0;
  * @param {function} callback - function to call when message is triggered
  */
 PubSub.on = function(message, callback){
-	if(typeof callback !== 'function'){
+	if(typeof callback !== &#x27;function&#x27;){
 		return false;
 	}
 	
@@ -177,7 +265,7 @@ PubSub.on = function(message, callback){
 		messages[message] = {};
 	}
 	
-	var token = 'uid_' + (++lastUID);
+	var token = &#x27;uid_&#x27; + (++lastUID);
 	messages[message][token] = callback;
 	return token;
 };
@@ -189,10 +277,10 @@ PubSub.on = function(message, callback){
  * @return: boolean
  */
 PubSub.hasSubscribers = function(message){
-	if(typeof message !== 'string'){
+	if(typeof message !== &#x27;string&#x27;){
 		return false;
 	}
-	if(messages.hasOwnProperty(message) && Object.keys(messages[message]).length){
+	if(messages.hasOwnProperty(message) &amp;&amp; Object.keys(messages[message]).length){
 		return true;
 	}
 	return false;
@@ -208,7 +296,7 @@ PubSub.off = function(message, func){
 	if(!this.hasSubscribers(message)){
 		return false;
 	}
-	if(typeof func === 'undefined'){
+	if(typeof func === &#x27;undefined&#x27;){
 		return delete messages[message];
 	}
 	var list = messages[message];
@@ -267,9 +355,9 @@ PubSub.doTrigger = function(message, sync){
 		}
 	}
 	/**
-	 *  trigger event for 'all'. Send original message name as the first parameter
+	 *  trigger event for &#x27;all&#x27;. Send original message name as the first parameter
 	 */
-	var allMessage = 'all';
+	var allMessage = &#x27;all&#x27;;
 	if(this.hasSubscribers(allMessage)){
 		list = messages[allMessage];
 		for(uuid in list){
@@ -303,13 +391,13 @@ var Project = {};
  * @param {function} [callback] Function to be called when successful response comes
  */
 Project.new = function(name, description, callback){
-	var method = 'project.new';
+	var method = &#x27;project.new&#x27;;
 	
 	var params = {
 		name: name,
 		description: description
 	};
-	this.__super__.__sendWithCallback(method, params, 'project', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;project&#x27;, callback);
 };
 	
 
@@ -320,8 +408,8 @@ Project.new = function(name, description, callback){
  *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.get = function(callback){
-	var method = 'project.get';
-	this.__super__.__sendWithCallback(method, {}, 'project', callback);
+	var method = &#x27;project.get&#x27;;
+	this.__super__.__sendWithCallback(method, {}, &#x27;project&#x27;, callback);
 };
 
 	
@@ -334,8 +422,8 @@ Project.get = function(callback){
  */
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
-	var method = 'project.get_one';
-	this.__super__.__sendWithCallback(method, {id:id}, 'project', callback);
+	var method = &#x27;project.get_one&#x27;;
+	this.__super__.__sendWithCallback(method, {id:id}, &#x27;project&#x27;, callback);
 };
 	
 
@@ -350,18 +438,18 @@ Project.getOne = function(id, callback){
  */
 Project.update = function(id, name, description, callback){
 	this.__super__.__checkProjectId(id);
-	if((typeof name === 'undefined' || name === null) && (typeof description === 'undefined' || name === null)){
+	if((typeof name === &#x27;undefined&#x27; || name === null) &amp;&amp; (typeof description === &#x27;undefined&#x27; || name === null)){
 		return false;
 	}
-	var method = 'project.update';
+	var method = &#x27;project.update&#x27;;
 	var params = {};
 	if(name){
 		params.name = name;
 	}
-	if(typeof description !== 'undefined' && description !== null){
+	if(typeof description !== &#x27;undefined&#x27; &amp;&amp; description !== null){
 		params.description = description;
 	}
-	this.__super__.__sendWithCallback(method, params, 'project', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;project&#x27;, callback);
 };
 
 
@@ -373,7 +461,7 @@ Project.update = function(id, name, description, callback){
  */
 Project.delete = function(id, callback){
 	this.__super__.__checkProjectId(id);
-	var method = 'project.delete';
+	var method = &#x27;project.delete&#x27;;
 	this.__super__.__sendWithCallback(method, {project_id: id}, null, callback);
 };
 
@@ -391,23 +479,23 @@ var Collection = {};
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string} name New collections name
  *  @param {string} [key] New collections key
- *  @param {string} [description] New collection's description
+ *  @param {string} [description] New collection&#x27;s description
  *  @param {function} [callback] Function to be called when successful response comes
  */
 Collection.new = function(projectId, name, key, description, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.new';
+	var method = &#x27;collection.new&#x27;;
 	var params = {
 		name: name,
 		project_id: projectId
 	};
-	if(typeof description !== 'undefined' && description !== null){
+	if(typeof description !== &#x27;undefined&#x27; &amp;&amp; description !== null){
 		params.description = description;
 	}
-	if(typeof key !== 'undefined' && key !== null){
+	if(typeof key !== &#x27;undefined&#x27; &amp;&amp; key !== null){
 		params.key = key;
 	}
-	this.__super__.__sendWithCallback(method, params, 'collection', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;collection&#x27;, callback);
 };
 
 
@@ -422,18 +510,18 @@ Collection.new = function(projectId, name, key, description, callback){
  */
 Collection.get = function(projectId, status, withTags, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.get';
+	var method = &#x27;collection.get&#x27;;
 	var params = {
 		project_id: projectId
 	};
-	if(typeof status === 'undefined' || status === null){
-		params.status = 'all';
+	if(typeof status === &#x27;undefined&#x27; || status === null){
+		params.status = &#x27;all&#x27;;
 	}
 	
-	if(typeof withTags !== 'undefined' && withTags !== null){
+	if(typeof withTags !== &#x27;undefined&#x27; &amp;&amp; withTags !== null){
 		params.with_tags = withTags;
 	}
-	this.__super__.__sendWithCallback(method, params, 'collection', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;collection&#x27;, callback);
 };
 
 
@@ -449,12 +537,12 @@ Collection.get = function(projectId, status, withTags, callback){
 Collection.getOne = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'collection.get_one';
+	var method = &#x27;collection.get_one&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
-	this.__super__.__sendWithCallback(method, params, 'collection', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;collection&#x27;, callback);
 };
 
 
@@ -464,23 +552,23 @@ Collection.getOne = function(projectId, collection, callback){
  * @method Collection.activate
  * @param {number} projectId Project id
  * @param {number} collectionId Collection id defining collection to be activated
- * @param {boolean} force If set to True, will force the activation by deactivating all other collections that may share it's data_key.
+ * @param {boolean} force If set to True, will force the activation by deactivating all other collections that may share it&#x27;s data_key.
  * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.activate = function(projectId, collectionId, force, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	if(typeof collectionId !== 'number'){
-		throw new Error('Collection.activate - collectionId must be a number');
+	if(typeof collectionId !== &#x27;number&#x27;){
+		throw new Error(&#x27;Collection.activate - collectionId must be a number&#x27;);
 	}
 	
-	var method = 'collection.activate';
+	var method = &#x27;collection.activate&#x27;;
 	var params = {
 		project_id: projectId,
 		collection_id: collectionId
 	};
 	
-	if(typeof force === 'undefined' || force === null){
+	if(typeof force === &#x27;undefined&#x27; || force === null){
 		params.force = false;
 	} else {
 		params.force = force;
@@ -501,7 +589,7 @@ Collection.activate = function(projectId, collectionId, force, callback){
 Collection.deactivate = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 
-	var method = 'collection.deactivate';
+	var method = &#x27;collection.deactivate&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -522,19 +610,19 @@ Collection.deactivate = function(projectId, collection, callback){
  */
 Collection.update = function(projectId, collection, name, description, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.update';
+	var method = &#x27;collection.update&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof name !== 'undefined' && name !== null){
+	if(typeof name !== &#x27;undefined&#x27; &amp;&amp; name !== null){
 		params.name = name;
 	}
-	if(typeof description !== 'undefined' && description !== null){
+	if(typeof description !== &#x27;undefined&#x27; &amp;&amp; description !== null){
 		params.name = description;
 	}
-	this.__super__.__sendWithCallback(method, params, 'collection', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;collection&#x27;, callback);
 };
 
 
@@ -552,27 +640,27 @@ Collection.update = function(projectId, collection, name, description, callback)
  */
 Collection.addTag = function(projectId, collection, tags, weight, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.add_tag';
+	var method = &#x27;collection.add_tag&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
-		throw new Error('Collection.addTag - tags must be passed');
+	if(typeof tags !== &#x27;string&#x27; &amp;&amp; !(typeof tags === &#x27;object&#x27; &amp;&amp; typeof tags.length !== &#x27;undefined&#x27;)){
+		throw new Error(&#x27;Collection.addTag - tags must be passed&#x27;);
 	}
 	
 	/**
 	 *  currently only ascii chars are supported
 	 */
 	var testTagString;
-	if(typeof tags === 'string'){
+	if(typeof tags === &#x27;string&#x27;){
 		testTagString = tags;
 	} else {
-		testTagString = tags.join(',');
+		testTagString = tags.join(&#x27;,&#x27;);
 	}
 	if(!/^[\000-\177]*$/.test(testTagString)){
-		throw new Error('Collection.addTag - non ascii characters found in tag name');
+		throw new Error(&#x27;Collection.addTag - non ascii characters found in tag name&#x27;);
 	}
 	
 	params.tags = tags;
@@ -595,27 +683,27 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
  */
 Collection.deleteTag = function(projectId, collection, tags, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.delete_tag';
+	var method = &#x27;collection.delete_tag&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
-		throw new Error('Collection.deleteTag - tags must be passed');
+	if(typeof tags !== &#x27;string&#x27; &amp;&amp; !(typeof tags === &#x27;object&#x27; &amp;&amp; typeof tags.length !== &#x27;undefined&#x27;)){
+		throw new Error(&#x27;Collection.deleteTag - tags must be passed&#x27;);
 	}
 	
 	/**
 	 *  currently only ascii chars are supported
 	 */
 	var testTagString;
-	if(typeof tags === 'string'){
+	if(typeof tags === &#x27;string&#x27;){
 		testTagString = tags;
 	} else {
-		testTagString = tags.join(',');
+		testTagString = tags.join(&#x27;,&#x27;);
 	}
 	if(!/^[\000-\177]*$/.test(testTagString)){
-		throw new Error('Collection.deleteTag - non ascii characters found in tag name');
+		throw new Error(&#x27;Collection.deleteTag - non ascii characters found in tag name&#x27;);
 	}
 	
 	params.tags = tags;
@@ -633,7 +721,7 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
  */
 Collection.delete = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.delete';
+	var method = &#x27;collection.delete&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -660,15 +748,15 @@ var Folder = {};
 Folder.new = function(projectId, collection, name, callback){
 	this.__super__.__checkProjectId(projectId);
 	if(!name){
-		throw new Error('Folder must have a name');
+		throw new Error(&#x27;Folder must have a name&#x27;);
 	}
-	var method = 'folder.new';
+	var method = &#x27;folder.new&#x27;;
 	var params = {
 		name: name,
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
-	this.__super__.__sendWithCallback(method, params, 'folder', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;folder&#x27;, callback);
 };
 
 
@@ -683,12 +771,12 @@ Folder.new = function(projectId, collection, name, callback){
 Folder.get = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'folder.get';
+	var method = &#x27;folder.get&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
-	this.__super__.__sendWithCallback(method, params, 'folder', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;folder&#x27;, callback);
 };
 
 
@@ -704,23 +792,23 @@ Folder.get = function(projectId, collection, callback){
 Folder.getOne = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'folder.get_one';
+	var method = &#x27;folder.get_one&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof folderName !== 'string'){
-		throw new Error('FolderName must be a string');
+	if(typeof folderName !== &#x27;string&#x27;){
+		throw new Error(&#x27;FolderName must be a string&#x27;);
 	}
 	params.folder_name = folderName;
-	this.__super__.__sendWithCallback(method, params, 'folder', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;folder&#x27;, callback);
 };
 
 
 /**
  *  Update existing folder
- *  Params newName and sourceId can be passed as a single object: {newName: '', sourceId: ''} 
+ *  Params newName and sourceId can be passed as a single object: {newName: &#x27;&#x27;, sourceId: &#x27;&#x27;} 
  * 
  *  @method Folder.update
  *  @param {number} projectId Project id
@@ -731,37 +819,37 @@ Folder.getOne = function(projectId, collection, folderName, callback){
  *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.update = function(projectId, collection, folderName, newName, sourceId, callback){
-	if(typeof arguments[3] === 'object'){
+	if(typeof arguments[3] === &#x27;object&#x27;){
 		var obj = Object.create(arguments[3]);
 		callback = arguments[4];
 		newName = obj.newName;
 		sourceId = obj.sourceId;
 	}
 	this.__super__.__checkProjectId(projectId);
-	var method = 'folder.update';
+	var method = &#x27;folder.update&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof folderName !== 'string'){
-		throw new Error('FolderName must be a string');
+	if(typeof folderName !== &#x27;string&#x27;){
+		throw new Error(&#x27;FolderName must be a string&#x27;);
 	}
 	params.name = folderName;
 	
-	if(typeof newName !== 'undefined' && newName !== null){
-		if(typeof newName !== 'string'){
-			throw new Error('newName must be a string');
+	if(typeof newName !== &#x27;undefined&#x27; &amp;&amp; newName !== null){
+		if(typeof newName !== &#x27;string&#x27;){
+			throw new Error(&#x27;newName must be a string&#x27;);
 		}
 		params.new_name = newName;
 	} else {
-		throw new Error('newName must be passed');
+		throw new Error(&#x27;newName must be passed&#x27;);
 	}
 	
 	if(sourceId !== null){
-		params.source_id = sourceId + '';
+		params.source_id = sourceId + &#x27;&#x27;;
 	}
-	this.__super__.__sendWithCallback(method, params, 'folder', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;folder&#x27;, callback);
 };
 
 
@@ -776,14 +864,14 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
  */
 Folder.delete = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
-	var method = 'folder.delete';
+	var method = &#x27;folder.delete&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof folderName !== 'string'){
-		throw new Error('FolderName must be a string');
+	if(typeof folderName !== &#x27;string&#x27;){
+		throw new Error(&#x27;FolderName must be a string&#x27;);
 	}
 	params.name = folderName;
 	
@@ -800,14 +888,14 @@ var Data = {};
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {object} [optionalParams] Optional parameters:
  *  @param {string} [optionalParams.dataKey] Used for uniquely identifying message. Has to be unique within collection. Useful for updating
- *  @param {string} [optionalParams.userName] Name of user to associate Data Object with. If not set, internal user 'syncano' is used
+ *  @param {string} [optionalParams.userName] Name of user to associate Data Object with. If not set, internal user &#x27;syncano&#x27; is used
  *  @param {string} [optionalParams.sourceUrl] Source URL associated with message
  *  @param {string} [optionalParams.title] Title of data object
  *  @param {string} [optionalParams.text] Text data associated with message
  *  @param {string} [optionalParams.link] Link associated with message
  *  @param {string} [optionalParams.image] Image data associated with message
  *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
- *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'.
+ *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: &#x27;Default&#x27;.
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
@@ -816,7 +904,7 @@ var Data = {};
 Data.new = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.new';
+	var method = &#x27;data.new&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -827,30 +915,30 @@ Data.new = function(projectId, collection, optionalParams, callback){
 	 */
 	if(isset(optionalParams)){
 		var stringParams = [
-			'dataKey', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl', 'folder', 'state'
+			&#x27;dataKey&#x27;, &#x27;userName&#x27;, &#x27;sourceUrl&#x27;, &#x27;title&#x27;, &#x27;text&#x27;, &#x27;link&#x27;, &#x27;image&#x27;, &#x27;imageUrl&#x27;, &#x27;folder&#x27;, &#x27;state&#x27;
 		];
-		for(var i=0; i<stringParams.length; i++){
+		for(var i=0; i&lt;stringParams.length; i++){
 			var strParam = stringParams[i];
 			if(isset(optionalParams[strParam])){
-				if(typeof optionalParams[strParam] === 'string'){
+				if(typeof optionalParams[strParam] === &#x27;string&#x27;){
 					params[uncamelize(strParam)] = optionalParams[strParam];
 				} else {
-					throw new Error(strParam + ' must be a string');
+					throw new Error(strParam + &#x27; must be a string&#x27;);
 				}
 			}
 		}
 		
 		if(isset(optionalParams.parentId)){
 			if(isNumber(optionalParams.parentId)){
-				throw new Error('parentId must be a number');
+				throw new Error(&#x27;parentId must be a number&#x27;);
 			} else {
 				params.parent_id = optionalParams.parentId;
 			}
 		}
 		
 		if(isset(params.state)){
-			if(['pending', 'moderated', 'rejected'].indexOf(params.state.toLowerCase()) == -1){
-				throw new Error('incorrect value of state param');
+			if([&#x27;pending&#x27;, &#x27;moderated&#x27;, &#x27;rejected&#x27;].indexOf(params.state.toLowerCase()) == -1){
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 		
@@ -858,15 +946,15 @@ Data.new = function(projectId, collection, optionalParams, callback){
 			for(var key in optionalParams.additional){
 				if(optionalParams.additional.hasOwnProperty(key)){
 					var val = optionalParams.additional[key];
-					if(stringParams.indexOf(key) !== -1 || key === 'parent_id'){
-						throw new Error('Cannot use additional (custom) param named ' + key);
+					if(stringParams.indexOf(key) !== -1 || key === &#x27;parent_id&#x27;){
+						throw new Error(&#x27;Cannot use additional (custom) param named &#x27; + key);
 					}
 					params[key] = val;
 				}
 			}
 		}
 	}
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
 
@@ -879,11 +967,11 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
  *  @param {object} [optionalParams] Object with additional parameters
- *  @param {string / Array} [optionalParams.dataIds] If specified, will return data objects with specified ids. Note: has no effect on returned data object's children. Max 100 values per request 
+ *  @param {string / Array} [optionalParams.dataIds] If specified, will return data objects with specified ids. Note: has no effect on returned data object&#x27;s children. Max 100 values per request 
  *  @param {string} [optionalParams.state] State of data to be returned. Accepted values: Pending, Moderated, Rejected, All. Default value: All.
  *  @param {string / Array} [optionalParams.folders] Folder name that data will be returned from. Max 100 values per request. If not presents returns data from across all collection folders
- *  @param {string} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object's children
- *  @param {string} [optionalParams.sinceTime] String with date. If specified, will only return data with created_at or updated_at time after specified value (newer). Note: has no effect on returned data object's children
+ *  @param {string} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object&#x27;s children
+ *  @param {string} [optionalParams.sinceTime] String with date. If specified, will only return data with created_at or updated_at time after specified value (newer). Note: has no effect on returned data object&#x27;s children
  *  @param {number} [optionalParams.maxId] If specified, will only return data with id lower than max_id (older)
  *  @param {number} [optionalParams.limit] Number of Data Objects to be returned. Default and max value: 100 
  *  @param {string} [optionalParams.order] Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first
@@ -893,7 +981,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  @param {number} [optionalParams.depth] Max depth of children to follow. If not specified, will follow all levels until children limit is reached
  *  @param {number} [optionalParams.childrenLimit] Limit of children to show (if include_children is True). Default and max value: 100 (some children levels may be incomplete if there are more than this limit).
  *  @param {string / Array} [optionalParams.parentIds] Data Object id or ids. If specified, only children of specific Data Object parent will be listed
- *  @param {string} [optionalParams.byUser] If specified, filter by Data Object user's name
+ *  @param {string} [optionalParams.byUser] If specified, filter by Data Object user&#x27;s name
  *  @param {function} [callback] Function to be called when successful response comes
  */
 Data.get = function(projectId, collection, optionalParams, callback){
@@ -901,7 +989,7 @@ Data.get = function(projectId, collection, optionalParams, callback){
 
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.get';
+	var method = &#x27;data.get&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -912,8 +1000,8 @@ Data.get = function(projectId, collection, optionalParams, callback){
 		/**
 		 *  these optionalParams are just copied to params array if they are set
 		 */
-		var justSetParams = ['dataIds', 'folders', 'byUser', 'parentIds'];
-		for(i=0; i<justSetParams.length; i++){
+		var justSetParams = [&#x27;dataIds&#x27;, &#x27;folders&#x27;, &#x27;byUser&#x27;, &#x27;parentIds&#x27;];
+		for(i=0; i&lt;justSetParams.length; i++){
 			var jsParam = justSetParams[i];
 			if(isset(optionalParams[jsParam])){
 				params[uncamelize(jsParam)] = optionalParams[jsParam];
@@ -923,23 +1011,23 @@ Data.get = function(projectId, collection, optionalParams, callback){
 		/**
 		 *  these optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error
 		 */
-		var numericParams = ['maxId', 'limit', 'sinceId', 'depth', 'childrenLimit'];
-		for(i=0; i<numericParams.length; i++){
+		var numericParams = [&#x27;maxId&#x27;, &#x27;limit&#x27;, &#x27;sinceId&#x27;, &#x27;depth&#x27;, &#x27;childrenLimit&#x27;];
+		for(i=0; i&lt;numericParams.length; i++){
 			var numParam = numericParams[i];
 			if(isset(optionalParams[numParam])){
 				if(isNumber(optionalParams[numParam])){
 					params[uncamelize(numParam)] = optionalParams[numParam];
 				} else {
-					throw new Error(numParam + ' must be a number');
+					throw new Error(numParam + &#x27; must be a number&#x27;);
 				}
 			}
 		}
 		
 		if(isset(optionalParams.state)){
-			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;,&#x27;all&#x27;])){
 				params.state = optionalParams.state;
 			} else {
-				throw new Error('incorrect value of state param');
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 		
@@ -947,31 +1035,31 @@ Data.get = function(projectId, collection, optionalParams, callback){
 			if(isDate(optionalParams.sinceTime)){
 				params.since_time = optionalParams.sinceTime;
 			} else {
-				throw new Error('Param sinceTime must be a proper date string');
+				throw new Error(&#x27;Param sinceTime must be a proper date string&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.order)){
-			if(['asc', 'desc'].indexOf(optionalParams.order.toLowerCase()) !== -1){
+			if([&#x27;asc&#x27;, &#x27;desc&#x27;].indexOf(optionalParams.order.toLowerCase()) !== -1){
 				params.order = optionalParams.order;
 			} else {
-				throw new Error('incorrect value of order param - only "asc" and "desc" are allowed');
+				throw new Error(&#x27;incorrect value of order param - only &quot;asc&quot; and &quot;desc&quot; are allowed&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.orderBy)){
-			if(inArray(optionalParams.orderBy.toLowerCase(), ['created_at', 'updated_at'])){
+			if(inArray(optionalParams.orderBy.toLowerCase(), [&#x27;created_at&#x27;, &#x27;updated_at&#x27;])){
 				params.order_by = optionalParams.orderBy;
 			} else {
-				throw new Error('incorrect value of order_by param - only "created_at" and "updated_at" are allowed');
+				throw new Error(&#x27;incorrect value of order_by param - only &quot;created_at&quot; and &quot;updated_at&quot; are allowed&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.filter)){
-			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+			if(inArray(optionalParams.filter.toLowerCase(), [&#x27;text&#x27;, &#x27;image&#x27;])){
 				params.filter = optionalParams.filter;
 			} else {
-				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+				throw new Error(&#x27;incorrect value of filter param - only &quot;text&quot; and &quot;image&quot; are allowed&#x27;);
 			}
 		}
 		
@@ -979,12 +1067,12 @@ Data.get = function(projectId, collection, optionalParams, callback){
 			if(isBool(optionalParams.includeChildren)){
 				params.include_children = optionalParams.includeChildren;
 			} else {
-				throw new Error('includeChildren param must be boolean');
+				throw new Error(&#x27;includeChildren param must be boolean&#x27;);
 			}
 		}
 	}
 
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
 
@@ -1000,20 +1088,20 @@ Data.get = function(projectId, collection, optionalParams, callback){
 Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.get_one';
+	var method = &#x27;data.get_one&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
-	if(typeof dataKeyOrId === 'string'){
+	if(typeof dataKeyOrId === &#x27;string&#x27;){
 		params.data_key = dataKeyOrId;
-	} else if (typeof dataKeyOrId == 'number'){
+	} else if (typeof dataKeyOrId == &#x27;number&#x27;){
 		params.data_id = dataKeyOrId;
 	} else {
-		throw new Error('Data key/id must be passed');
+		throw new Error(&#x27;Data key/id must be passed&#x27;);
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
 
@@ -1025,14 +1113,14 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {object} [optionalParams] Object with additional parameters
  *  @param {string} [optionalParams.updateMethod] Default value: replace
- *  @param {string} [optionalParams.user_name] User name of user to associate Data Object with. If not set, internal user 'syncano' is used
+ *  @param {string} [optionalParams.user_name] User name of user to associate Data Object with. If not set, internal user &#x27;syncano&#x27; is used
  *  @param {string} [optionalParams.sourceUrl] Source URL associated with message
  *  @param {string} [optionalParams.title] Title of message
  *  @param {string} [optionalParams.text] Text data associated with message
  *  @param {string} [optionalParams.link] Link associated with message
  *  @param {string} [optionalParams.image] Image data associated with message. If specified as empty string - will instead delete current image
  *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
- *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'
+ *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: &#x27;Default&#x27;
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
  *  @param {function} [callback] Function to be called when successful response comes
@@ -1040,23 +1128,23 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.update';
+	var method = &#x27;data.update&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof dataKeyOrId === 'string'){
+	if(typeof dataKeyOrId === &#x27;string&#x27;){
 		params.data_key = dataKeyOrId;
-	} else if (typeof dataKeyOrId == 'number'){
+	} else if (typeof dataKeyOrId == &#x27;number&#x27;){
 		params.data_id = dataKeyOrId;
 	} else {
-		throw new Error('Data key/id must be passed');
+		throw new Error(&#x27;Data key/id must be passed&#x27;);
 	}
 	
 	if(isset(optionalParams)){
-		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl'];
-		for(var i=0; i<paramsToPass.length; i++){
+		var paramsToPass = [&#x27;updateMethod&#x27;, &#x27;userName&#x27;, &#x27;sourceUrl&#x27;, &#x27;title&#x27;, &#x27;text&#x27;, &#x27;link&#x27;, &#x27;image&#x27;, &#x27;imageUrl&#x27;];
+		for(var i=0; i&lt;paramsToPass.length; i++){
 			var jsParam = paramsToPass[i];
 			if(isset(optionalParams[jsParam])){
 				params[uncamelize(jsParam)] = optionalParams[jsParam];
@@ -1065,22 +1153,22 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 		
 		if(isset(optionalParams.parentId)){
 			if(isNumber(optionalParams.parentId)){
-				throw new Error('parentId must be a number');
+				throw new Error(&#x27;parentId must be a number&#x27;);
 			} else {
 				params.parent_id = optionalParams.parentId;
 			}
 		}
 		
 		if(isset(optionalParams.state)){
-			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected'])){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;])){
 				params.state = optionalParams.state;
 			} else {
-				throw new Error('incorrect value of state param');
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
 
@@ -1096,7 +1184,7 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  @param {string} [optionalParams.folders] If specified, filter by specified folder or folders. Max 100 values per request.
  *  @param {string} [optionalParams.state] If specified, filter by Data state. Accepted values: Pending, Moderated, All. Default value: All.
  *  @param {string} [optionalParams.filter] TEXT - only data with text IMAGE - only data with an image
- *  @param {string} [optionalParams.byUser] If specified, filter by user's name
+ *  @param {string} [optionalParams.byUser] If specified, filter by user&#x27;s name
  *  @param {string} [optionalParams.limit] Number of Data Objects to process. Default and max value: 100
  *  @param {string} [optionalParams.newFolder] Destination folder where data will be moved. If not specified, leaves folder as is.
  *  @param {string} [optionalParams.newState] State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.
@@ -1105,26 +1193,26 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.move';
+	var method = &#x27;data.move&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof dataKeyOrId === 'string'){
+	if(typeof dataKeyOrId === &#x27;string&#x27;){
 		params.data_key = dataKeyOrId;
-	} else if (typeof dataKeyOrId == 'number'){
+	} else if (typeof dataKeyOrId == &#x27;number&#x27;){
 		params.data_id = dataKeyOrId;
 	} else {
-		throw new Error('Data key/id must be passed');
+		throw new Error(&#x27;Data key/id must be passed&#x27;);
 	}
 	
 	if(isset(optionalParams)){
 		/**
 		 *  these optionalParams are just copied to params array if they are set
 		 */
-		var justSetParams = ['dataIds', 'folders', 'byUser', 'newFolder'];
-		for(var i=0; i<justSetParams.length; i++){
+		var justSetParams = [&#x27;dataIds&#x27;, &#x27;folders&#x27;, &#x27;byUser&#x27;, &#x27;newFolder&#x27;];
+		for(var i=0; i&lt;justSetParams.length; i++){
 			var jsParam = justSetParams[i];
 			if(isset(optionalParams[jsParam])){
 				params[uncamelize(jsParam)] = optionalParams[jsParam];
@@ -1132,32 +1220,32 @@ Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callbac
 		}
 		
 		if(isset(optionalParams.filter)){
-			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+			if(inArray(optionalParams.filter.toLowerCase(), [&#x27;text&#x27;, &#x27;image&#x27;])){
 				params.filter = optionalParams.filter;
 			} else {
-				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+				throw new Error(&#x27;incorrect value of filter param - only &quot;text&quot; and &quot;image&quot; are allowed&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.state)){
-			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected'])){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;])){
 				params.state = optionalParams.state;
 			} else {
-				throw new Error('incorrect value of state param');
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.newState)){
-			if(inArray(optionalParams.newState.toLowerCase(), ['pending','moderated','rejected'])){
+			if(inArray(optionalParams.newState.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;])){
 				params.new_state = optionalParams.newState;
 			} else {
-				throw new Error('incorrect value of newState param');
+				throw new Error(&#x27;incorrect value of newState param&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.limit)){
 			if(isNumber(optionalParams.limit)){
-				throw new Error('limit must be a number');
+				throw new Error(&#x27;limit must be a number&#x27;);
 			} else {
 				params.limit = optionalParams.limit;
 			}
@@ -1180,25 +1268,25 @@ Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callbac
 Data.copy = function(projectId, collection, dataId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.copy';
+	var method = &#x27;data.copy&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	if(isNumber(dataId)){
-		params.data_ids = [dataId + ''];
-	} else if(typeof dataId.length !== 'undefined'){
+		params.data_ids = [dataId + &#x27;&#x27;];
+	} else if(typeof dataId.length !== &#x27;undefined&#x27;){
 		params.data_ids = [];
-		for(var i=0; i<dataId.length; i++){
+		for(var i=0; i&lt;dataId.length; i++){
 			if(!isNumber(dataId[i])){
-				throw new Error('dataId must be integer or array of integers');
+				throw new Error(&#x27;dataId must be integer or array of integers&#x27;);
 			} else {
-				params.data_ids.push(dataId[i] + '');
+				params.data_ids.push(dataId[i] + &#x27;&#x27;);
 			}
 		}
 	}
 
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
 
@@ -1216,25 +1304,25 @@ Data.copy = function(projectId, collection, dataId, callback){
 Data.addParent = function(projectId, collection, dataId, parentId, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.add_parent';
+	var method = &#x27;data.add_parent&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(isset(dataId) && isNumber(dataId)){
+	if(isset(dataId) &amp;&amp; isNumber(dataId)){
 		params.data_id = dataId;
 	} else {
-		throw new Error('dataId must be passed');
+		throw new Error(&#x27;dataId must be passed&#x27;);
 	}
 	
-	if(isset(parentId) && isNumber(parentId)){
+	if(isset(parentId) &amp;&amp; isNumber(parentId)){
 		params.parent_id = parentId;
 	} else {
-		throw new Error('parentId must be passed');
+		throw new Error(&#x27;parentId must be passed&#x27;);
 	}
 	
-	if(isset(removeOther) && isBool(removeOther)){
+	if(isset(removeOther) &amp;&amp; isBool(removeOther)){
 		params.remove_other = removeOther;
 	}
 	
@@ -1255,19 +1343,19 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
 Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.remove_parent';
+	var method = &#x27;data.remove_parent&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(isset(dataId) && isNumber(dataId)){
+	if(isset(dataId) &amp;&amp; isNumber(dataId)){
 		params.data_id = dataId;
 	} else {
-		throw new Error('dataId must be passed');
+		throw new Error(&#x27;dataId must be passed&#x27;);
 	}
 	
-	if(isset(parentId) && isNumber(parentId)){
+	if(isset(parentId) &amp;&amp; isNumber(parentId)){
 		params.parent_id = parentId;
 	}
 	
@@ -1290,25 +1378,25 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 Data.addChild = function(projectId, collection, dataId, childId, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	var method = 'data.add_child';
+	var method = &#x27;data.add_child&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(isset(dataId) && isNumber(dataId)){
+	if(isset(dataId) &amp;&amp; isNumber(dataId)){
 		params.data_id = dataId;
 	} else {
-		throw new Error('dataId must be passed');
+		throw new Error(&#x27;dataId must be passed&#x27;);
 	}
 	
-	if(isset(childId) && isNumber(childId)){
+	if(isset(childId) &amp;&amp; isNumber(childId)){
 		params.child_id = childId;
 	} else {
-		throw new Error('childId must be passed');
+		throw new Error(&#x27;childId must be passed&#x27;);
 	}
 	
-	if(isset(removeOther) && isBool(removeOther)){
+	if(isset(removeOther) &amp;&amp; isBool(removeOther)){
 		params.remove_other = removeOther;
 	}
 	
@@ -1329,19 +1417,19 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
 Data.removeChild = function(projectId, collection, dataId, childId, callback){
 	this.__super__.__checkProjectId(projectId);
 
-	var method = 'data.remove_child';
+	var method = &#x27;data.remove_child&#x27;;
 	var params = {
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 
-	if(isset(dataId) && isNumber(dataId)){
+	if(isset(dataId) &amp;&amp; isNumber(dataId)){
 		params.data_id = dataId;
 	} else {
-		throw new Error('dataId must be passed');
+		throw new Error(&#x27;dataId must be passed&#x27;);
 	}
 
-	if(isset(childId) && isNumber(childId)){
+	if(isset(childId) &amp;&amp; isNumber(childId)){
 		params.child_id = childId;
 	}
 
@@ -1367,7 +1455,7 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
 Data.delete = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 
-	var method = 'data.delete';
+	var method = &#x27;data.delete&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -1377,8 +1465,8 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 		/**
 		 *  these optionalParams are just copied to params array if they are set
 		 */
-		var justSetParams = ['dataIds', 'folders', 'byUser'];
-		for(var i=0; i<justSetParams.length; i++){
+		var justSetParams = [&#x27;dataIds&#x27;, &#x27;folders&#x27;, &#x27;byUser&#x27;];
+		for(var i=0; i&lt;justSetParams.length; i++){
 			var jsParam = justSetParams[i];
 			if(isset(optionalParams[jsParam])){
 				params[uncamelize(jsParam)] = optionalParams[jsParam];
@@ -1389,23 +1477,23 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 			if(isNumber(optionalParams.limit)){
 				params.limit = optionalParams.limit;
 			} else {
-				throw new Error('limit must be a number');
+				throw new Error(&#x27;limit must be a number&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.state)){
-			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;,&#x27;all&#x27;])){
 				params.state = optionalParams.state;
 			} else {
-				throw new Error('incorrect value of state param');
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.filter)){
-			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+			if(inArray(optionalParams.filter.toLowerCase(), [&#x27;text&#x27;, &#x27;image&#x27;])){
 				params.filter = optionalParams.filter;
 			} else {
-				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+				throw new Error(&#x27;incorrect value of filter param - only &quot;text&quot; and &quot;image&quot; are allowed&#x27;);
 			}
 		}
 	}
@@ -1430,7 +1518,7 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 Data.count = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 
-	var method = 'data.count';
+	var method = &#x27;data.count&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -1440,8 +1528,8 @@ Data.count = function(projectId, collection, optionalParams, callback){
 		/**
 		 *  these optionalParams are just copied to params array if they are set
 		 */
-		var justSetParams = ['folders', 'byUser'];
-		for(var i=0; i<justSetParams.length; i++){
+		var justSetParams = [&#x27;folders&#x27;, &#x27;byUser&#x27;];
+		for(var i=0; i&lt;justSetParams.length; i++){
 			var jsParam = justSetParams[i];
 			if(isset(optionalParams[jsParam])){
 				params[uncamelize(jsParam)] = optionalParams[jsParam];
@@ -1449,23 +1537,23 @@ Data.count = function(projectId, collection, optionalParams, callback){
 		}
 
 		if(isset(optionalParams.state)){
-			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;,&#x27;all&#x27;])){
 				params.state = optionalParams.state;
 			} else {
-				throw new Error('incorrect value of state param');
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.filter)){
-			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+			if(inArray(optionalParams.filter.toLowerCase(), [&#x27;text&#x27;, &#x27;image&#x27;])){
 				params.filter = optionalParams.filter;
 			} else {
-				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+				throw new Error(&#x27;incorrect value of filter param - only &quot;text&quot; and &quot;image&quot; are allowed&#x27;);
 			}
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'count', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;count&#x27;, callback);
 };
 
 /**
@@ -1477,23 +1565,23 @@ var User = {};
  *  Creates new user
  *  
  *  @method User.new
- *  @param {string} name User's name
- *  @param {string} [nick] User's nick
+ *  @param {string} name User&#x27;s name
+ *  @param {string} [nick] User&#x27;s nick
  *  @param {function} [callback] Function to be called when successful response comes
  */
 User.new = function(name, nick, callback){
-	var method = 'user.new';
+	var method = &#x27;user.new&#x27;;
 	var params = {};
 	if(isset(name)){
 		params.user_name = name;
 	} else {
-		throw new Error('user must have a name');
+		throw new Error(&#x27;user must have a name&#x27;);
 	}
 	if(isset(nick)){
 		params.nick = nick;
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'user', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;user&#x27;, callback);
 };
 
 
@@ -1505,9 +1593,9 @@ User.new = function(name, nick, callback){
  *  @param {number} limit Number of users to be returned. Default and max value: 100
  */
 User.getAll = function(sinceId, limit, callback){
-	var method = 'user.get_all';
+	var method = &#x27;user.get_all&#x27;;
 	
-	if(typeof arguments[0] === 'function'){
+	if(typeof arguments[0] === &#x27;function&#x27;){
 		callback = arguments[0];
 		sinceId = undefined;
 		limit = undefined;
@@ -1518,7 +1606,7 @@ User.getAll = function(sinceId, limit, callback){
 		if(isNumber(sinceId)){
 			params.since_id = sinceId;
 		} else {
-			throw new Error('sinceId must be a number');
+			throw new Error(&#x27;sinceId must be a number&#x27;);
 		}
 	}
 	
@@ -1526,11 +1614,11 @@ User.getAll = function(sinceId, limit, callback){
 		if(isNumber(limit)){
 			params.limit = limit;
 		} else {
-			throw new Error('limit must be a number');
+			throw new Error(&#x27;limit must be a number&#x27;);
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'user', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;user&#x27;, callback);
 };
 
 
@@ -1549,7 +1637,7 @@ User.getAll = function(sinceId, limit, callback){
 User.get = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 
-	var method = 'user.get';
+	var method = &#x27;user.get&#x27;;
 	var params = {
 		project_id: projectId
 	};
@@ -1561,23 +1649,23 @@ User.get = function(projectId, collection, optionalParams, callback){
 		}
 		
 		if(isset(optionalParams.state)){
-			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
+			if(inArray(optionalParams.state.toLowerCase(), [&#x27;pending&#x27;,&#x27;moderated&#x27;,&#x27;rejected&#x27;,&#x27;all&#x27;])){
 				params.state = optionalParams.state;
 			} else {
-				throw new Error('incorrect value of state param');
+				throw new Error(&#x27;incorrect value of state param&#x27;);
 			}
 		}
 		
 		if(isset(optionalParams.filter)){
-			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+			if(inArray(optionalParams.filter.toLowerCase(), [&#x27;text&#x27;, &#x27;image&#x27;])){
 				params.filter = optionalParams.filter;
 			} else {
-				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+				throw new Error(&#x27;incorrect value of filter param - only &quot;text&quot; and &quot;image&quot; are allowed&#x27;);
 			}
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'user', callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;user&#x27;, callback);
 };
 
 /**
@@ -1602,7 +1690,7 @@ var Syncano = function(){
 	 *        during development stage, every time you start a session you have to open link below in browser
 	 *        and accept the certificate
 	 */
-	this.socketURL = 'https://api.hydraengine.com/ws';
+	this.socketURL = &#x27;https://api.hydraengine.com/ws&#x27;;
 	this.socket = null;
 	this.status = states.DISCONNECTED;
 	this.requestId = 1;
@@ -1649,11 +1737,11 @@ Syncano.prototype = extend(Syncano.prototype, PubSub);
  *  @param {function} callback Optional callback to be called after successful connection and authorization.
  */
 Syncano.prototype.connect = function(params, callback){
-	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
-		throw new Error('syncano.connect requires instance name and api_key');
+	if(typeof params === &#x27;undefined&#x27; || typeof params.api_key === &#x27;undefined&#x27; || typeof params.instance === &#x27;undefined&#x27;){
+		throw new Error(&#x27;syncano.connect requires instance name and api_key&#x27;);
 	}
-	if(typeof root.SockJS === 'undefined'){
-		throw new Error('SockJS is required');
+	if(typeof root.SockJS === &#x27;undefined&#x27;){
+		throw new Error(&#x27;SockJS is required&#x27;);
 	}
 	this.connectionParams = params;
 	if(this.status != states.DISCONNECTED){
@@ -1661,8 +1749,8 @@ Syncano.prototype.connect = function(params, callback){
 		return;
 	}
 
-	if(typeof callback === 'function'){
-		this.waitingForResponse.auth = ['auth', callback];
+	if(typeof callback === &#x27;function&#x27;){
+		this.waitingForResponse.auth = [&#x27;auth&#x27;, callback];
 	}
 
 	this.socket = new root.SockJS(this.socketURL);
@@ -1702,7 +1790,7 @@ Syncano.prototype.onSocketClose = function(){
 
 /**
  *  Method called every time the message is received. Message is passed as e.data
- *  If there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.
+ *  If there was an error, e.data.result is &#x27;NOK&#x27; (not ok), otherwise e.data has response data.
  * 
  *  @method onMessage
  *  @param {object} e event object
@@ -1710,23 +1798,23 @@ Syncano.prototype.onSocketClose = function(){
 Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
-	if(data.result === 'NOK'){
-		this.trigger('syncano:error', data.data.error);
-		if(data.type === 'auth'){
+	if(data.result === &#x27;NOK&#x27;){
+		this.trigger(&#x27;syncano:error&#x27;, data.data.error);
+		if(data.type === &#x27;auth&#x27;){
 			this.socket.close();
-			this.trigger('syncano:auth:error');
+			this.trigger(&#x27;syncano:auth:error&#x27;);
 		}
 		return;
 	} else {
-		this.trigger('syncano:received', data);
+		this.trigger(&#x27;syncano:received&#x27;, data);
 	}
 	
 	switch(data.type){
-		case 'auth':
+		case &#x27;auth&#x27;:
 			this.parseAuthorizationResponse(data);
 			break;
 			
-		case 'callresponse':
+		case &#x27;callresponse&#x27;:
 			this.parseCallResponse(data);
 			break;
 	}
@@ -1742,8 +1830,8 @@ Syncano.prototype.onMessage = function(e){
 Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
-	this.trigger('syncano:authorized', this.uuid);
-	this.parseCallResponse({message_id: 'auth', data:data});
+	this.trigger(&#x27;syncano:authorized&#x27;, this.uuid);
+	this.parseCallResponse({message_id: &#x27;auth&#x27;, data:data});
 	this.sendQueue();
 };
 
@@ -1756,17 +1844,17 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
  */
 Syncano.prototype.parseCallResponse = function(data){
 	var messageId = data.message_id;
-	if(typeof messageId !== 'undefined' && typeof this.waitingForResponse[messageId] !== 'undefined'){
+	if(typeof messageId !== &#x27;undefined&#x27; &amp;&amp; typeof this.waitingForResponse[messageId] !== &#x27;undefined&#x27;){
 		var rec = this.waitingForResponse[messageId];
-		var actionType = rec[0].replace('.', ':');
+		var actionType = rec[0].replace(&#x27;.&#x27;, &#x27;:&#x27;);
 		var callback = rec[1];
-		this.trigger('syncano:' + actionType, data.data);
-		if(typeof callback === 'function'){
+		this.trigger(&#x27;syncano:&#x27; + actionType, data.data);
+		if(typeof callback === &#x27;function&#x27;){
 			callback(data.data);
 		}
 		delete this.waitingForResponse[messageId];
 	} else {
-		this.trigger('syncano:ignored', data);
+		this.trigger(&#x27;syncano:ignored&#x27;, data);
 	}
 };
 
@@ -1777,7 +1865,7 @@ Syncano.prototype.parseCallResponse = function(data){
  *  @method sendQueue
  */
 Syncano.prototype.sendQueue = function(){
-	while(this.requestsQueue.length > 0){
+	while(this.requestsQueue.length &gt; 0){
 		var request = this.requestsQueue.shift();
 		this.socketSend(request);
 	}
@@ -1802,14 +1890,14 @@ Syncano.prototype.getNextRequestId = function(){
  *  @param {object} request 
  */
 Syncano.prototype.socketSend = function(request){
-	this.socket.send(JSON.stringify(request) + "\n");
+	this.socket.send(JSON.stringify(request) + &quot;\n&quot;);
 };
 
 
 /**
  *  Universal high-level function for sending requests to syncano. 
- *  Sends request to 'method' with given 'params' if the socket is connected. If not, puts request on the queue to be sent later.
- *  Uses internal 'waitingForResponse' object to match request with response.
+ *  Sends request to &#x27;method&#x27; with given &#x27;params&#x27; if the socket is connected. If not, puts request on the queue to be sent later.
+ *  Uses internal &#x27;waitingForResponse&#x27; object to match request with response.
  *
  *  @method sendRequest
  *  @param {string} method Name of the Syncano method to call (check syncano docs)
@@ -1817,12 +1905,12 @@ Syncano.prototype.socketSend = function(request){
  *  @param {function} callback Function to call after receiving response from server
  */
 Syncano.prototype.sendRequest = function(method, params, callback){
-	if(typeof params === 'undefined'){
+	if(typeof params === &#x27;undefined&#x27;){
 		params = {};
 	}
 	
 	var request = {
-		type: 'call',
+		type: &#x27;call&#x27;,
 		method: method,
 		params: params
 	};
@@ -1838,20 +1926,20 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 	 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
 	 */
 	if(this.status == states.AUTHORIZED){
-		this.trigger('syncano:call', request);
+		this.trigger(&#x27;syncano:call&#x27;, request);
 		this.socketSend(request);
 	} else {
-		this.trigger('syncano:queued', request);
+		this.trigger(&#x27;syncano:queued&#x27;, request);
 		this.requestsQueue.push(request);
 	}
 };
 
 /**
- *  Internal method to check if projectId is a number - so I don't have to write this manualy again and again
+ *  Internal method to check if projectId is a number - so I don&#x27;t have to write this manualy again and again
  */
 Syncano.prototype.__checkProjectId = function(projectId){
-	if(typeof projectId !== 'number'){
-		throw new Error('projectId must be a number');
+	if(typeof projectId !== &#x27;number&#x27;){
+		throw new Error(&#x27;projectId must be a number&#x27;);
 	}
 };
 
@@ -1859,12 +1947,12 @@ Syncano.prototype.__checkProjectId = function(projectId){
  *  Internal method to check the variable name (string or number) and add correct key to passed object
  */
 Syncano.prototype.__addCollectionIdentifier = function(params, collection){
-	if(typeof collection == 'string'){
+	if(typeof collection == &#x27;string&#x27;){
 		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
+	} else if (typeof collection == &#x27;number&#x27;){
 		params.collection_id = collection;
 	} else {
-		throw new Error('Collection key/id must be passed');
+		throw new Error(&#x27;Collection key/id must be passed&#x27;);
 	}
 	return params;
 };
@@ -1880,7 +1968,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
 		} else {
 			res = data[key];
 		}
-		if(typeof callback === 'function'){
+		if(typeof callback === &#x27;function&#x27;){
 			callback(res);
 		}
 	});
@@ -1890,7 +1978,7 @@ var instance = null;
 
 
 /**
- * Export to the root, which is probably `window`. 
+ * Export to the root, which is probably &#x60;window&#x60;. 
  */
 root.SyncanoConnector = {
 	getInstance: function(){
@@ -1903,3 +1991,23 @@ root.SyncanoConnector = {
 
 
 }(this));
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
