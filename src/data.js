@@ -4,7 +4,7 @@ var Data = {};
  *  Creates a new Data Object
  * 
  *  @method Data.new
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {object} [optionalParams] Optional parameters:
  *  @param {string} [optionalParams.dataKey] Used for uniquely identifying message. Has to be unique within collection. Useful for updating
@@ -84,7 +84,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  All optional params should be passed as a single object: {key: value, ...}
  *
  *  @method Data.get
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
  *  @param {object} [optionalParams] Object with additional parameters
  *  @param {string / Array} [optionalParams.dataIds] If specified, will return data objects with specified ids. Note: has no effect on returned data object's children. Max 100 values per request 
@@ -200,7 +200,7 @@ Data.get = function(projectId, collection, optionalParams, callback){
  * Get data by data_id or data_key
  * 
  *  @method Data.getOne 
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
@@ -228,7 +228,7 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 /**
  *  
  *  @method Data.update
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {object} [optionalParams] Object with additional parameters
@@ -296,7 +296,7 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  Moves data to folder and/or state
  * 
  *  @method Data.move 
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {object} [optionalParams] Object with additional parameters
@@ -380,7 +380,7 @@ Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callbac
  *  Copies data with data_id. Copy has data_key cleared
  *
  *  @method Data.copy
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
  *  @param {string / Array} dataId Data id or ids
  *  @param {function} [callback] Function to be called when successful response comes
@@ -407,4 +407,77 @@ Data.copy = function(projectId, collection, dataId, callback){
 	}
 
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+/**
+ *  Adds additional parent to data with data_id. If remove_other is True, all other parents of specified Data Object will be removed.
+ *
+ *  @method Data.addParent 
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {number} dataId Data Object id
+ *  @param {number} parentId Parent id to add
+ *  @param {boolean} [removeOther] If true, will remove all other parents. Default value: False
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.addParent = function(projectId, collection, dataId, parentId, removeOther, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.add_parent';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(isset(dataId) && isNumber(dataId)){
+		params.data_id = dataId;
+	} else {
+		throw new Error('dataId must be passed');
+	}
+	
+	if(isset(parentId) && isNumber(parentId)){
+		params.parent_id = parentId;
+	} else {
+		throw new Error('parentId must be passed');
+	}
+	
+	if(isset(removeOther) && isBool(removeOther)){
+		params.remove_other = removeOther;
+	}
+	
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
+ *  Removes a parent (or parents) from data with data_id
+ *
+ *  @method Data.removeParent 
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {number} dataId Data Object id
+ *  @param {number} parentId Parent id to remove. If not specified, will remove all Data Object parents
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.removeParent = function(projectId, collection, dataId, parentId, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.remove_parent';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(isset(dataId) && isNumber(dataId)){
+		params.data_id = dataId;
+	} else {
+		throw new Error('dataId must be passed');
+	}
+	
+	if(isset(parentId) && isNumber(parentId)){
+		params.parent_id = parentId;
+	}
+	
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };

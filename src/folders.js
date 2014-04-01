@@ -8,7 +8,7 @@ var Folder = {};
  *  Create new folder within specified collection
  *
  *  @method Folder.new
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {string} name Folder name
  *  @param {function} [callback] Function to be called when successful response comes
@@ -32,7 +32,7 @@ Folder.new = function(projectId, collection, name, callback){
  *  Get folders for specified collection
  *
  *  @name method Folder.get 
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
  *  @param {function} [callback] Function to be called when successful response comes
  */
@@ -52,7 +52,7 @@ Folder.get = function(projectId, collection, callback){
  *  Get folders for specified collection 
  * 
  *  @name method Folder.getOne 
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {function} [callback] Function to be called when successful response comes
@@ -79,7 +79,7 @@ Folder.getOne = function(projectId, collection, folderName, callback){
  *  Params newName and sourceId can be passed as a single object: {newName: '', sourceId: ''} 
  * 
  *  @method Folder.update
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {string} [newName] New folder name
@@ -125,7 +125,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
  *  Permanently delete specified folder and all associated data
  *
  *  @method Folder.delete
- *  @param {number} projectId Project id that collection will be created for
+ *  @param {number} projectId Project id
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {function} [callback] Function to be called when successful response comes

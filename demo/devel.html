@@ -43,7 +43,7 @@
 			val: 'wartość'
 		}
 	};
-	s.Data.copy(projectId, collectionKey, 2609001, function(data){
+	s.Data.removeParent(projectId, collectionKey, 2609001, 2609000, false, function(data){
 		console.log('Received', data);
 	});
 	
