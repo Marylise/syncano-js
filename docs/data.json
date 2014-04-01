@@ -27,7 +27,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "dist/syncano.js",
-            "line": 1741,
+            "line": 1819,
             "description": "Real time high level library for Syncano (www.syncano.com)",
             "is_constructor": 1
         }
@@ -1831,42 +1831,137 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1731,
+            "line": 1732,
+            "description": "Unsubscribe from project",
+            "itemtype": "method",
+            "name": "Subscription.unsubscribeProject",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
             "line": 1748,
-            "description": "TODO: in final version change url to api.syncano.com\n      during development stage, every time you start a session you have to open link below in browser\n      and accept the certificate",
+            "description": "Subscribe to collection level notifications within specified project",
+            "itemtype": "method",
+            "name": "Subscription.subscribeCollection",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1759,
-            "description": "queue for messages which could not be sent because of no connection",
-            "class": "Syncano"
-        },
-        {
-            "file": "dist/syncano.js",
-            "line": 1764,
-            "description": "in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
-            "class": "Syncano"
-        },
-        {
-            "file": "dist/syncano.js",
-            "line": 1770,
-            "description": "High-level function mixins",
+            "line": 1768,
+            "description": "Unsubscribe from collection within specified project",
+            "itemtype": "method",
+            "name": "Subscription.unsubscribeCollection",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
             "line": 1788,
+            "description": "Get API client subscriptions",
+            "itemtype": "method",
+            "name": "Subscription.get",
+            "params": [
+                {
+                    "name": "apiId",
+                    "description": "API client id defining client. If not present, gets subscriptions for current client",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1809,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1826,
+            "description": "TODO: in final version change url to api.syncano.com\n      during development stage, every time you start a session you have to open link below in browser\n      and accept the certificate",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1837,
+            "description": "queue for messages which could not be sent because of no connection",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1842,
+            "description": "in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1848,
+            "description": "High-level function mixins",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1866,
             "description": "add PubSub mixin",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1794,
+            "line": 1872,
             "description": "Establishes connecion to the server and sends authorization request.",
             "itemtype": "method",
             "name": "connect",
@@ -1886,7 +1981,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1825,
+            "line": 1903,
             "description": "Internal method called after the socket is open. Sends authorization request - instance, api_key and (optional) timezone \ndefined in this.connectionParams.",
             "itemtype": "method",
             "name": "onSocketOpen",
@@ -1894,7 +1989,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1837,
+            "line": 1915,
             "description": "Internal method called automatically when socket is closed. Clears SockJS instance, changes state to DISCONNECTED. If there was\nwaiting request to reconnect, handles reconnection with the same params.",
             "itemtype": "method",
             "name": "onSocketClose",
@@ -1902,7 +1997,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1853,
+            "line": 1931,
             "description": "Method called every time the message is received. Message is passed as e.data\nIf there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.",
             "itemtype": "method",
             "name": "onMessage",
@@ -1917,7 +2012,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1890,
+            "line": 1968,
             "description": "After successful authorization trigger event and send all queued messages",
             "itemtype": "method",
             "name": "parseAuthorizationResponse",
@@ -1932,7 +2027,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1905,
+            "line": 1983,
             "description": "When message with type 'new' comes, we triggers 3 events: one for the project (syncano:newdata:project-ID), \none for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).\nYou can handle any of them.",
             "itemtype": "method",
             "name": "parseNewRecordNotifier",
@@ -1947,7 +2042,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1926,
+            "line": 2004,
             "description": "Receiven new callresponse message. If we were waiting for this response, handle it (call callback, etc). Otherwise - ignore",
             "itemtype": "method",
             "name": "parseCallResponse",
@@ -1962,7 +2057,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1949,
+            "line": 2027,
             "description": "Sends all requests waiting in the queue and clears the queue.",
             "itemtype": "method",
             "name": "sendQueue",
@@ -1970,7 +2065,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1962,
+            "line": 2040,
             "description": "Generates unique message id",
             "itemtype": "method",
             "name": "getNextRequestId",
@@ -1982,7 +2077,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1973,
+            "line": 2051,
             "description": "Sends request as a string. Internal low-level function, should not be used outside",
             "itemtype": "method",
             "name": "socketSend",
@@ -1997,7 +2092,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1984,
+            "line": 2062,
             "description": "Universal high-level function for sending requests to syncano. \nSends request to 'method' with given 'params' if the socket is connected. If not, puts request on the queue to be sent later.\nUses internal 'waitingForResponse' object to match request with response.",
             "itemtype": "method",
             "name": "sendRequest",
@@ -2022,37 +2117,37 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2007,
+            "line": 2085,
             "description": "Remember method and callback on the waitingForResponse list. When the response comes, callback will be called",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2012,
+            "line": 2090,
             "description": "Send message to socket if already open and authorized. Otherwise - push to requestsQueue",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2024,
+            "line": 2102,
             "description": "Internal method to check if projectId is a number - so I don't have to write this manualy again and again",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2033,
+            "line": 2111,
             "description": "Internal method to check the variable name (string or number) and add correct key to passed object",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2047,
+            "line": 2125,
             "description": "Internal shortcut method to send request and run the callback function with proper data as parameter",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2067,
+            "line": 2145,
             "description": "Export to the root, which is probably `window`.",
             "class": "Syncano"
         }
@@ -2188,51 +2283,51 @@
         },
         {
             "message": "Missing item type",
-            "line": " dist/syncano.js:1731"
+            "line": " dist/syncano.js:1809"
         },
         {
             "message": "Missing item type\nTODO: in final version change url to api.syncano.com\n      during development stage, every time you start a session you have to open link below in browser\n      and accept the certificate",
-            "line": " dist/syncano.js:1748"
+            "line": " dist/syncano.js:1826"
         },
         {
             "message": "Missing item type\nqueue for messages which could not be sent because of no connection",
-            "line": " dist/syncano.js:1759"
+            "line": " dist/syncano.js:1837"
         },
         {
             "message": "Missing item type\nin this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
-            "line": " dist/syncano.js:1764"
+            "line": " dist/syncano.js:1842"
         },
         {
             "message": "Missing item type\nHigh-level function mixins",
-            "line": " dist/syncano.js:1770"
+            "line": " dist/syncano.js:1848"
         },
         {
             "message": "Missing item type\nadd PubSub mixin",
-            "line": " dist/syncano.js:1788"
+            "line": " dist/syncano.js:1866"
         },
         {
             "message": "Missing item type\nRemember method and callback on the waitingForResponse list. When the response comes, callback will be called",
-            "line": " dist/syncano.js:2007"
+            "line": " dist/syncano.js:2085"
         },
         {
             "message": "Missing item type\nSend message to socket if already open and authorized. Otherwise - push to requestsQueue",
-            "line": " dist/syncano.js:2012"
+            "line": " dist/syncano.js:2090"
         },
         {
             "message": "Missing item type\nInternal method to check if projectId is a number - so I don't have to write this manualy again and again",
-            "line": " dist/syncano.js:2024"
+            "line": " dist/syncano.js:2102"
         },
         {
             "message": "Missing item type\nInternal method to check the variable name (string or number) and add correct key to passed object",
-            "line": " dist/syncano.js:2033"
+            "line": " dist/syncano.js:2111"
         },
         {
             "message": "Missing item type\nInternal shortcut method to send request and run the callback function with proper data as parameter",
-            "line": " dist/syncano.js:2047"
+            "line": " dist/syncano.js:2125"
         },
         {
             "message": "Missing item type\nExport to the root, which is probably `window`.",
-            "line": " dist/syncano.js:2067"
+            "line": " dist/syncano.js:2145"
         }
     ]
 }

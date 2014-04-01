@@ -1816,6 +1816,84 @@ Subscription.subscribeProject = function(projectId, callback){
 	this.__super__.__sendWithCallback(method, {project_id: projectId}, true, callback);
 };
 
+
+/**
+ *  Unsubscribe from project
+ *
+ *  @method Subscription.unsubscribeProject
+ *  @param {number} projectId Project id
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Subscription.unsubscribeProject = function(projectId, callback){
+	var method = &#x27;subscription.unsubscribe_project&#x27;;
+	if(!isset(projectId) || !isNumber(projectId)){
+		throw new Error(&#x27;projectId must be defined&#x27;);
+	}
+	this.__super__.__sendWithCallback(method, {project_id: projectId}, true, callback);
+};
+
+
+/**
+ *  Subscribe to collection level notifications within specified project 
+ * 
+ *  @method Subscription.subscribeCollection
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Subscription.subscribeCollection = function(projectId, collection, callback){
+	this.__super__.__checkProjectId(projectId);
+
+	var method = &#x27;subscription.subscribe_collection&#x27;;
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
+ *  Unsubscribe from collection within specified project 
+ *
+ *  @method Subscription.unsubscribeCollection
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Subscription.unsubscribeCollection = function(projectId, collection, callback){
+	this.__super__.__checkProjectId(projectId);
+
+	var method = &#x27;subscription.unsubscribe_collection&#x27;;
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
+ *  Get API client subscriptions
+ * 
+ *  @method Subscription.get
+ *  @param {string} [apiId] API client id defining client. If not present, gets subscriptions for current client
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Subscription.get = function(apiId, callback){
+	if(typeof arguments[0] === &#x27;function&#x27;){
+		callback = arguments[0];
+		apiId = undefined;
+	}
+
+	var method = &#x27;subscription.get&#x27;;
+	var params = {};
+	if(isset(apiId)){
+		params.api_client_id = apiId;
+	}
+	this.__super__.__sendWithCallback(method, params, &#x27;subscription&#x27;, callback);
+};
+
 /**
  *  
  */
