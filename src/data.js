@@ -481,3 +481,197 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 	
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
+
+
+/**
+ *  Adds additional child to data with data_id. If remove_other is True, all other children of specified Data Object will be removed.
+ *  Note: There is a limit of maximum 250 parents per Data Object, but there is no limit of children.
+ *
+ *  @method Data.addChild 
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {number} dataId Data Object id
+ *  @param {number} childId Child id to add
+ *  @param {boolean} [removeOther] If true, will remove all other parents. Default value: False
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.addChild = function(projectId, collection, dataId, childId, removeOther, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.add_child';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(isset(dataId) && isNumber(dataId)){
+		params.data_id = dataId;
+	} else {
+		throw new Error('dataId must be passed');
+	}
+	
+	if(isset(childId) && isNumber(childId)){
+		params.child_id = childId;
+	} else {
+		throw new Error('childId must be passed');
+	}
+	
+	if(isset(removeOther) && isBool(removeOther)){
+		params.remove_other = removeOther;
+	}
+	
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
+ *  Removes a child (or children) from data with data_id.
+ *
+ *  @method Data.removeChild 
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {number} dataId Data Object id
+ *  @param {number} childId Child id to remove. If not specified, will remove all Data Object children
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.removeChild = function(projectId, collection, dataId, childId, callback){
+	this.__super__.__checkProjectId(projectId);
+
+	var method = 'data.remove_child';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	if(isset(dataId) && isNumber(dataId)){
+		params.data_id = dataId;
+	} else {
+		throw new Error('dataId must be passed');
+	}
+
+	if(isset(childId) && isNumber(childId)){
+		params.child_id = childId;
+	}
+
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
+ *  Deletes Data Object. If no filters are specified, will process all Data Objects in defined collection(s) (up to defined limit).
+ *
+ *  @method Data.delete
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {number / Array} [optionalParams.dataIds] If specified, will filter by Data id or ids. Max 100 ids per request
+ *  @param {string} [optionalParams.state] If specified, filter by Data state. Accepted values: Pending, Moderated, All. Default value: All
+ *  @param {string / Array} [optionalParams.folders] If specified, filter by specified folder or folders. Max 100 values per request
+ *  @param {string} [optionalParams.filter] TEXT - only data with text IMAGE - only data with an image
+ *  @param {string} [optionalParams.byUser] If specified, filter by user name.
+ *  @param {string} [optionalParams.limit] Number of Data Objects to process. Default and max value: 100.
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.delete = function(projectId, collection, optionalParams, callback){
+	this.__super__.__checkProjectId(projectId);
+
+	var method = 'data.delete';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	if(isset(optionalParams)){
+		/**
+		 *  these optionalParams are just copied to params array if they are set
+		 */
+		var justSetParams = ['dataIds', 'folders', 'byUser'];
+		for(var i=0; i<justSetParams.length; i++){
+			var jsParam = justSetParams[i];
+			if(isset(optionalParams[jsParam])){
+				params[uncamelize(jsParam)] = optionalParams[jsParam];
+			}
+		}
+		
+		if(isset(optionalParams.limit)){
+			if(isNumber(optionalParams.limit)){
+				params.limit = optionalParams.limit;
+			} else {
+				throw new Error('limit must be a number');
+			}
+		}
+		
+		if(isset(optionalParams.state)){
+			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
+				params.state = optionalParams.state;
+			} else {
+				throw new Error('incorrect value of state param');
+			}
+		}
+		
+		if(isset(optionalParams.filter)){
+			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+				params.filter = optionalParams.filter;
+			} else {
+				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+			}
+		}
+	}
+
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
+ *  Counts data of specified criteria
+ *
+ *  @method Data.count
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {string} [optionalParams.state] State of data to be counted. Accepted values: Pending, Moderated, All. Default value: All
+ *  @param {string / Array} [optionalParams.folders] Folder name(s) that data will be counted from. If not presents counts data from across all collection folders. Max 100 values per request
+ *  @param {string} [optionalParams.filter] TEXT - only data with text IMAGE - only data with an image
+ *  @param {string} [optionalParams.byUser] If specified, filter by user name.
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.count = function(projectId, collection, optionalParams, callback){
+	this.__super__.__checkProjectId(projectId);
+
+	var method = 'data.count';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	if(isset(optionalParams)){
+		/**
+		 *  these optionalParams are just copied to params array if they are set
+		 */
+		var justSetParams = ['folders', 'byUser'];
+		for(var i=0; i<justSetParams.length; i++){
+			var jsParam = justSetParams[i];
+			if(isset(optionalParams[jsParam])){
+				params[uncamelize(jsParam)] = optionalParams[jsParam];
+			}
+		}
+
+		if(isset(optionalParams.state)){
+			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
+				params.state = optionalParams.state;
+			} else {
+				throw new Error('incorrect value of state param');
+			}
+		}
+		
+		if(isset(optionalParams.filter)){
+			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+				params.filter = optionalParams.filter;
+			} else {
+				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+			}
+		}
+	}
+	
+	this.__super__.__sendWithCallback(method, params, 'count', callback);
+};

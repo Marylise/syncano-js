@@ -43,8 +43,9 @@
 			val: 'wartość'
 		}
 	};
-	s.Data.removeParent(projectId, collectionKey, 2609001, 2609000, false, function(data){
-		console.log('Received', data);
+	s.Data.count(projectId, collectionKey, {
+	}, function(data){
+		console.log(data);
 	});
 	
 	</script>

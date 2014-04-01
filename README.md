@@ -108,3 +108,12 @@ Get data objects
 			console.log(d);
 		});
 	});
+	
+Delete data objects
+
+	s.Data.delete(projectId, collectionKey, {
+		dataIds: [id1, id2, id3]
+	}, function(data){
+		console.log('Deleted');
+	});
+
