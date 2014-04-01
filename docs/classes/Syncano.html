@@ -90,7 +90,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/dist_syncano.js.html#l1720"><code>dist&#x2F;syncano.js:1720</code></a>
+            Defined in: <a href="../files/dist_syncano.js.html#l1741"><code>dist&#x2F;syncano.js:1741</code></a>
         </div>
     
 
@@ -141,7 +141,7 @@
             
         
         
-        <a href="../files/dist_syncano.js.html#l1720"><code>dist&#x2F;syncano.js:1720</code></a>
+        <a href="../files/dist_syncano.js.html#l1741"><code>dist&#x2F;syncano.js:1741</code></a>
         
         </p>
 
@@ -405,6 +405,13 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_parseNewRecordNotifier">parseNewRecordNotifier</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_Project.delete">Project.delete</a>
 
                                 
@@ -455,6 +462,13 @@
                         
                             <li class="index-item method">
                                 <a href="#method_socketSend">socketSend</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_Subscription.subscribeProject">Subscription.subscribeProject</a>
 
                                 
                                 
@@ -2009,7 +2023,7 @@ collection_id/collection_key parameter means that one can use either one of them
             
         
         
-        <a href="../files/dist_syncano.js.html#l1771"><code>dist&#x2F;syncano.js:1771</code></a>
+        <a href="../files/dist_syncano.js.html#l1794"><code>dist&#x2F;syncano.js:1794</code></a>
         
         </p>
 
@@ -5545,7 +5559,7 @@ Params newName and sourceId can be passed as a single object: {newName: &#39;&#3
             
         
         
-        <a href="../files/dist_syncano.js.html#l1914"><code>dist&#x2F;syncano.js:1914</code></a>
+        <a href="../files/dist_syncano.js.html#l1962"><code>dist&#x2F;syncano.js:1962</code></a>
         
         </p>
 
@@ -5624,7 +5638,7 @@ Params newName and sourceId can be passed as a single object: {newName: &#39;&#3
             
         
         
-        <a href="../files/dist_syncano.js.html#l1830"><code>dist&#x2F;syncano.js:1830</code></a>
+        <a href="../files/dist_syncano.js.html#l1853"><code>dist&#x2F;syncano.js:1853</code></a>
         
         </p>
 
@@ -5704,7 +5718,7 @@ If there was an error, e.data.result is &#39;NOK&#39; (not ok), otherwise e.data
             
         
         
-        <a href="../files/dist_syncano.js.html#l1814"><code>dist&#x2F;syncano.js:1814</code></a>
+        <a href="../files/dist_syncano.js.html#l1837"><code>dist&#x2F;syncano.js:1837</code></a>
         
         </p>
 
@@ -5760,7 +5774,7 @@ waiting request to reconnect, handles reconnection with the same params.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l1802"><code>dist&#x2F;syncano.js:1802</code></a>
+        <a href="../files/dist_syncano.js.html#l1825"><code>dist&#x2F;syncano.js:1825</code></a>
         
         </p>
 
@@ -5826,7 +5840,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l1863"><code>dist&#x2F;syncano.js:1863</code></a>
+        <a href="../files/dist_syncano.js.html#l1890"><code>dist&#x2F;syncano.js:1890</code></a>
         
         </p>
 
@@ -5915,7 +5929,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l1878"><code>dist&#x2F;syncano.js:1878</code></a>
+        <a href="../files/dist_syncano.js.html#l1926"><code>dist&#x2F;syncano.js:1926</code></a>
         
         </p>
 
@@ -5948,6 +5962,97 @@ defined in this.connectionParams.</p>
                         <ul>
 <li>data received. Fields: type (=callresponse), message_id, result, data</li>
 </ul>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_parseNewRecordNotifier" class="method item">
+    <h3 class="name"><code>parseNewRecordNotifier</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>data</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/dist_syncano.js.html#l1905"><code>dist&#x2F;syncano.js:1905</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>When message with type &#39;new&#39; comes, we triggers 3 events: one for the project (syncano:newdata:project-ID), 
+one for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).
+You can handle any of them.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Object send by server. Fields: timestamp, uuid, type, result</p>
 
                     </div>
 
@@ -6578,7 +6683,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l1901"><code>dist&#x2F;syncano.js:1901</code></a>
+        <a href="../files/dist_syncano.js.html#l1949"><code>dist&#x2F;syncano.js:1949</code></a>
         
         </p>
 
@@ -6655,7 +6760,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l1936"><code>dist&#x2F;syncano.js:1936</code></a>
+        <a href="../files/dist_syncano.js.html#l1984"><code>dist&#x2F;syncano.js:1984</code></a>
         
         </p>
 
@@ -6778,7 +6883,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1925"><code>dist&#x2F;syncano.js:1925</code></a>
+        <a href="../files/dist_syncano.js.html#l1973"><code>dist&#x2F;syncano.js:1973</code></a>
         
         </p>
 
@@ -6809,6 +6914,118 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
 
                     <div class="param-description">
                          
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Subscription.subscribeProject" class="method item">
+    <h3 class="name"><code>Subscription.subscribeProject</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>projectId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/dist_syncano.js.html#l1716"><code>dist&#x2F;syncano.js:1716</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Subscribe to project level notifications</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">projectId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Project id</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Function to be called when successful response comes</p>
+
                     </div>
 
                     

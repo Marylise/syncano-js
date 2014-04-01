@@ -1796,6 +1796,27 @@ User.delete = function(user, callback){
 };
 
 /**
+ * Subscriptions handling methods 
+ */
+var Subscription = {};
+
+
+/**
+ *  Subscribe to project level notifications
+ *
+ *  @method Subscription.subscribeProject
+ *  @param {number} projectId Project id
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Subscription.subscribeProject = function(projectId, callback){
+	var method = &#x27;subscription.subscribe_project&#x27;;
+	if(!isset(projectId) || !isNumber(projectId)){
+		throw new Error(&#x27;projectId must be defined&#x27;);
+	}
+	this.__super__.__sendWithCallback(method, {project_id: projectId}, true, callback);
+};
+
+/**
  *  
  */
 var states = {
@@ -1847,6 +1868,8 @@ var Syncano = function(){
 	this.Data.__super__ = this;
 	this.User = User;
 	this.User.__super__ = this;
+	this.Subscription = Subscription;
+	this.Subscription.__super__ = this;
 };
 
 
@@ -1944,6 +1967,10 @@ Syncano.prototype.onMessage = function(e){
 		case &#x27;callresponse&#x27;:
 			this.parseCallResponse(data);
 			break;
+			
+		case &#x27;new&#x27;:
+			this.parseNewRecordNotifier(data);
+			break;
 	}
 };
 
@@ -1960,6 +1987,27 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.trigger(&#x27;syncano:authorized&#x27;, this.uuid);
 	this.parseCallResponse({message_id: &#x27;auth&#x27;, data:data});
 	this.sendQueue();
+};
+
+
+/**
+ *  When message with type &#x27;new&#x27; comes, we triggers 3 events: one for the project (syncano:newdata:project-ID), 
+ *  one for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).
+ *  You can handle any of them.
+ *  
+ *  @method parseNewRecordNotifier
+ *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+Syncano.prototype.parseNewRecordNotifier = function(rec){
+	var projectId = rec.channel.project_id | 0;
+	var collectionId = rec.channel.collection_id | 0;
+	var recData = rec.data;
+	var folder = recData.folder;
+	if(folder){
+		this.trigger(&#x27;syncano:newdata:folder-&#x27; + folder, recData);
+	}
+	this.trigger(&#x27;syncano:newdata:project-&#x27; + projectId, recData);
+	this.trigger(&#x27;syncano:newdata:collection-&#x27; + collectionId, recData);
 };
 
 

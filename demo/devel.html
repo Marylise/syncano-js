@@ -18,6 +18,7 @@
 	<script type="text/javascript" charset="utf-8" src="../src/folders.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/data.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/user.js"></script>
+	<script src="../src/subscriptions.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -28,15 +29,14 @@
 
 	s.connect({
 		instance: 'develjs',
-		api_key: '2a8fac000d915af306dfc0e8df835619c5445e72',
-		timezone: 'Europe/Warsaw'
+		api_key: '2a8fac000d915af306dfc0e8df835619c5445e72'
 	});
 	
 	var projectId = 6827;
 	var collectionKey = 'default';
-
-	s.User.delete('Ktoś', function(data){
-		console.log(data);
+	
+	s.Subscription.subscribeProject(projectId, function(res){
+		console.log(res);
 	});
 	
 	</script>

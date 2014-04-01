@@ -50,6 +50,8 @@ var Syncano = function(){
 	this.Data.__super__ = this;
 	this.User = User;
 	this.User.__super__ = this;
+	this.Subscription = Subscription;
+	this.Subscription.__super__ = this;
 };
 
 
@@ -147,6 +149,10 @@ Syncano.prototype.onMessage = function(e){
 		case 'callresponse':
 			this.parseCallResponse(data);
 			break;
+			
+		case 'new':
+			this.parseNewRecordNotifier(data);
+			break;
 	}
 };
 
@@ -163,6 +169,27 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.trigger('syncano:authorized', this.uuid);
 	this.parseCallResponse({message_id: 'auth', data:data});
 	this.sendQueue();
+};
+
+
+/**
+ *  When message with type 'new' comes, we triggers 3 events: one for the project (syncano:newdata:project-ID), 
+ *  one for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).
+ *  You can handle any of them.
+ *  
+ *  @method parseNewRecordNotifier
+ *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+Syncano.prototype.parseNewRecordNotifier = function(rec){
+	var projectId = rec.channel.project_id | 0;
+	var collectionId = rec.channel.collection_id | 0;
+	var recData = rec.data;
+	var folder = recData.folder;
+	if(folder){
+		this.trigger('syncano:newdata:folder-' + folder, recData);
+	}
+	this.trigger('syncano:newdata:project-' + projectId, recData);
+	this.trigger('syncano:newdata:collection-' + collectionId, recData);
 };
 
 

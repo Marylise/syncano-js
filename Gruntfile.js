@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 		  'src/folders.js',
 		  'src/data.js',
 		  'src/user.js',
+		  'src/subscriptions.js',
           'src/main.js',
           'src/_outro.js'
         ],
