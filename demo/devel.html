@@ -17,6 +17,7 @@
 	<script type="text/javascript" charset="utf-8" src="../src/collections.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/folders.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/data.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/user.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -43,9 +44,11 @@
 			val: 'wartość'
 		}
 	};
-	s.Data.count(projectId, collectionKey, {
-	}, function(data){
-		console.log(data);
+	s.User.getAll(null, 1, function(data){
+		console.log(data.length);
+		data.forEach(function(u){
+			console.log('user = ', u);
+		});
 	});
 	
 	</script>

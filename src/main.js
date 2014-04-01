@@ -48,6 +48,8 @@ var Syncano = function(){
 	this.Folder.__super__ = this;
 	this.Data = Data;
 	this.Data.__super__ = this;
+	this.User = User;
+	this.User.__super__ = this;
 };
 
 

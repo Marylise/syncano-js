@@ -17,6 +17,7 @@ module.exports = function(grunt) {
 		  'src/collections.js',
 		  'src/folders.js',
 		  'src/data.js',
+		  'src/user.js',
           'src/main.js',
           'src/_outro.js'
         ],

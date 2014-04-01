@@ -108,7 +108,7 @@ function uncamelize(s){
  *  
  */
 function isset(v){
-	return typeof v !== 'undefined';
+	return typeof v !== 'undefined' && v !== null;
 }
 
 /**
