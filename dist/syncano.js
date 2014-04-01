@@ -956,7 +956,7 @@ Data.get = function(projectId, collection, optionalParams, callback){
 		}
 		
 		if(isset(optionalParams.state)){
-			if(['pending','moderated','rejected','all'].indexOf(optionalParams.state.toLowerCase()) !== -1){
+			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected','all'])){
 				params.state = optionalParams.state;
 			} else {
 				throw new Error('incorrect value of state param');
@@ -1014,10 +1014,10 @@ Data.get = function(projectId, collection, optionalParams, callback){
  *  @method Data.getOne 
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Either collection id (number) or key (string)
- *  @param {string / Number} data Either data id (number) or key (string)
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
  */
-Data.getOne = function(projectId, collection, data, callback){
+Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.get_one';
@@ -1025,10 +1025,10 @@ Data.getOne = function(projectId, collection, data, callback){
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
-	if(typeof data === 'string'){
-		params.data_key = data;
-	} else if (typeof data == 'number'){
-		params.data_id = data;
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
 	} else {
 		throw new Error('Data key/id must be passed');
 	}
@@ -1037,6 +1037,155 @@ Data.getOne = function(projectId, collection, data, callback){
 };
 
 
+/**
+ *  
+ *  @method Data.update
+ *  @param {number} projectId Project id that collection will be created for
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
+ *  @param {object} [optionalParams] Object with additional parameters
+ *  @param {string} [optionalParams.updateMethod] Default value: replace
+ *  @param {string} [optionalParams.user_name] User name of user to associate Data Object with. If not set, internal user 'syncano' is used
+ *  @param {string} [optionalParams.sourceUrl] Source URL associated with message
+ *  @param {string} [optionalParams.title] Title of message
+ *  @param {string} [optionalParams.text] Text data associated with message
+ *  @param {string} [optionalParams.link] Link associated with message
+ *  @param {string} [optionalParams.image] Image data associated with message. If specified as empty string - will instead delete current image
+ *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
+ *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'
+ *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
+ *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.update';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+	
+	if(isset(optionalParams)){
+		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl'];
+		for(var i=0; i<paramsToPass.length; i++){
+			var jsParam = paramsToPass[i];
+			if(isset(optionalParams[jsParam])){
+				params[uncamelize(jsParam)] = optionalParams[jsParam];
+			}
+		}
+		
+		if(isset(optionalParams.parentId)){
+			if(isNumber(optionalParams.parentId)){
+				throw new Error('parentId must be a number');
+			} else {
+				params.parent_id = optionalParams.parentId;
+			}
+		}
+		
+		if(isset(optionalParams.state)){
+			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected'])){
+				params.state = optionalParams.state;
+			} else {
+				throw new Error('incorrect value of state param');
+			}
+		}
+	}
+	
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+/**
+ *  Moves data to folder and/or state
+ * 
+ *  @method Data.move 
+ *  @param {number} projectId Project id that collection will be created for
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
+ *  @param {object} [optionalParams] Object with additional parameters
+ *  @param {string} [optionalParams.dataIds] If specified, will filter by Data id or ids. Max 100 ids per request.
+ *  @param {string} [optionalParams.folders] If specified, filter by specified folder or folders. Max 100 values per request.
+ *  @param {string} [optionalParams.state] If specified, filter by Data state. Accepted values: Pending, Moderated, All. Default value: All.
+ *  @param {string} [optionalParams.filter] TEXT - only data with text IMAGE - only data with an image
+ *  @param {string} [optionalParams.byUser] If specified, filter by user's name
+ *  @param {string} [optionalParams.limit] Number of Data Objects to process. Default and max value: 100
+ *  @param {string} [optionalParams.newFolder] Destination folder where data will be moved. If not specified, leaves folder as is.
+ *  @param {string} [optionalParams.newState] State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.move';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+	
+	if(isset(optionalParams)){
+		/**
+		 *  these optionalParams are just copied to params array if they are set
+		 */
+		var justSetParams = ['dataIds', 'folders', 'byUser', 'newFolder'];
+		for(var i=0; i<justSetParams.length; i++){
+			var jsParam = justSetParams[i];
+			if(isset(optionalParams[jsParam])){
+				params[uncamelize(jsParam)] = optionalParams[jsParam];
+			}
+		}
+		
+		if(isset(optionalParams.filter)){
+			if(inArray(optionalParams.filter.toLowerCase(), ['text', 'image'])){
+				params.filter = optionalParams.filter;
+			} else {
+				throw new Error('incorrect value of filter param - only "text" and "image" are allowed');
+			}
+		}
+		
+		if(isset(optionalParams.state)){
+			if(inArray(optionalParams.state.toLowerCase(), ['pending','moderated','rejected'])){
+				params.state = optionalParams.state;
+			} else {
+				throw new Error('incorrect value of state param');
+			}
+		}
+		
+		if(isset(optionalParams.newState)){
+			if(inArray(optionalParams.newState.toLowerCase(), ['pending','moderated','rejected'])){
+				params.new_state = optionalParams.newState;
+			} else {
+				throw new Error('incorrect value of newState param');
+			}
+		}
+		
+		if(isset(optionalParams.limit)){
+			if(isNumber(optionalParams.limit)){
+				throw new Error('limit must be a number');
+			} else {
+				params.limit = optionalParams.limit;
+			}
+		}
+	}
+	
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
 
 /**
  *  
