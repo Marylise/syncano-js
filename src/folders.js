@@ -11,7 +11,7 @@ var Folder = {};
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {string} name Folder name
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.new = function(projectId, collection, name, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -34,7 +34,7 @@ Folder.new = function(projectId, collection, name, callback){
  *  @name method Folder.get 
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.get = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -55,7 +55,7 @@ Folder.get = function(projectId, collection, callback){
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.getOne = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -82,9 +82,9 @@ Folder.getOne = function(projectId, collection, folderName, callback){
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
- *  @param {string} newName New folder name
- *  @param {string} sourceId New source id, can be used for mapping folders to external source
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {string} [newName] New folder name
+ *  @param {string} [sourceId] New source id, can be used for mapping folders to external source
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.update = function(projectId, collection, folderName, newName, sourceId, callback){
 	if(typeof arguments[3] === 'object'){
@@ -128,7 +128,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.delete = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);

@@ -10,9 +10,9 @@ var Collection = {};
  *  @method Collection.new
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string} name New collections name
- *  @param {string} key (optional) New collections key
- *  @param {string} description (optional) New collection's description
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {string} [key] New collections key
+ *  @param {string} [description] New collection's description
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Collection.new = function(projectId, name, key, description, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -37,8 +37,8 @@ Collection.new = function(projectId, name, key, description, callback){
  * @method Collection.get
  * @param {number} projectId Project id
  * @param {string} status Status of events to list. Accepted values: active, inactive, all. Default value: all
- * @param {string/array} withTags If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {string / Array} withTags If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.get = function(projectId, status, withTags, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -64,7 +64,7 @@ Collection.get = function(projectId, status, withTags, callback){
  * @method Collection.getOne
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.getOne = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -85,7 +85,7 @@ Collection.getOne = function(projectId, collection, callback){
  * @param {number} projectId Project id
  * @param {number} collectionId Collection id defining collection to be activated
  * @param {boolean} force If set to True, will force the activation by deactivating all other collections that may share it's data_key.
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.activate = function(projectId, collectionId, force, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -116,7 +116,7 @@ Collection.activate = function(projectId, collectionId, force, callback){
  * @method Collection.deactivate
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.deactivate = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -136,9 +136,9 @@ Collection.deactivate = function(projectId, collection, callback){
  * @method Collection.update
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {string} name (optional) New collection name
- * @param {string} description (optional) New collection description
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {string} [name] New collection name
+ * @param {string} [description] New collection description
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.update = function(projectId, collection, name, description, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -166,9 +166,9 @@ Collection.update = function(projectId, collection, name, description, callback)
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
- * @param {float} weight Tags weight. Default value = 1
- * @param {boolean} removeOther If true, will remove all other tags of specified collection. Default value: False
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {float} [weight] Tags weight. Default value = 1
+ * @param {boolean} [removeOther] If true, will remove all other tags of specified collection. Default value: False
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.addTag = function(projectId, collection, tags, weight, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -211,7 +211,7 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.deleteTag = function(projectId, collection, tags, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -249,7 +249,7 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
  * @method Collection.delete
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.delete = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);

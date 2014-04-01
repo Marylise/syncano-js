@@ -10,7 +10,7 @@ var Project = {};
  * @method Project.new
  * @param {string} name Name of the project
  * @param {string} description Short description of the project
- * @param {function} callback Optional function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Project.new = function(name, description, callback){
 	var method = 'project.new';
@@ -27,7 +27,7 @@ Project.new = function(name, description, callback){
  *  Gets list of all projects in current instance
  *
  *  @method Project.get
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.get = function(callback){
 	var method = 'project.get';
@@ -45,7 +45,7 @@ Project.get = function(callback){
  * 
  *  @method Project.getOne
  *  @param {number} id Project identifier
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
@@ -66,7 +66,7 @@ Project.getOne = function(id, callback){
  *  @param {number} id Project identifier
  *  @param {string} name Optional new name of the project
  *  @param {string} name Optional new description of the project
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.update = function(id, name, description, callback){
 	this.__super__.__checkProjectId(id);
@@ -95,7 +95,7 @@ Project.update = function(id, name, description, callback){
  *  Deletes project
  *
  *  @method Project.delete
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.delete = function(id, callback){
 	this.__super__.__checkProjectId(id);

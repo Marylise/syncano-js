@@ -300,7 +300,7 @@ var Project = {};
  * @method Project.new
  * @param {string} name Name of the project
  * @param {string} description Short description of the project
- * @param {function} callback Optional function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Project.new = function(name, description, callback){
 	var method = 'project.new';
@@ -317,7 +317,7 @@ Project.new = function(name, description, callback){
  *  Gets list of all projects in current instance
  *
  *  @method Project.get
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.get = function(callback){
 	var method = 'project.get';
@@ -335,7 +335,7 @@ Project.get = function(callback){
  * 
  *  @method Project.getOne
  *  @param {number} id Project identifier
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
@@ -356,7 +356,7 @@ Project.getOne = function(id, callback){
  *  @param {number} id Project identifier
  *  @param {string} name Optional new name of the project
  *  @param {string} name Optional new description of the project
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.update = function(id, name, description, callback){
 	this.__super__.__checkProjectId(id);
@@ -385,7 +385,7 @@ Project.update = function(id, name, description, callback){
  *  Deletes project
  *
  *  @method Project.delete
- *  @param {function} callback Optional function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Project.delete = function(id, callback){
 	this.__super__.__checkProjectId(id);
@@ -410,9 +410,9 @@ var Collection = {};
  *  @method Collection.new
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string} name New collections name
- *  @param {string} key (optional) New collections key
- *  @param {string} description (optional) New collection's description
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {string} [key] New collections key
+ *  @param {string} [description] New collection's description
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Collection.new = function(projectId, name, key, description, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -437,8 +437,8 @@ Collection.new = function(projectId, name, key, description, callback){
  * @method Collection.get
  * @param {number} projectId Project id
  * @param {string} status Status of events to list. Accepted values: active, inactive, all. Default value: all
- * @param {string/array} withTags If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {string / Array} withTags If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.get = function(projectId, status, withTags, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -464,7 +464,7 @@ Collection.get = function(projectId, status, withTags, callback){
  * @method Collection.getOne
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.getOne = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -485,7 +485,7 @@ Collection.getOne = function(projectId, collection, callback){
  * @param {number} projectId Project id
  * @param {number} collectionId Collection id defining collection to be activated
  * @param {boolean} force If set to True, will force the activation by deactivating all other collections that may share it's data_key.
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.activate = function(projectId, collectionId, force, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -516,7 +516,7 @@ Collection.activate = function(projectId, collectionId, force, callback){
  * @method Collection.deactivate
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {function} callback (optional) Function to be called when successful response comes
+ * @param {function} [callback] Function to be called when successful response comes
  */
 Collection.deactivate = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -536,9 +536,9 @@ Collection.deactivate = function(projectId, collection, callback){
  * @method Collection.update
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {string} name (optional) New collection name
- * @param {string} description (optional) New collection description
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {string} [name] New collection name
+ * @param {string} [description] New collection description
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.update = function(projectId, collection, name, description, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -566,9 +566,9 @@ Collection.update = function(projectId, collection, name, description, callback)
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
- * @param {float} weight Tags weight. Default value = 1
- * @param {boolean} removeOther If true, will remove all other tags of specified collection. Default value: False
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {float} [weight] Tags weight. Default value = 1
+ * @param {boolean} [removeOther] If true, will remove all other tags of specified collection. Default value: False
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.addTag = function(projectId, collection, tags, weight, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -611,7 +611,7 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.deleteTag = function(projectId, collection, tags, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -649,7 +649,7 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
  * @method Collection.delete
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {function} callback (optional) Function to be called when successful response comes 
+ * @param {function} [callback] Function to be called when successful response comes 
  */
 Collection.delete = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -675,7 +675,7 @@ var Folder = {};
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {string} name Folder name
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.new = function(projectId, collection, name, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -698,7 +698,7 @@ Folder.new = function(projectId, collection, name, callback){
  *  @name method Folder.get 
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.get = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -719,7 +719,7 @@ Folder.get = function(projectId, collection, callback){
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.getOne = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -746,9 +746,9 @@ Folder.getOne = function(projectId, collection, folderName, callback){
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
- *  @param {string} newName New folder name
- *  @param {string} sourceId New source id, can be used for mapping folders to external source
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {string} [newName] New folder name
+ *  @param {string} [sourceId] New source id, can be used for mapping folders to external source
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.update = function(projectId, collection, folderName, newName, sourceId, callback){
 	if(typeof arguments[3] === 'object'){
@@ -792,7 +792,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Folder.delete = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -814,24 +814,24 @@ var Data = {};
 
 /**
  *  Creates a new Data Object
- *  All optional params should be passed as a single object: {title:'', text:'', ...}
  * 
  *  @method Data.new
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Either collection id (number) or key (string)
- *  @param {string} dataKey (optional) Used for uniquely identifying message. Has to be unique within collection. Useful for updating
- *  @param {string} userName (optional) Name of user to associate Data Object with. If not set, internal user 'syncano' is used
- *  @param {string} sourceUrl (optional) Source URL associated with message
- *  @param {string} title (optional) Title of data object
- *  @param {string} text (optional) text Text data associated with message
- *  @param {string} link (optional) Link associated with message
- *  @param {string} image (optional) Image data associated with message
- *  @param {string} imageUrl (optional) Image source URL. Used in combination with image parameter
- *  @param {string} folder (optional) Folder name that data will be put in. Default value: 'Default'.
- *  @param {string} state (optional) State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
- *  @param {number} parentId (optional) If specified, creates one parent-child relation with specified parent id.
- *  @param {object} additional (optional) Any number of additional parameters (key - value)
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {string} [optionalParams.dataKey] Used for uniquely identifying message. Has to be unique within collection. Useful for updating
+ *  @param {string} [optionalParams.userName] Name of user to associate Data Object with. If not set, internal user 'syncano' is used
+ *  @param {string} [optionalParams.sourceUrl] Source URL associated with message
+ *  @param {string} [optionalParams.title] Title of data object
+ *  @param {string} [optionalParams.text] Text data associated with message
+ *  @param {string} [optionalParams.link] Link associated with message
+ *  @param {string} [optionalParams.image] Image data associated with message
+ *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
+ *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'.
+ *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
+ *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
+ *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Data.new = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -897,23 +897,24 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *
  *  @method Data.get
  *  @param {number} projectId Project id that collection will be created for
- *  @param {string / Number} collection Either collection id (number) or key (string)
- *  @param {string / Array} dataIds (optional) If specified, will return data objects with specified ids. Note: has no effect on returned data object's children. Max 100 values per request 
- *  @param {string} state (optional) State of data to be returned. Accepted values: Pending, Moderated, Rejected, All. Default value: All.
- *  @param {string / Array} folders (optional) Folder name that data will be returned from. Max 100 values per request. If not presents returns data from across all collection folders
- *  @param {string} sinceId (optional) If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object's children
- *  @param {string} sinceTime (optional) String with date. If specified, will only return data with created_at or updated_at time after specified value (newer). Note: has no effect on returned data object's children
- *  @param (number) maxId (optional) If specified, will only return data with id lower than max_id (older)
- *  @param {number} limit (optional) Number of Data Objects to be returned. Default and max value: 100 
- *  @param {string} order (optional) Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first
- *  @param {string} orderBy (optional) Orders by specified criteria. created_at (default), updated_at
- *  @param {string} filter (optional) TEXT - only data with text field specified, IMAGE - only data with an image attached
- *  @param {string} includeChildren (optional) If true, include Data Object children as well (recursively). Default value: True.
- *  @param {number} depth (optional) Max depth of children to follow. If not specified, will follow all levels until children limit is reached
- *  @param {number} childrenLimit (optional) Limit of children to show (if include_children is True). Default and max value: 100 (some children levels may be incomplete if there are more than this limit).
- *  @param {string / Array} parentIds (optional) Data Object id or ids. If specified, only children of specific Data Object parent will be listed
- *  @param {string} byUser (optional) If specified, filter by Data Object user's name
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {string / Number} collection Either collection id or key
+ *  @param {object} [optionalParams] Object with additional parameters
+ *  @param {string / Array} [optionalParams.dataIds] If specified, will return data objects with specified ids. Note: has no effect on returned data object's children. Max 100 values per request 
+ *  @param {string} [optionalParams.state] State of data to be returned. Accepted values: Pending, Moderated, Rejected, All. Default value: All.
+ *  @param {string / Array} [optionalParams.folders] Folder name that data will be returned from. Max 100 values per request. If not presents returns data from across all collection folders
+ *  @param {string} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object's children
+ *  @param {string} [optionalParams.sinceTime] String with date. If specified, will only return data with created_at or updated_at time after specified value (newer). Note: has no effect on returned data object's children
+ *  @param {number} [optionalParams.maxId] If specified, will only return data with id lower than max_id (older)
+ *  @param {number} [optionalParams.limit] Number of Data Objects to be returned. Default and max value: 100 
+ *  @param {string} [optionalParams.order] Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first
+ *  @param {string} [optionalParams.orderBy] Orders by specified criteria. created_at (default), updated_at
+ *  @param {string} [optionalParams.filter] TEXT - only data with text field specified, IMAGE - only data with an image attached
+ *  @param {string} [optionalParams.includeChildren] If true, include Data Object children as well (recursively). Default value: True.
+ *  @param {number} [optionalParams.depth] Max depth of children to follow. If not specified, will follow all levels until children limit is reached
+ *  @param {number} [optionalParams.childrenLimit] Limit of children to show (if include_children is True). Default and max value: 100 (some children levels may be incomplete if there are more than this limit).
+ *  @param {string / Array} [optionalParams.parentIds] Data Object id or ids. If specified, only children of specific Data Object parent will be listed
+ *  @param {string} [optionalParams.byUser] If specified, filter by Data Object user's name
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Data.get = function(projectId, collection, optionalParams, callback){
 	var i;
@@ -1014,7 +1015,7 @@ Data.get = function(projectId, collection, optionalParams, callback){
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {string / Number} data Either data id (number) or key (string)
- *  @param {function} callback (optional) Function to be called when successful response comes
+ *  @param {function} [callback] Function to be called when successful response comes
  */
 Data.getOne = function(projectId, collection, data, callback){
 	this.__super__.__checkProjectId(projectId);
