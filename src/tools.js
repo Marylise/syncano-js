@@ -103,3 +103,48 @@ function uncamelize(s){
 	}
 	return res.join('');
 }
+
+/**
+ *  
+ */
+function isset(v){
+	return typeof v !== 'undefined';
+}
+
+/**
+ *  
+ */
+function isNumber(v){
+	if(typeof v === 'number' || parseInt(v, 10) == v){
+		return true;
+	}
+	return false;
+}
+
+/**
+ *  
+ */
+function isDate(v){
+	var d = new Date(v);
+	if(Object.prototype.toString.call(d) !== "[object Date]"){
+		return false;
+	}
+	return !isNaN(d.getTime());
+}
+
+/**
+ *  
+ */
+function inArray(v,a){
+	if(a.indexOf(v) !== -1){
+		return true;
+	}
+	return false;
+}
+
+/**
+ *  
+ */
+function isBool(v){
+	return typeof v === 'boolean';
+}
