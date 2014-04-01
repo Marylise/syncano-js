@@ -85,3 +85,21 @@ function extend() {
 	}
 	return target;
 }
+
+
+/**
+ * converts string in camel case (eg. dataKey) to lowercase with underscores (eg. data_key) 
+ */
+function uncamelize(s){
+	var res = [];
+	for(var i=0, l=s.length; i<l; i++){
+		var letter = s[i];
+		if(s.charCodeAt(i) >= 97){
+			res.push(letter);
+		} else {
+			res.push('_');
+			res.push(letter.toLowerCase());
+		}
+	}
+	return res.join('');
+}

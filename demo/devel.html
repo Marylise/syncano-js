@@ -16,6 +16,7 @@
 	<script type="text/javascript" charset="utf-8" src="../src/projects.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/collections.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/folders.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../src/data.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -32,16 +33,18 @@
 	
 	var projectId = 6827;
 	var collectionKey = 'default';
-	
-	/*s.Folder.delete(projectId, collectionKey, 'Folder', function(data){
-		console.log('Pobrano ', data);
-	});*/
 		
-	s.Folder.update(projectId, collectionKey, 'Katalog', {
-		newName: 'Folder', 
-		sourceId: '100'
-	}, function(){
-		console.log('ok');
+	var params = {
+		dataKey: 'klucz',
+		title: 'Jakiś obiekt',
+		state: 'Pending',
+		additional: {
+			key: 'klucz',
+			val: 'wartość'
+		}
+	};
+	s.Data.new(projectId, collectionKey, params, function(data){
+		console.log('res = ', data);
 	});
 	
 	</script>

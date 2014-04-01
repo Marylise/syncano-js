@@ -15,7 +15,11 @@ var states = {
  * @constructor
  */
 var Syncano = function(){
-	// TODO: in final version change url
+	/**
+	 *  TODO: in final version change url to api.syncano.com
+	 *        during development stage, every time you start a session you have to open link below in browser
+	 *        and accept the certificate
+	 */
 	this.socketURL = 'https://api.hydraengine.com/ws';
 	this.socket = null;
 	this.status = states.DISCONNECTED;
@@ -42,6 +46,8 @@ var Syncano = function(){
 	this.Collection.__super__ = this;
 	this.Folder = Folder;
 	this.Folder.__super__ = this;
+	this.Data = Data;
+	this.Data.__super__ = this;
 };
 
 
