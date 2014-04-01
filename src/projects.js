@@ -14,12 +14,12 @@ var Project = {};
  */
 Project.new = function(name, description, callback){
 	var method = 'project.new';
-	this.__super__.sendRequest(method, {name: name, description: description}, function(data){
-		var res = data.project;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	
+	var params = {
+		name: name,
+		description: description
+	};
+	this.__super__.__sendWithCallback(method, params, 'project', callback);
 };
 	
 
@@ -31,12 +31,7 @@ Project.new = function(name, description, callback){
  */
 Project.get = function(callback){
 	var method = 'project.get';
-	this.__super__.sendRequest(method, {}, function(data){
-		var res = data.project;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	this.__super__.__sendWithCallback(method, {}, 'project', callback);
 };
 
 	
@@ -50,12 +45,7 @@ Project.get = function(callback){
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
 	var method = 'project.get_one';
-	this.__super__.sendRequest(method, {id: id}, function(data){
-		var res = data.project;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
+	this.__super__.__sendWithCallback(method, {id:id}, 'project', callback);
 };
 	
 
@@ -81,13 +71,7 @@ Project.update = function(id, name, description, callback){
 	if(typeof description !== 'undefined' && description !== null){
 		params.description = description;
 	}
-	this.__super__.sendRequest(method, params, function(data){
-		var res = data.project;
-		if(typeof callback === 'function'){
-			callback(res);
-		}
-	});
-	return true;
+	this.__super__.__sendWithCallback(method, params, 'project', callback);
 };
 
 
@@ -100,9 +84,5 @@ Project.update = function(id, name, description, callback){
 Project.delete = function(id, callback){
 	this.__super__.__checkProjectId(id);
 	var method = 'project.delete';
-	this.__super__.sendRequest(method, {project_id: id}, function(){
-		if(typeof callback === 'function'){
-			callback(true);
-		}
-	});
+	this.__super__.__sendWithCallback(method, {project_id: id}, null, callback);
 };
