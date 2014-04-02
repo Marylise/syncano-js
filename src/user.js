@@ -234,5 +234,5 @@ User.delete = function(user, callback){
 	} else if(typeof user === 'string'){
 		params.user_name = user;
 	}
-	this.__super__.__sendWithCallback(method, params, true, callback);
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };

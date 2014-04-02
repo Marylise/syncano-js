@@ -437,7 +437,6 @@ var Collection = {};
  *  Create new collection within specified project
  *  
  *  @method Collection.new
- *  @module Collection
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string} name New collections name
  *  @param {object} [optionalParams] Optional parameters:
@@ -447,7 +446,13 @@ var Collection = {};
  */
 Collection.new = function(projectId, name, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
+	
 	var method = 'collection.new';
+	
+	if(!isset(name)){
+		throw new Error(method + ': name must be set');
+	}
+
 	var params = {
 		name: name,
 		project_id: projectId
@@ -531,19 +536,18 @@ Collection.getOne = function(projectId, collection, callback){
 Collection.activate = function(projectId, collectionId, force, callback){
 	this.__super__.__checkProjectId(projectId);
 	
-	if(typeof collectionId !== 'number'){
-		throw new Error('Collection.activate - collectionId must be a number');
-	}
-	
 	var method = 'collection.activate';
+
+	if(!isNumber(collectionId)){
+		throw new Error(method + ': collectionId must be a number');
+	}
+
 	var params = {
 		project_id: projectId,
 		collection_id: collectionId
 	};
 	
-	if(typeof force === 'undefined' || force === null){
-		params.force = false;
-	} else {
+	if(isset(force)){
 		params.force = force;
 	}
 	this.__super__.__sendWithCallback(method, params, null, callback);
@@ -577,11 +581,12 @@ Collection.deactivate = function(projectId, collection, callback){
  * @method Collection.update
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {string} [name] New collection name
- * @param {string} [description] New collection description
+ *  @param {object} [optionalParams] Optional parameters:
+ * @param {string} [optionalParams.name] New collection name
+ * @param {string} [optionalParams.description] New collection description
  * @param {function} [callback] Function to be called when successful response comes 
  */
-Collection.update = function(projectId, collection, name, description, callback){
+Collection.update = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.update';
 	var params = {
@@ -589,29 +594,37 @@ Collection.update = function(projectId, collection, name, description, callback)
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
-	if(typeof name !== 'undefined' && name !== null){
-		params.name = name;
-	}
-	if(typeof description !== 'undefined' && description !== null){
-		params.name = description;
+	if(isset(optionalParams)){
+		if(isset(optionalParams.name)){
+			params.name = optionalParams.name;
+		}
+		if(isset(optionalParams.description)){
+			params.description = optionalParams.description;
+		}
 	}
 	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };
 
 
 /**
- * Add a tag to specific event.
- * Note: tags are case sensitive. 
+ *  Add a tag to specific event.
+ *  Note: tags are case sensitive. Non-ascii characters are not allowed.
  * 
- * @method Collection.addTag
- * @param {number} projectId Project id
- * @param {string / Number} collection Either collection id (number) or key (string)
- * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
- * @param {float} [weight] Tags weight. Default value = 1
- * @param {boolean} [removeOther] If true, will remove all other tags of specified collection. Default value: False
- * @param {function} [callback] Function to be called when successful response comes 
+ *  @method Collection.addTag
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {float} [optionalParams.weight] Tags weight. Default value = 1
+ *  @param {boolean} [optionalParams.removeOther] If true, will remove all other tags of specified collection. Default value: False
+ *  @param {function} [callback] Function to be called when successful response comes 
  */
-Collection.addTag = function(projectId, collection, tags, weight, removeOther, callback){
+Collection.addTag = function(projectId, collection, tags, optionalParams, callback){
+	if(typeof arguments[3] === 'function'){
+		callback = arguments[3];
+		optionalParams = undefined;
+	}
+
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.add_tag';
 	var params = {
@@ -620,7 +633,7 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
 	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
-		throw new Error('Collection.addTag - tags must be passed');
+		throw new Error(method + ': tags must be passed');
 	}
 	
 	/**
@@ -633,12 +646,19 @@ Collection.addTag = function(projectId, collection, tags, weight, removeOther, c
 		testTagString = tags.join(',');
 	}
 	if(!/^[\000-\177]*$/.test(testTagString)){
-		throw new Error('Collection.addTag - non ascii characters found in tag name');
+		throw new Error(method + ': non ascii characters found in tag name');
 	}
 	
 	params.tags = tags;
-	params.weight = weight || 1;
-	params.remove_other = !!removeOther || false;
+	
+	if(isset(optionalParams)){
+		if(isset(optionalParams.weight)){
+			params.weight = optionalParams.weight;
+		}
+		if(isset(optionalParams.removeOther)){
+			params.remove_other = !!optionalParams.removeOther;
+		}
+	}
 	
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
@@ -663,7 +683,7 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
 	params = this.__super__.__addCollectionIdentifier(params, collection);
 	
 	if(typeof tags !== 'string' && !(typeof tags === 'object' && typeof tags.length !== 'undefined')){
-		throw new Error('Collection.deleteTag - tags must be passed');
+		throw new Error(method + ': tags must be passed');
 	}
 	
 	/**
@@ -676,7 +696,7 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
 		testTagString = tags.join(',');
 	}
 	if(!/^[\000-\177]*$/.test(testTagString)){
-		throw new Error('Collection.deleteTag - non ascii characters found in tag name');
+		throw new Error(method + ': non ascii characters found in tag name');
 	}
 	
 	params.tags = tags;
@@ -1765,7 +1785,7 @@ User.delete = function(user, callback){
 	} else if(typeof user === 'string'){
 		params.user_name = user;
 	}
-	this.__super__.__sendWithCallback(method, params, true, callback);
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 /**
@@ -2020,7 +2040,7 @@ Notification.send = function(optionalParams, callback){
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, true, callback);
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 

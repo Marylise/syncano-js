@@ -49,7 +49,7 @@ Notification.send = function(optionalParams, callback){
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, true, callback);
+	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
 
