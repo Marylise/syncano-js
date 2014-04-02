@@ -8,9 +8,11 @@ var lastUID = 0;
 
 
 /**
- * Register specified function as a callback for given message
- * @param {string} message - message identifier
- * @param {function} callback - function to call when message is triggered
+ *  Register specified function as a callback for given message
+ * 
+ *  @method on
+ *  @param {string} message Message identifier
+ *  @param {function} callback Function to call when message is triggered
  */
 PubSub.on = function(message, callback){
 	if(typeof callback !== 'function'){
@@ -28,9 +30,36 @@ PubSub.on = function(message, callback){
 
 
 /**
- * Does message have subscribers?
- * @param {string} message - message identifier
- * @return: boolean
+ *  Register specified function as a one-time callback (release it after the first run)
+ *
+ *  @method once
+ *  @param {string} message Message identifier
+ *  @param {function} callback Function to call when message is triggered
+ */
+PubSub.once = function(message, callback){
+	if(typeof callback !== 'function'){
+		return false;
+	}
+	
+	if(!messages.hasOwnProperty(message)){
+		messages[message] = {};
+	}
+	
+	var token = 'uid_' + (++lastUID);
+	messages[message][token] = function(){
+		delete messages[message][token];
+		callback();
+	};
+	return token;
+};
+
+
+/**
+ *  Does message have subscribers?
+ *
+ *  @method hasSubscribers
+ *  @param {string} message - message identifier
+ *  @return: boolean
  */
 PubSub.hasSubscribers = function(message){
 	if(typeof message !== 'string'){
@@ -44,9 +73,11 @@ PubSub.hasSubscribers = function(message){
 
 
 /**
- * Remove specified function callback. If no func is given, removes all callbacks for given message
- * @param {string} message - message identifier
- * @param {function} func - function to remove
+ *  Remove specified function callback. If no func is given, removes all callbacks for given message
+ *
+ *  @method off
+ *  @param {string} message - message identifier
+ *  @param {function} func - function to remove
  */
 PubSub.off = function(message, func){
 	if(message === 'all'){
@@ -71,9 +102,11 @@ PubSub.off = function(message, func){
 
 
 /**
- * Calls asynchronically all registered functions for given message. Shortcut method for doTrigger(message, false)
- * @param {string} message - message identifier
- * @return: boolean (true = success, false = fail)
+ *  Calls asynchronically all registered functions for given message. Shortcut method for doTrigger(message, false)
+ *
+ *  @method trigger
+ *  @param {string} message - message identifier
+ *  @return: boolean (true = success, false = fail)
  */
 PubSub.trigger = function(message){
 	return PubSub.doTrigger(message, false, Array.prototype.slice.call(arguments, 1));
@@ -81,8 +114,10 @@ PubSub.trigger = function(message){
 
 
 /**
- * Calls synchronically all registered functions for given message. Shortcut method for doTrigger(message, true)
- * @param {string} message - message identifier 
+ *  Calls synchronically all registered functions for given message. Shortcut method for doTrigger(message, true)
+ *
+ *  @method triggerSync
+ *  @param {string} message - message identifier 
  */
 PubSub.triggerSync = function(message){
 	return PubSub.doTrigger(message, true, Array.prototype.slice.call(arguments, 1));
@@ -90,9 +125,11 @@ PubSub.triggerSync = function(message){
 
 
 /**
- * Calls all registered functions for given message
- * @param {string} message - message identifier
- * @param {boolean} sync - true for synchronous calls, false for asynchronous
+ *  Calls all registered functions for given message
+ *
+ *  @method doTrigger
+ *  @param {string} message - message identifier
+ *  @param {boolean} sync - true for synchronous calls, false for asynchronous
  */
 PubSub.doTrigger = function(message, sync){
 	var list, uuid, func;
