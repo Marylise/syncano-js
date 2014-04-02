@@ -52,6 +52,8 @@ var Syncano = function(){
 	this.User.__super__ = this;
 	this.Subscription = Subscription;
 	this.Subscription.__super__ = this;
+	this.Identity = Identity;
+	this.Identity.__super__ = this;
 };
 
 
