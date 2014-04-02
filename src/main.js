@@ -54,6 +54,8 @@ var Syncano = function(){
 	this.Subscription.__super__ = this;
 	this.Identity = Identity;
 	this.Identity.__super__ = this;
+	this.Notification = Notification;
+	this.Notification.__super__ = this;
 };
 
 
@@ -152,6 +154,10 @@ Syncano.prototype.onMessage = function(e){
 			this.parseCallResponse(data);
 			break;
 			
+		case 'message':
+			this.parseMessageNotifier(data);
+			break;
+			
 		case 'new':
 			this.parseNewRecordNotifier(data);
 			break;
@@ -175,12 +181,12 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 
 
 /**
- *  When message with type 'new' comes, we triggers 3 events: one for the project (syncano:newdata:project-ID), 
+ *  When message with type 'new' comes, we trigger 3 events: one for the project (syncano:newdata:project-ID), 
  *  one for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).
  *  You can handle any of them.
  *  
  *  @method parseNewRecordNotifier
- *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
  */
 Syncano.prototype.parseNewRecordNotifier = function(rec){
 	var projectId = rec.channel.project_id | 0;
@@ -192,6 +198,16 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
 	}
 	this.trigger('syncano:newdata:project-' + projectId, recData);
 	this.trigger('syncano:newdata:collection-' + collectionId, recData);
+};
+
+/**
+ *  When message with type 'message' comes, just trigger event with data passed
+ *
+ *  @method parseMessageNotifier
+ *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+Syncano.prototype.parseMessageNotifier = function(data){
+	this.trigger('syncano:message', data);
 };
 
 

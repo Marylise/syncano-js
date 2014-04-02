@@ -20,6 +20,7 @@
 	<script type="text/javascript" charset="utf-8" src="../src/user.js"></script>
 	<script src="../src/subscriptions.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../src/identities.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/notifications.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8" src="../src/main.js"></script>
 	<script>
 	
@@ -35,10 +36,14 @@
 	
 	var projectId = 6827;
 	var collectionKey = 'default';
-	
-	s.Identity.update("92294da6-ba38-11e3-94d9-60a44ce8b146", {
-	}, function(res){
-		console.log(res);
+
+	s.Notification.getHistory({
+		order: 'desc',
+		limit: 3
+	}, function(d){
+		d.forEach(function(i){
+			console.log(i);
+		})
 	});
 	
 	</script>

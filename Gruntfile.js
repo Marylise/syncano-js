@@ -20,6 +20,7 @@ module.exports = function(grunt) {
 		  'src/user.js',
 		  'src/subscriptions.js',
 		  'src/identities.js',
+		  'src/notifications.js',
           'src/main.js',
           'src/_outro.js'
         ],

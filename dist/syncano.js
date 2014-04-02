@@ -882,7 +882,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  @param {string / Array} [optionalParams.dataIds] If specified, will return data objects with specified ids. Note: has no effect on returned data object's children. Max 100 values per request 
  *  @param {string} [optionalParams.state] State of data to be returned. Accepted values: Pending, Moderated, Rejected, All. Default value: All.
  *  @param {string / Array} [optionalParams.folders] Folder name that data will be returned from. Max 100 values per request. If not presents returns data from across all collection folders
- *  @param {string} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object's children
+ *  @param {number} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object's children
  *  @param {string} [optionalParams.sinceTime] String with date. If specified, will only return data with created_at or updated_at time after specified value (newer). Note: has no effect on returned data object's children
  *  @param {number} [optionalParams.maxId] If specified, will only return data with id lower than max_id (older)
  *  @param {number} [optionalParams.limit] Number of Data Objects to be returned. Default and max value: 100 
@@ -1908,6 +1908,125 @@ Identity.update = function(uuid, optionalParams, callback){
 	this.__super__.__sendWithCallback(method, params, 'identity', callback);
 };
 
+var Notification = {};
+
+
+/**
+ *  Sends custom notification to API client through Sync Server. If uuid is specified - will only send to this specific instance.
+ *
+ *  @method Notification.send
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {number} [optionalParams.apiClientId] Destination API client id. If not specified, will use current API client
+ *  @param {string} [optionalParams.uuid] UUID of client identity. If not specified, will send a broadcast to all API client identities within current instance
+ *  @param {object} [optionalParams.data] Additional key-value parameters to be sent.
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Notification.send = function(optionalParams, callback){
+	if(typeof arguments[0] === 'function'){
+		callback = arguments[0];
+		optionalParams = undefined;
+	}
+	var method = 'notification.send';
+	var params = {};
+	
+	if(isset(optionalParams)){
+		if(isset(optionalParams.apiClientId)){
+			if(isNumber(optionalParams.apiClientId)){
+				params.api_client_id = optionalParams.apiClientId;
+			} else {
+				throw new Error(method + ': apiClientId must be a number');
+			}
+		}
+		
+		if(isset(optionalParams.uuid)){
+			if(typeof optionalParams.uuid === 'string'){
+				params.uuid = optionalParams.uuid;
+			} else {
+				throw new Error(method + ': uuid must be a string');
+			}
+		}
+		
+		if(isset(optionalParams.data)){
+			for(var key in optionalParams.data){
+				if(optionalParams.data.hasOwnProperty(key)){
+					var val = optionalParams.data[key];
+					if(inArray(key, ['apiClientId', 'api_client_id', 'uuid'])){
+						throw new Error(method + ': Cannot send custom param named ' + key);
+					}
+					params[key] = val;
+				}
+			}
+		}
+	}
+	
+	this.__super__.__sendWithCallback(method, params, true, callback);
+};
+
+
+/**
+ *  Get history of notifications of specified API client. History items are stored for 24 hours
+ *
+ *  @method Notification.getHistory
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {number} [optionalParams.apiClientId] Client id. If not specified, will return history of current API client.
+ *  @param {number} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer).
+ *  @param {string} [optionalParams.sinceTime] String with date. If specified, will only return data with timestamp after specified value (newer).
+ *  @param {number} [optionalParams.limit] Maximum number of history items to get. Default and max: 100
+ *  @param {string} [optionalParams.order] Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Notification.getHistory = function(optionalParams, callback){
+	if(typeof arguments[0] === 'function'){
+		callback = arguments[0];
+		optionalParams = undefined;
+	}
+	var method = 'notification.get_history';
+	var params = {};
+	
+	if(isset(optionalParams)){
+		if(isset(optionalParams.apiClientId)){
+			if(isNumber(optionalParams.apiClientId)){
+				params.api_client_id = optionalParams.apiClientId;
+			} else {
+				throw new Error(method + ': apiClientId must be a number');
+			}
+		}
+		
+		/**
+		 *  these optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error
+		 */
+		var numericParams = ['limit', 'sinceId'];
+		for(var i=0; i<numericParams.length; i++){
+			var numParam = numericParams[i];
+			if(isset(optionalParams[numParam])){
+				if(isNumber(optionalParams[numParam])){
+					params[uncamelize(numParam)] = optionalParams[numParam];
+				} else {
+					throw new Error(method + ': ' + numParam + ' must be a number');
+				}
+			}
+		}
+		
+		if(isset(optionalParams.sinceTime)){
+			if(isDate(optionalParams.sinceTime)){
+				params.since_time = optionalParams.sinceTime;
+			} else {
+				throw new Error(method + ': sinceTime must be a proper date string');
+			}
+		}
+		
+		if(isset(optionalParams.order)){
+			if(inArray(optionalParams.order.toLowerCase(), ['asc', 'desc'])){
+				params.order = optionalParams.order;
+			} else {
+				throw new Error(method + ': incorrect value of order param - only "asc" and "desc" are allowed');
+			}
+		}
+	}
+	
+	this.__super__.__sendWithCallback(method, params, 'history', callback);
+};
+
 /**
  *  
  */
@@ -1964,6 +2083,8 @@ var Syncano = function(){
 	this.Subscription.__super__ = this;
 	this.Identity = Identity;
 	this.Identity.__super__ = this;
+	this.Notification = Notification;
+	this.Notification.__super__ = this;
 };
 
 
@@ -2062,6 +2183,10 @@ Syncano.prototype.onMessage = function(e){
 			this.parseCallResponse(data);
 			break;
 			
+		case 'message':
+			this.parseMessageNotifier(data);
+			break;
+			
 		case 'new':
 			this.parseNewRecordNotifier(data);
 			break;
@@ -2085,12 +2210,12 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
 
 
 /**
- *  When message with type 'new' comes, we triggers 3 events: one for the project (syncano:newdata:project-ID), 
+ *  When message with type 'new' comes, we trigger 3 events: one for the project (syncano:newdata:project-ID), 
  *  one for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).
  *  You can handle any of them.
  *  
  *  @method parseNewRecordNotifier
- *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
  */
 Syncano.prototype.parseNewRecordNotifier = function(rec){
 	var projectId = rec.channel.project_id | 0;
@@ -2102,6 +2227,16 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
 	}
 	this.trigger('syncano:newdata:project-' + projectId, recData);
 	this.trigger('syncano:newdata:collection-' + collectionId, recData);
+};
+
+/**
+ *  When message with type 'message' comes, just trigger event with data passed
+ *
+ *  @method parseMessageNotifier
+ *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+Syncano.prototype.parseMessageNotifier = function(data){
+	this.trigger('syncano:message', data);
 };
 
 
