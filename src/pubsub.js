@@ -49,6 +49,9 @@ PubSub.hasSubscribers = function(message){
  * @param {function} func - function to remove
  */
 PubSub.off = function(message, func){
+	if(message === 'all'){
+		messages = {};
+	}
 	if(!this.hasSubscribers(message)){
 		return false;
 	}

@@ -32,19 +32,21 @@
 	s.connect({
 		instance: 'develjs',
 		api_key: '2a8fac000d915af306dfc0e8df835619c5445e72'
+	}, function(data){
+		console.log(data);
 	});
 	
 	var projectId = 6827;
 	var collectionKey = 'default';
 
-	s.Notification.getHistory({
+/*	s.Notification.getHistory({
 		order: 'desc',
 		limit: 3
 	}, function(d){
 		d.forEach(function(i){
 			console.log(i);
 		})
-	});
+	});*/
 	
 	</script>
 </body>

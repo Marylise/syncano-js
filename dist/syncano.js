@@ -205,6 +205,9 @@ PubSub.hasSubscribers = function(message){
  * @param {function} func - function to remove
  */
 PubSub.off = function(message, func){
+	if(message === 'all'){
+		messages = {};
+	}
 	if(!this.hasSubscribers(message)){
 		return false;
 	}
@@ -335,7 +338,7 @@ Project.get = function(callback){
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
 	var method = 'project.get_one';
-	this.__super__.__sendWithCallback(method, {id:id}, 'project', callback);
+	this.__super__.__sendWithCallback(method, {project_id: id}, 'project', callback);
 };
 	
 
@@ -354,7 +357,9 @@ Project.update = function(id, name, description, callback){
 		return false;
 	}
 	var method = 'project.update';
-	var params = {};
+	var params = {
+		project_id: id
+	};
 	if(name){
 		params.name = name;
 	}
