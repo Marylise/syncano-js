@@ -6,7 +6,7 @@ dist/
 logs/
 log/
 results/
-
+docs/
 *.seed
 *.log
 *.csv
