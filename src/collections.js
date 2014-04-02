@@ -10,22 +10,25 @@ var Collection = {};
  *  @method Collection.new
  *  @param {number} projectId Project id that collection will be created for
  *  @param {string} name New collections name
- *  @param {string} [key] New collections key
- *  @param {string} [description] New collection's description
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {string} [optionalParams.key] New collections key
+ *  @param {string} [optionalParams.description] New collection's description
  *  @param {function} [callback] Function to be called when successful response comes
  */
-Collection.new = function(projectId, name, key, description, callback){
+Collection.new = function(projectId, name, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.new';
 	var params = {
 		name: name,
 		project_id: projectId
 	};
-	if(typeof description !== 'undefined' && description !== null){
-		params.description = description;
-	}
-	if(typeof key !== 'undefined' && key !== null){
-		params.key = key;
+	if(isset(optionalParams)){
+		if(isset(optionalParams.description)){
+			params.description = optionalParams.description;
+		}
+		if(isset(optionalParams.key)){
+			params.key = optionalParams.key;
+		}
 	}
 	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };
@@ -34,24 +37,32 @@ Collection.new = function(projectId, name, key, description, callback){
 /**
  *  Get collections from specified project
  *
- * @method Collection.get
- * @param {number} projectId Project id
- * @param {string} status Status of events to list. Accepted values: active, inactive, all. Default value: all
- * @param {string / Array} withTags If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
- * @param {function} [callback] Function to be called when successful response comes
+ *  @method Collection.get
+ *  @param {number} projectId Project id
+ *  @param {object} [optionalParams] Optional parameters:
+ *  @param {string} [optionalParams.status] Status of events to list. Accepted values: active, inactive, all. Default value: all
+ *  @param {string / Array} [optionalParams.withTags] If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
+ *  @param {function} [callback] Function to be called when successful response comes
  */
-Collection.get = function(projectId, status, withTags, callback){
+Collection.get = function(projectId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.get';
 	var params = {
 		project_id: projectId
 	};
-	if(typeof status === 'undefined' || status === null){
-		params.status = 'all';
-	}
 	
-	if(typeof withTags !== 'undefined' && withTags !== null){
-		params.with_tags = withTags;
+	if(isset(optionalParams)){
+		if(isset(optionalParams.status)){
+			if(inArray(optionalParams.status.toLowerCase(), ['all', 'active', 'inactive'])){
+				params.status = optionalParams.status;
+			} else {
+				throw new Error(method + ': status must be one of the values: "active", "inactive", "all"');
+			}
+		}
+		
+		if(isset(optionalParams.withTags)){
+			params.with_tags = optionalParams.withTags;
+		}
 	}
 	this.__super__.__sendWithCallback(method, params, 'collection', callback);
 };

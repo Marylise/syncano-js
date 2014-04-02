@@ -135,7 +135,7 @@ Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
 	if(data.result === 'NOK'){
-		this.trigger('syncano:error', data.data.error);
+		this.trigger('syncano:error', data.error || data.data.error);
 		if(data.type === 'auth'){
 			this.socket.close();
 			this.trigger('syncano:auth:error');
@@ -322,10 +322,10 @@ Syncano.prototype.__checkProjectId = function(projectId){
  *  Internal method to check the variable name (string or number) and add correct key to passed object
  */
 Syncano.prototype.__addCollectionIdentifier = function(params, collection){
-	if(typeof collection == 'string'){
-		params.collection_key = collection;
-	} else if (typeof collection == 'number'){
+	if (typeof collection === 'number'){
 		params.collection_id = collection;
+	} else if(typeof collection === 'string'){
+		params.collection_key = collection;
 	} else {
 		throw new Error('Collection key/id must be passed');
 	}

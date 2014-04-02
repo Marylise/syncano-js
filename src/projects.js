@@ -9,16 +9,23 @@ var Project = {};
  * 
  * @method Project.new
  * @param {string} name Name of the project
- * @param {string} description Short description of the project
+ * @param {string} [description] Short description of the project
  * @param {function} [callback] Function to be called when successful response comes
  */
 Project.new = function(name, description, callback){
 	var method = 'project.new';
 	
+	if(!isset(name)){
+		throw new Error(method + ': name must be defined');
+	}
+	
 	var params = {
 		name: name,
-		description: description
 	};
+	
+	if(isset(description)){
+		params.description = description;
+	}
 	this.__super__.__sendWithCallback(method, params, 'project', callback);
 };
 	
