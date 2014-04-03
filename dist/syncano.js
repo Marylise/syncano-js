@@ -1264,7 +1264,7 @@ Data.copy = function(projectId, collection, dataId, callback){
 
 	if(isNumber(dataId)){
 		params.data_ids = [String(dataId)];
-	} else if(typeof dataId.length === 'object'){
+	} else if(typeof dataId === 'object'){
 		params.data_ids = [];
 		for(var i=0; i<dataId.length; i++){
 			if(!isNumber(dataId[i])){
@@ -1348,6 +1348,8 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 	
 	if(isset(parentId) && isNumber(parentId)){
 		params.parent_id = parentId;
+	} else {
+		throw new Error('parentId must be passed');
 	}
 	
 	this.__super__.__sendWithCallback(method, params, null, callback);

@@ -620,6 +620,120 @@
 			});
 		});
 		
+		describe('addParent', function(){
+			it('should not add parent when projectId is not given', function(){
+				try {
+					s.Data.addParent();
+				} catch(err){
+					err.message.should.equal('projectId must be a number');
+				}
+			});
+			
+			it('should not add parent when collectionId is not given', function(){
+				try {
+					s.Data.addParent(projectId);
+				} catch(err){
+					err.message.should.equal('Collection key/id must be passed');
+				}
+			});
+			
+			it('should not add parent when dataId is not given', function(){
+				try {
+					s.Data.addParent(projectId, collectionId);
+				} catch(err){
+					err.message.should.equal('dataId must be passed');
+				}
+			});
+			
+			it('should not add parent when dataId is not number', function(){
+				try {
+					s.Data.addParent(projectId, collectionId, 'test');
+				} catch(err){
+					err.message.should.equal('dataId must be passed');
+				}
+			});
+			
+			it('should not add parent when parentId is not given', function(){
+				try {
+					s.Data.addParent(projectId, collectionId, dataIds[0]);
+				} catch(err){
+					err.message.should.equal('parentId must be passed');
+				}
+			});
+			
+			it('should not add parent when parentId is not number', function(){
+				try {
+					s.Data.addParent(projectId, collectionId, dataIds[0], 'test');
+				} catch(err){
+					err.message.should.equal('parentId must be passed');
+				}
+			});
+			
+			it('should add parent', function(done){
+				s.Data.addParent(projectId, collectionId, dataIds[0], dataIds[dataIds.length - 1], false, function(res){
+					res.should.equal(true);
+					done();
+				});
+			});
+		});
+		
+		describe('removeParent', function(){
+			it('should not remove parent when projectId is not given', function(){
+				try {
+					s.Data.removeParent();
+				} catch(err){
+					err.message.should.equal('projectId must be a number');
+				}
+			});
+			
+			it('should not remove parent when collectionId is not given', function(){
+				try {
+					s.Data.removeParent(projectId);
+				} catch(err){
+					err.message.should.equal('Collection key/id must be passed');
+				}
+			});
+			
+			it('should not remove parent when dataId is not given', function(){
+				try {
+					s.Data.removeParent(projectId, collectionId);
+				} catch(err){
+					err.message.should.equal('dataId must be passed');
+				}
+			});
+			
+			it('should not remove parent when dataId is not number', function(){
+				try {
+					s.Data.removeParent(projectId, collectionId, 'test');
+				} catch(err){
+					err.message.should.equal('dataId must be passed');
+				}
+			});
+			
+			it('should not remove parent when parentId is not given', function(){
+				try {
+					s.Data.removeParent(projectId, collectionId, dataIds[0]);
+				} catch(err){
+					err.message.should.equal('parentId must be passed');
+				}
+			});
+			
+			it('should not remove parent when parentId is not number', function(){
+				try {
+					s.Data.removeParent(projectId, collectionId, dataIds[0], 'test');
+				} catch(err){
+					err.message.should.equal('parentId must be passed');
+				}
+			});
+			
+			it('should remove parent', function(done){
+				s.Data.removeParent(projectId, collectionId, dataIds[0], dataIds[dataIds.length - 1], function(res){
+					res.should.equal(true);
+					done();
+				});
+			});
+		});
+		
 		describe('setup - finish', function(){
 			it('should remove created collection', function(done){
 				s.Collection.delete(projectId, collectionId, function(rec){
