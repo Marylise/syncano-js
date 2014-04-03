@@ -834,6 +834,103 @@
 			});
 		});
 		
+		describe('delete', function(){
+			it('should not delete when projectId is not given', function(){
+				try {
+					s.Data.delete();
+				} catch(err){
+					err.message.should.equal('projectId must be a number');
+				}
+			});
+			
+			it('should not delete when collectionId is not given', function(){
+				try {
+					s.Data.delete(projectId);
+				} catch(err){
+					err.message.should.equal('Collection key/id must be passed');
+				}
+			});
+			
+			it('should not delete when wrong state is given', function(){
+				try {
+					s.Data.delete(projectId, collectionId, {state: 'awesome'});
+				} catch(err){
+					err.message.should.equal('incorrect value of state param');
+				}
+			});
+			
+			it('should not delete when wrong filter is given', function(){
+				try {
+					s.Data.delete(projectId, collectionId, {filter: 'both'});
+				} catch(err){
+					err.message.should.equal('incorrect value of filter param - only "text" and "image" are allowed');
+				}
+			});
+			
+			it('should not delete when wrong limit is given', function(){
+				try {
+					s.Data.delete(projectId, collectionId, {limit: 'large'});
+				} catch(err){
+					err.message.should.equal('limit must be a number');
+				}
+			});
+			
+			it('should delete single record', function(done){
+				s.Data.delete(projectId, collectionId, {dataIds: dataIds[0]}, function(res){
+					res.should.equal(true);
+					done();
+				});
+			});
+			
+			it('should delete everything left when no filters are given', function(done){
+				s.Data.delete(projectId, collectionId, {}, function(res){
+					res.should.equal(true);
+					done();
+				});
+			});
+		});
+		
+		describe('count', function(){
+			it('should not count when projectId is not given', function(){
+				try {
+					s.Data.count();
+				} catch(err){
+					err.message.should.equal('projectId must be a number');
+				}
+			});
+			
+			it('should not count when collectionId is not given', function(){
+				try {
+					s.Data.count(projectId);
+				} catch(err){
+					err.message.should.equal('Collection key/id must be passed');
+				}
+			});
+			
+			it('should not count when state is incorrect', function(){
+				try {
+					s.Data.count(projectId, collectionId, {state: 'awesome'});
+				} catch(err){
+					err.message.should.equal('incorrect value of state param');
+				}
+			});
+			
+			it('should not count when filter is incorrect', function(){
+				try {
+					s.Data.count(projectId, collectionId, {filter: 'awesome'});
+				} catch(err){
+					err.message.should.equal('incorrect value of filter param - only "text" and "image" are allowed');
+				}
+			});
+			
+			it('should count items', function(done){
+				s.Data.count(projectId, collectionId, {}, function(res){
+					res.should.equal(0);
+					done();
+				});
+			});
+		});
+		
 		describe('setup - finish', function(){
 			it('should remove created collection', function(done){
 				s.Collection.delete(projectId, collectionId, function(rec){
