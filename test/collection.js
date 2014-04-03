@@ -125,34 +125,6 @@
 
 
 		/**
-		 *   getOne
-		 */
-		describe('getOne', function(){
-			it('should get created collection by key', function(done){
-				s.Collection.getOne(projectId, collectionKey, function(rec){
-					var id = rec.id | 0;
-					id.should.equal(collectionId);
-					done();
-				});
-			});
-
-
-			it('should get created collection by id', function(done){
-				s.Collection.getOne(projectId, collectionId, function(rec){
-					var id = rec.id | 0;
-					id.should.equal(collectionId);
-					done();
-				});
-			});
-
-
-		    it('should trigger event on collection get', function(){
-				lastEvt()[0].should.equal('syncano:collection:get_one');
-		    });
-		});
-
-
-		/**
 		 *   activate
 		 */
 		describe('activate', function(){
@@ -185,7 +157,35 @@
 					res.should.equal(true);
 					done();
 				});
-			})
+			});
+		});
+
+
+		/**
+		 *   getOne
+		 */
+		describe('getOne', function(){
+			it('should get created collection by key', function(done){
+				s.Collection.getOne(projectId, collectionKey, function(rec){
+					var id = rec.id | 0;
+					id.should.equal(collectionId);
+					done();
+				});
+			});
+
+
+			it('should get created collection by id', function(done){
+				s.Collection.getOne(projectId, collectionId, function(rec){
+					var id = rec.id | 0;
+					id.should.equal(collectionId);
+					done();
+				});
+			});
+
+
+		    it('should trigger event on collection get', function(){
+				lastEvt()[0].should.equal('syncano:collection:get_one');
+		    });
 		});
 
 
