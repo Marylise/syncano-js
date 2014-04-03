@@ -472,11 +472,9 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 	} else {
 		throw new Error('dataId must be passed');
 	}
-	
+
 	if(isset(parentId) && isNumber(parentId)){
 		params.parent_id = parentId;
-	} else {
-		throw new Error('parentId must be passed');
 	}
 	
 	this.__super__.__sendWithCallback(method, params, null, callback);
