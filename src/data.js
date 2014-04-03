@@ -47,12 +47,11 @@ Data.new = function(projectId, collection, optionalParams, callback){
 				}
 			}
 		}
-		
 		if(isset(optionalParams.parentId)){
 			if(isNumber(optionalParams.parentId)){
-				throw new Error('parentId must be a number');
-			} else {
 				params.parent_id = optionalParams.parentId;
+			} else {
+				throw new Error('parentId must be a number');
 			}
 		}
 		
@@ -273,9 +272,9 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 		
 		if(isset(optionalParams.parentId)){
 			if(isNumber(optionalParams.parentId)){
-				throw new Error('parentId must be a number');
-			} else {
 				params.parent_id = optionalParams.parentId;
+			} else {
+				throw new Error('parentId must be a number');
 			}
 		}
 		
@@ -298,7 +297,6 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  @method Data.move 
  *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id or key
- *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {object} [optionalParams] Object with additional parameters
  *  @param {string} [optionalParams.dataIds] If specified, will filter by Data id or ids. Max 100 ids per request.
  *  @param {string} [optionalParams.folders] If specified, filter by specified folder or folders. Max 100 values per request.
@@ -310,7 +308,7 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  @param {string} [optionalParams.newState] State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.
  *  @param {function} [callback] Function to be called when successful response comes
  */
-Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callback){
+Data.move = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.move';
@@ -318,14 +316,6 @@ Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callbac
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
-	
-	if(typeof dataKeyOrId === 'string'){
-		params.data_key = dataKeyOrId;
-	} else if (typeof dataKeyOrId == 'number'){
-		params.data_id = dataKeyOrId;
-	} else {
-		throw new Error('Data key/id must be passed');
-	}
 	
 	if(isset(optionalParams)){
 		/**
@@ -365,9 +355,9 @@ Data.move = function(projectId, collection, dataKeyOrId, optionalParams, callbac
 		
 		if(isset(optionalParams.limit)){
 			if(isNumber(optionalParams.limit)){
-				throw new Error('limit must be a number');
-			} else {
 				params.limit = optionalParams.limit;
+			} else {
+				throw new Error('limit must be a number');
 			}
 		}
 	}
@@ -390,20 +380,28 @@ Data.copy = function(projectId, collection, dataId, callback){
 	
 	var method = 'data.copy';
 	var params = {
-		project_id: projectId
+		project_id: projectId,
+		data_ids: []
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(!isset(dataId)){
+		throw new Error('dataId must be set');
+	}
+
 	if(isNumber(dataId)){
-		params.data_ids = [dataId + ''];
-	} else if(typeof dataId.length !== 'undefined'){
+		params.data_ids = [String(dataId)];
+	} else if(typeof dataId.length === 'object'){
 		params.data_ids = [];
 		for(var i=0; i<dataId.length; i++){
 			if(!isNumber(dataId[i])){
 				throw new Error('dataId must be integer or array of integers');
 			} else {
-				params.data_ids.push(dataId[i] + '');
+				params.data_ids.push(String(dataId[i]));
 			}
 		}
+	} else {
+		throw new Error('dataId must be integer or array of integers');
 	}
 
 	this.__super__.__sendWithCallback(method, params, 'data', callback);

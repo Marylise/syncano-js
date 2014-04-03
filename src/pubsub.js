@@ -46,9 +46,9 @@ PubSub.once = function(message, callback){
 	}
 	
 	var token = 'uid_' + (++lastUID);
-	messages[message][token] = function(){
+	messages[message][token] = function(param){
 		delete messages[message][token];
-		callback();
+		callback(param);
 	};
 	return token;
 };
