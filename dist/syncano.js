@@ -1909,25 +1909,25 @@ Subscription.get = function(apiId, callback){
 	this.__super__.__sendWithCallback(method, params, 'subscription', callback);
 };
 
-var Identity = {};
+var Connection = {};
 
 /**
- *  Get currently connected API client identities up to limit (max 100). 
+ *  Get currently connected API client connections up to limit (max 100).
  *
- *  @method Identity.get
+ *  @method Connection.get
  *  @param {object} [optionalParams] Optional parameters:
- *  @param {number} [optionalParams.apiClientId] API client id. If not specified, will get identities for current API client
- *  @param {string} [optionalParams.name] If specified, will only return identities of specified name.
+ *  @param {number} [optionalParams.apiClientId] API client id. If not specified, will get connections for current API client
+ *  @param {string} [optionalParams.name] If specified, will only return connections of specified name.
  *  @param {number} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer).
- *  @param {number} [optionalParams.limit] Maximum number of API client identities to get. Default and max: 100
+ *  @param {number} [optionalParams.limit] Maximum number of API client connections to get. Default and max: 100
  *  @param {function} [callback] Function to be called when successful response comes
  */
-Identity.get = function(optionalParams, callback){
+Connection.get = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){
 		callback = arguments[0];
 		optionalParams = undefined;
 	}
-	var method = 'identity.get';
+	var method = 'connection.get';
 	var params = {};
 	
 	if(isset(optionalParams)){
@@ -1952,27 +1952,27 @@ Identity.get = function(optionalParams, callback){
 			}
 		}
 	}
-	this.__super__.__sendWithCallback(method, params, 'identity', callback);
+	this.__super__.__sendWithCallback(method, params, 'connection', callback);
 };
 
 
 /**
- *  Updates specified API client identity.
+ *  Updates specified API client connection info.
  *
- *  @method Identity.update
+ *  @method Connection.update
  *  @param {string} uuid Identity UUID
  *  @param {object} [optionalParams] Optional parameters:
- *  @param {number} [optionalParams.apiClientId] API client id. If not specified, will query current API client identities
- *  @param {string} [optionalParams.name] New identity name to set.
+ *  @param {number} [optionalParams.apiClientId] API client id. If not specified, will query current API client connections
+ *  @param {string} [optionalParams.name] New connection name to set.
  *  @param {string} [optionalParams.state] New state to set
  *  @param {function} [callback] Function to be called when successful response comes
  */
-Identity.update = function(uuid, optionalParams, callback){
+Connection.update = function(uuid, optionalParams, callback){
 	if(typeof arguments[1] === 'function'){
 		callback = arguments[1];
 		optionalParams = undefined;
 	}
-	var method = 'identity.update';
+	var method = 'connection.update';
 	var params = {};
 	
 	if(!isset(uuid) || typeof uuid !== 'string'){
@@ -2008,7 +2008,7 @@ Identity.update = function(uuid, optionalParams, callback){
 		}
 	}
 	
-	this.__super__.__sendWithCallback(method, params, 'identity', callback);
+	this.__super__.__sendWithCallback(method, params, 'connection', callback);
 };
 
 var Notification = {};
@@ -2184,8 +2184,8 @@ var Syncano = function(){
 	this.User.__super__ = this;
 	this.Subscription = Subscription;
 	this.Subscription.__super__ = this;
-	this.Identity = Identity;
-	this.Identity.__super__ = this;
+	this.Connection = Connection;
+	this.Connection.__super__ = this;
 	this.Notification = Notification;
 	this.Notification.__super__ = this;
 };
