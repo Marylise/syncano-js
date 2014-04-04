@@ -11,6 +11,9 @@ var Notification = {};
  *  @param {object} [optionalParams.data] Additional key-value parameters to be sent.
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:notification:send
+ */
 Notification.send = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){
 		callback = arguments[0];
@@ -64,6 +67,9 @@ Notification.send = function(optionalParams, callback){
  *  @param {number} [optionalParams.limit] Maximum number of history items to get. Default and max: 100
  *  @param {string} [optionalParams.order] Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:notification:get_history
  */
 Notification.getHistory = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){

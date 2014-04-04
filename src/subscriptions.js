@@ -11,6 +11,9 @@ var Subscription = {};
  *  @param {number} projectId Project id
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:subscription:subscribe_project
+ */
 Subscription.subscribeProject = function(projectId, callback){
 	var method = 'subscription.subscribe_project';
 	if(!isset(projectId) || !isNumber(projectId)){
@@ -26,6 +29,9 @@ Subscription.subscribeProject = function(projectId, callback){
  *  @method Subscription.unsubscribeProject
  *  @param {number} projectId Project id
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:subscription:unsubscribe_project
  */
 Subscription.unsubscribeProject = function(projectId, callback){
 	var method = 'subscription.unsubscribe_project';
@@ -43,6 +49,9 @@ Subscription.unsubscribeProject = function(projectId, callback){
  *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:subscription:subscribe_collection
  */
 Subscription.subscribeCollection = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -64,6 +73,9 @@ Subscription.subscribeCollection = function(projectId, collection, callback){
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:subscription:unsubscribe_collection
+ */
 Subscription.unsubscribeCollection = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -82,6 +94,9 @@ Subscription.unsubscribeCollection = function(projectId, collection, callback){
  *  @method Subscription.get
  *  @param {string} [apiId] API client id defining client. If not present, gets subscriptions for current client
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:subscription:get
  */
 Subscription.get = function(apiId, callback){
 	if(typeof arguments[0] === 'function'){

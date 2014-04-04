@@ -11,6 +11,9 @@ var Connection = {};
  *  @param {number} [optionalParams.limit] Maximum number of API client connections to get. Default and max: 100
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:connection:get
+ */
 Connection.get = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){
 		callback = arguments[0];
@@ -55,6 +58,9 @@ Connection.get = function(optionalParams, callback){
  *  @param {string} [optionalParams.name] New connection name to set.
  *  @param {string} [optionalParams.state] New state to set
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:connection:update
  */
 Connection.update = function(uuid, optionalParams, callback){
 	if(typeof arguments[1] === 'function'){

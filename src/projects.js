@@ -12,6 +12,9 @@ var Project = {};
  * @param {string} [description] Short description of the project
  * @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:project:new
+ */
 Project.new = function(name, description, callback){
 	var method = 'project.new';
 	
@@ -36,6 +39,9 @@ Project.new = function(name, description, callback){
  *  @method Project.get
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:project:get
+ */
 Project.get = function(callback){
 	var method = 'project.get';
 	this.__super__.__sendWithCallback(method, {}, 'project', callback);
@@ -48,6 +54,9 @@ Project.get = function(callback){
  *  @method Project.getOne
  *  @param {number} id Project identifier
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:project:get_one
  */
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
@@ -64,6 +73,9 @@ Project.getOne = function(id, callback){
  *  @param {string} name Optional new name of the project
  *  @param {string} name Optional new description of the project
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:project:update
  */
 Project.update = function(id, name, description, callback){
 	this.__super__.__checkProjectId(id);
@@ -89,6 +101,9 @@ Project.update = function(id, name, description, callback){
  *
  *  @method Project.delete
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:project:delete
  */
 Project.delete = function(id, callback){
 	this.__super__.__checkProjectId(id);

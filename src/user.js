@@ -11,6 +11,9 @@ var User = {};
  *  @param {string} [nick] User's nick
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:new
+ */
 User.new = function(name, nick, callback){
 	var method = 'user.new';
 	var params = {};
@@ -33,6 +36,9 @@ User.new = function(name, nick, callback){
  *  @method User.getAll
  *  @param {number} sinceId If specified, will only return users with id higher than since_id (newer).
  *  @param {number} limit Number of users to be returned. Default and max value: 100
+ */
+/** 
+ *  @event syncano:user:get_all
  */
 User.getAll = function(sinceId, limit, callback){
 	var method = 'user.get_all';
@@ -76,6 +82,9 @@ User.getAll = function(sinceId, limit, callback){
  *  @param {string} [optionalParams.filter] TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:get
+ */
 User.get = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -118,6 +127,9 @@ User.get = function(projectId, collection, optionalParams, callback){
  *  @param {string / Number} user User id or name
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:get_one
+ */
 User.getOne = function(user, callback){
 	var method = 'user.get_one';
 	var params = {};
@@ -143,6 +155,9 @@ User.getOne = function(user, callback){
  *  @param {string / Number} user User id or name
  *  @param {string} [nick] User's nick
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:user:update
  */
 User.update = function(user, nick, callback){
 	var method = 'user.update';
@@ -182,6 +197,9 @@ User.update = function(user, nick, callback){
  *  @param {string / Array} [optionalParams.folders] Folder name that data will be returned from. Max 100 values per request. If not present returns data from across all collection folders
  *  @param {string} [optionalParams.filter] TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:user:count
  */
 User.count = function(optionalParams, callback){
 
@@ -241,6 +259,9 @@ User.count = function(optionalParams, callback){
  *  @method User.delete
  *  @param {string / Number} user User id or name
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:user:delete
  */
 User.delete = function(user, callback){
 	var method = 'user.delete';

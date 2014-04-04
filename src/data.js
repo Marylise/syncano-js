@@ -21,6 +21,9 @@ var Data = {};
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:new
+ */
 Data.new = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -102,6 +105,9 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  @param {string / Array} [optionalParams.parentIds] Data Object id or ids. If specified, only children of specific Data Object parent will be listed
  *  @param {string} [optionalParams.byUser] If specified, filter by Data Object user's name
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:get
  */
 Data.get = function(projectId, collection, optionalParams, callback){
 	var i;
@@ -204,6 +210,9 @@ Data.get = function(projectId, collection, optionalParams, callback){
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:get_one
+ */
 Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -243,6 +252,9 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:update
  */
 Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -307,6 +319,9 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  @param {string} [optionalParams.newFolder] Destination folder where data will be moved. If not specified, leaves folder as is.
  *  @param {string} [optionalParams.newState] State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:move
  */
 Data.move = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -375,6 +390,9 @@ Data.move = function(projectId, collection, optionalParams, callback){
  *  @param {string / Array} dataId Data id or ids
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:copy
+ */
 Data.copy = function(projectId, collection, dataId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -419,6 +437,9 @@ Data.copy = function(projectId, collection, dataId, callback){
  *  @param {boolean} [removeOther] If true, will remove all other parents. Default value: False
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:add_parent
+ */
 Data.addParent = function(projectId, collection, dataId, parentId, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -458,6 +479,9 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
  *  @param {number} parentId Parent id to remove. If not specified, will remove all Data Object parents
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:remove_parent
+ */
 Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -492,6 +516,9 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
  *  @param {number} childId Child id to add
  *  @param {boolean} [removeOther] If true, will remove all other parents. Default value: False
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:add_child
  */
 Data.addChild = function(projectId, collection, dataId, childId, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -532,6 +559,9 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
  *  @param {number} childId Child id to remove. If not specified, will remove all Data Object children
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:remove_child
+ */
 Data.removeChild = function(projectId, collection, dataId, childId, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -569,6 +599,9 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
  *  @param {string} [optionalParams.byUser] If specified, filter by user name.
  *  @param {string} [optionalParams.limit] Number of Data Objects to process. Default and max value: 100.
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:delete
  */
 Data.delete = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -632,6 +665,9 @@ Data.delete = function(projectId, collection, optionalParams, callback){
  *  @param {string} [optionalParams.filter] TEXT - only data with text IMAGE - only data with an image
  *  @param {string} [optionalParams.byUser] If specified, filter by user name.
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:count
  */
 Data.count = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);

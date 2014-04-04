@@ -342,6 +342,9 @@ var Project = {};
  * @param {string} [description] Short description of the project
  * @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:project:new
+ */
 Project.new = function(name, description, callback){
 	var method = 'project.new';
 	
@@ -366,6 +369,9 @@ Project.new = function(name, description, callback){
  *  @method Project.get
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:project:get
+ */
 Project.get = function(callback){
 	var method = 'project.get';
 	this.__super__.__sendWithCallback(method, {}, 'project', callback);
@@ -378,6 +384,9 @@ Project.get = function(callback){
  *  @method Project.getOne
  *  @param {number} id Project identifier
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:project:get_one
  */
 Project.getOne = function(id, callback){
 	this.__super__.__checkProjectId(id);
@@ -394,6 +403,9 @@ Project.getOne = function(id, callback){
  *  @param {string} name Optional new name of the project
  *  @param {string} name Optional new description of the project
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:project:update
  */
 Project.update = function(id, name, description, callback){
 	this.__super__.__checkProjectId(id);
@@ -420,6 +432,9 @@ Project.update = function(id, name, description, callback){
  *  @method Project.delete
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:project:delete
+ */
 Project.delete = function(id, callback){
 	this.__super__.__checkProjectId(id);
 	var method = 'project.delete';
@@ -443,6 +458,9 @@ var Collection = {};
  *  @param {string} [optionalParams.key] New collections key
  *  @param {string} [optionalParams.description] New collection's description
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:collection:new
  */
 Collection.new = function(projectId, name, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -479,6 +497,9 @@ Collection.new = function(projectId, name, optionalParams, callback){
  *  @param {string / Array} [optionalParams.withTags] If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:get
+ */
 Collection.get = function(projectId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.get';
@@ -512,6 +533,9 @@ Collection.get = function(projectId, optionalParams, callback){
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:get_one
+ */
 Collection.getOne = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -532,6 +556,9 @@ Collection.getOne = function(projectId, collection, callback){
  * @param {number} collectionId Collection id defining collection to be activated
  * @param {boolean} force If set to True, will force the activation by deactivating all other collections that may share it's data_key.
  * @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:collection:activate
  */
 Collection.activate = function(projectId, collectionId, force, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -563,6 +590,9 @@ Collection.activate = function(projectId, collectionId, force, callback){
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:deactivate
+ */
 Collection.deactivate = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -581,10 +611,13 @@ Collection.deactivate = function(projectId, collection, callback){
  * @method Collection.update
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- *  @param {object} [optionalParams] Optional parameters:
+ * @param {object} [optionalParams] Optional parameters:
  * @param {string} [optionalParams.name] New collection name
  * @param {string} [optionalParams.description] New collection description
  * @param {function} [callback] Function to be called when successful response comes 
+ */
+/** 
+ *  @event syncano:collection:update
  */
 Collection.update = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -618,6 +651,9 @@ Collection.update = function(projectId, collection, optionalParams, callback){
  *  @param {float} [optionalParams.weight] Tags weight. Default value = 1
  *  @param {boolean} [optionalParams.removeOther] If true, will remove all other tags of specified collection. Default value: False
  *  @param {function} [callback] Function to be called when successful response comes 
+ */
+/** 
+ *  @event syncano:collection:add_tag
  */
 Collection.addTag = function(projectId, collection, tags, optionalParams, callback){
 	if(typeof arguments[3] === 'function'){
@@ -674,6 +710,9 @@ Collection.addTag = function(projectId, collection, tags, optionalParams, callba
  * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
  * @param {function} [callback] Function to be called when successful response comes 
  */
+/** 
+ *  @event syncano:collection:delete_tag
+ */
 Collection.deleteTag = function(projectId, collection, tags, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.delete_tag';
@@ -712,6 +751,9 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} [callback] Function to be called when successful response comes 
  */
+/** 
+ *  @event syncano:collection:delete
+ */
 Collection.delete = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.delete';
@@ -738,6 +780,9 @@ var Folder = {};
  *  @param {string} name Folder name
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:folder:new
+ */
 Folder.new = function(projectId, collection, name, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'folder.new';
@@ -763,6 +808,9 @@ Folder.new = function(projectId, collection, name, callback){
  *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:folder:get
+ */
 Folder.get = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -783,6 +831,9 @@ Folder.get = function(projectId, collection, callback){
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:folder:get_one
  */
 Folder.getOne = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -812,6 +863,9 @@ Folder.getOne = function(projectId, collection, folderName, callback){
  *  @param {string} [newName] New folder name
  *  @param {string} [sourceId] New source id, can be used for mapping folders to external source
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:folder:update
  */
 Folder.update = function(projectId, collection, folderName, newName, sourceId, callback){
 	if(typeof arguments[3] === 'object'){
@@ -861,6 +915,9 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
  *  @param {string} folderName Folder name defining folder
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:folder:delete
+ */
 Folder.delete = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'folder.delete';
@@ -899,6 +956,9 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:new
  */
 Data.new = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -981,6 +1041,9 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  @param {string / Array} [optionalParams.parentIds] Data Object id or ids. If specified, only children of specific Data Object parent will be listed
  *  @param {string} [optionalParams.byUser] If specified, filter by Data Object user's name
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:get
  */
 Data.get = function(projectId, collection, optionalParams, callback){
 	var i;
@@ -1083,6 +1146,9 @@ Data.get = function(projectId, collection, optionalParams, callback){
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:get_one
+ */
 Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -1122,6 +1188,9 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:update
  */
 Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -1186,6 +1255,9 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  @param {string} [optionalParams.newFolder] Destination folder where data will be moved. If not specified, leaves folder as is.
  *  @param {string} [optionalParams.newState] State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:move
  */
 Data.move = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -1254,6 +1326,9 @@ Data.move = function(projectId, collection, optionalParams, callback){
  *  @param {string / Array} dataId Data id or ids
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:copy
+ */
 Data.copy = function(projectId, collection, dataId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -1298,6 +1373,9 @@ Data.copy = function(projectId, collection, dataId, callback){
  *  @param {boolean} [removeOther] If true, will remove all other parents. Default value: False
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:add_parent
+ */
 Data.addParent = function(projectId, collection, dataId, parentId, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -1337,6 +1415,9 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
  *  @param {number} parentId Parent id to remove. If not specified, will remove all Data Object parents
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:remove_parent
+ */
 Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -1371,6 +1452,9 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
  *  @param {number} childId Child id to add
  *  @param {boolean} [removeOther] If true, will remove all other parents. Default value: False
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:add_child
  */
 Data.addChild = function(projectId, collection, dataId, childId, removeOther, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -1411,6 +1495,9 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
  *  @param {number} childId Child id to remove. If not specified, will remove all Data Object children
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:remove_child
+ */
 Data.removeChild = function(projectId, collection, dataId, childId, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -1448,6 +1535,9 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
  *  @param {string} [optionalParams.byUser] If specified, filter by user name.
  *  @param {string} [optionalParams.limit] Number of Data Objects to process. Default and max value: 100.
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:data:delete
  */
 Data.delete = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -1512,6 +1602,9 @@ Data.delete = function(projectId, collection, optionalParams, callback){
  *  @param {string} [optionalParams.byUser] If specified, filter by user name.
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:data:count
+ */
 Data.count = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -1566,6 +1659,9 @@ var User = {};
  *  @param {string} [nick] User's nick
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:new
+ */
 User.new = function(name, nick, callback){
 	var method = 'user.new';
 	var params = {};
@@ -1588,6 +1684,9 @@ User.new = function(name, nick, callback){
  *  @method User.getAll
  *  @param {number} sinceId If specified, will only return users with id higher than since_id (newer).
  *  @param {number} limit Number of users to be returned. Default and max value: 100
+ */
+/** 
+ *  @event syncano:user:get_all
  */
 User.getAll = function(sinceId, limit, callback){
 	var method = 'user.get_all';
@@ -1631,6 +1730,9 @@ User.getAll = function(sinceId, limit, callback){
  *  @param {string} [optionalParams.filter] TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:get
+ */
 User.get = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -1673,6 +1775,9 @@ User.get = function(projectId, collection, optionalParams, callback){
  *  @param {string / Number} user User id or name
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:get_one
+ */
 User.getOne = function(user, callback){
 	var method = 'user.get_one';
 	var params = {};
@@ -1698,6 +1803,9 @@ User.getOne = function(user, callback){
  *  @param {string / Number} user User id or name
  *  @param {string} [nick] User's nick
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:user:update
  */
 User.update = function(user, nick, callback){
 	var method = 'user.update';
@@ -1737,6 +1845,9 @@ User.update = function(user, nick, callback){
  *  @param {string / Array} [optionalParams.folders] Folder name that data will be returned from. Max 100 values per request. If not present returns data from across all collection folders
  *  @param {string} [optionalParams.filter] TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:user:count
  */
 User.count = function(optionalParams, callback){
 
@@ -1797,6 +1908,9 @@ User.count = function(optionalParams, callback){
  *  @param {string / Number} user User id or name
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:user:delete
+ */
 User.delete = function(user, callback){
 	var method = 'user.delete';
 	var params = {};
@@ -1823,6 +1937,9 @@ var Subscription = {};
  *  @param {number} projectId Project id
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:subscription:subscribe_project
+ */
 Subscription.subscribeProject = function(projectId, callback){
 	var method = 'subscription.subscribe_project';
 	if(!isset(projectId) || !isNumber(projectId)){
@@ -1838,6 +1955,9 @@ Subscription.subscribeProject = function(projectId, callback){
  *  @method Subscription.unsubscribeProject
  *  @param {number} projectId Project id
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:subscription:unsubscribe_project
  */
 Subscription.unsubscribeProject = function(projectId, callback){
 	var method = 'subscription.unsubscribe_project';
@@ -1855,6 +1975,9 @@ Subscription.unsubscribeProject = function(projectId, callback){
  *  @param {number} projectId Project id
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:subscription:subscribe_collection
  */
 Subscription.subscribeCollection = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -1876,6 +1999,9 @@ Subscription.subscribeCollection = function(projectId, collection, callback){
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:subscription:unsubscribe_collection
+ */
 Subscription.unsubscribeCollection = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -1894,6 +2020,9 @@ Subscription.unsubscribeCollection = function(projectId, collection, callback){
  *  @method Subscription.get
  *  @param {string} [apiId] API client id defining client. If not present, gets subscriptions for current client
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:subscription:get
  */
 Subscription.get = function(apiId, callback){
 	if(typeof arguments[0] === 'function'){
@@ -1921,6 +2050,9 @@ var Connection = {};
  *  @param {number} [optionalParams.sinceId] If specified, will only return data with id higher than since_id (newer).
  *  @param {number} [optionalParams.limit] Maximum number of API client connections to get. Default and max: 100
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:connection:get
  */
 Connection.get = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){
@@ -1966,6 +2098,9 @@ Connection.get = function(optionalParams, callback){
  *  @param {string} [optionalParams.name] New connection name to set.
  *  @param {string} [optionalParams.state] New state to set
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:connection:update
  */
 Connection.update = function(uuid, optionalParams, callback){
 	if(typeof arguments[1] === 'function'){
@@ -2024,6 +2159,9 @@ var Notification = {};
  *  @param {object} [optionalParams.data] Additional key-value parameters to be sent.
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:notification:send
+ */
 Notification.send = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){
 		callback = arguments[0];
@@ -2077,6 +2215,9 @@ Notification.send = function(optionalParams, callback){
  *  @param {number} [optionalParams.limit] Maximum number of history items to get. Default and max: 100
  *  @param {string} [optionalParams.order] Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:notification:get_history
  */
 Notification.getHistory = function(optionalParams, callback){
 	if(typeof arguments[0] === 'function'){
@@ -2263,6 +2404,18 @@ Syncano.prototype.onSocketClose = function(){
  *  @method onMessage
  *  @param {object} e event object
  */
+/** 
+ *  When server cannot process request (result == NOK)
+ *  @event syncano:error
+ */
+/** 
+ *  When authorization failed
+ *  @event syncano:auth:error
+ */
+/** 
+ *  When response to message sent comes
+ *  @event syncano:received
+ */
 Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
@@ -2293,6 +2446,14 @@ Syncano.prototype.onMessage = function(e){
 		case 'new':
 			this.parseNewRecordNotifier(data);
 			break;
+			
+		case 'change':
+			this.parseChangeRecordNotifier(data);
+			break;
+			
+		case 'delete':
+			this.parseDeleteRecordNotifier(data);
+			break;
 	}
 };
 
@@ -2302,6 +2463,9 @@ Syncano.prototype.onMessage = function(e){
  *
  *  @method parseAuthorizationResponse
  *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  @event syncano:authorized
  */
 Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
@@ -2320,6 +2484,18 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
  *  @method parseNewRecordNotifier
  *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
  */
+/**
+ *  Triggered after receiving message with new record in folder XXX
+ *  @event syncano:newdata:folder-XXX
+ */
+/** 
+ *  Triggered after receiving message with new record in project XXX
+ *  @event syncano:newdata:project-XXX
+ */
+/** 
+ *  Triggered after receiving message with new record in collection XXX 
+ *  @event syncano:newdata:collection-XXX
+ */
 Syncano.prototype.parseNewRecordNotifier = function(rec){
 	var projectId = rec.channel.project_id | 0;
 	var collectionId = rec.channel.collection_id | 0;
@@ -2332,11 +2508,62 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
 	this.trigger('syncano:newdata:collection-' + collectionId, recData);
 };
 
+
+/**
+ *  When message with type 'change' comes, trigger appropriate event for each data object modified.
+ *
+ *  @method parseChangeRecordNotifier
+ *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  Triggered after receiving message with changed record XXX 
+ *  @event syncano:change:data-XXX
+ */
+Syncano.prototype.parseChangeRecordNotifier = function(rec){
+	var targetIds = rec.target.id;
+	for(var i=0; i<targetIds.length; i++){
+		var id = targetIds[i];
+		var p = {};
+		if(typeof rec.add !== 'undefined'){
+			p.add = rec.add;
+		}
+		if(typeof rec.replace !== 'undefined'){
+			p.replace = rec.replace;
+		}
+		if(typeof rec.delete !== 'undefined'){
+			p['delete'] = rec['delete'];
+		}
+		this.trigger('syncano:change:data-'+id, p);
+	}
+};
+
+/**
+ *  When message with type 'delete' comes, trigger appropriate event for each data object modified.
+ *
+ *  @method parseChangeRecordNotifier
+ *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  Triggered after receiving message with deleted record XXX 
+ *  @event syncano:delete:data-XXX
+ */
+Syncano.prototype.parseDeleteRecordNotifier = function(rec){
+	var targetIds = rec.target.id;
+	for(var i=0; i<targetIds.length; i++){
+		var id = targetIds[i];
+		this.trigger('syncano:delete:data-'+id);
+	}
+};
+
 /**
  *  When message with type 'message' comes, just trigger event with data passed
  *
  *  @method parseMessageNotifier
  *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  Triggered after receiving message from server
+ *  @event syncano:message
  */
 Syncano.prototype.parseMessageNotifier = function(data){
 	this.trigger('syncano:message', data);
@@ -2348,6 +2575,10 @@ Syncano.prototype.parseMessageNotifier = function(data){
  *
  *  @method parseCallResponse
  *  @param {object} data - data received. Fields: type (=callresponse), message_id, result, data
+ */
+/** 
+ *  When server sends data we are not waiting for
+ *  @event syncano:ignored
  */
 Syncano.prototype.parseCallResponse = function(data){
 	var messageId = data.message_id;
@@ -2410,6 +2641,14 @@ Syncano.prototype.socketSend = function(request){
  *  @param {string} method Name of the Syncano method to call (check syncano docs)
  *  @param {object} params Parameters to send. Every method needs different parameters (check syncano docs)
  *  @param {function} callback Function to call after receiving response from server
+ */
+/** 
+ *  Before sending request to server
+ *  @event syncano:call
+ */
+/** 
+ *  When user wants to send data to the server, but connection has not been established yet
+ *  @event syncano:queued
  */
 Syncano.prototype.sendRequest = function(method, params, callback){
 	if(typeof params === 'undefined'){

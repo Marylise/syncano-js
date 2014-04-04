@@ -13,6 +13,9 @@ var Folder = {};
  *  @param {string} name Folder name
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:folder:new
+ */
 Folder.new = function(projectId, collection, name, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'folder.new';
@@ -38,6 +41,9 @@ Folder.new = function(projectId, collection, name, callback){
  *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:folder:get
+ */
 Folder.get = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -58,6 +64,9 @@ Folder.get = function(projectId, collection, callback){
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:folder:get_one
  */
 Folder.getOne = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -87,6 +96,9 @@ Folder.getOne = function(projectId, collection, folderName, callback){
  *  @param {string} [newName] New folder name
  *  @param {string} [sourceId] New source id, can be used for mapping folders to external source
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:folder:update
  */
 Folder.update = function(projectId, collection, folderName, newName, sourceId, callback){
 	if(typeof arguments[3] === 'object'){
@@ -135,6 +147,9 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
  *  @param {string / Number} collection Collection id or key defining collection for which folder will be returned
  *  @param {string} folderName Folder name defining folder
  *  @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:folder:delete
  */
 Folder.delete = function(projectId, collection, folderName, callback){
 	this.__super__.__checkProjectId(projectId);

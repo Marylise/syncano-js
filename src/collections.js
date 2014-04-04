@@ -15,6 +15,9 @@ var Collection = {};
  *  @param {string} [optionalParams.description] New collection's description
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:new
+ */
 Collection.new = function(projectId, name, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -50,6 +53,9 @@ Collection.new = function(projectId, name, optionalParams, callback){
  *  @param {string / Array} [optionalParams.withTags] If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive
  *  @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:get
+ */
 Collection.get = function(projectId, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.get';
@@ -83,6 +89,9 @@ Collection.get = function(projectId, optionalParams, callback){
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:get_one
+ */
 Collection.getOne = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 	
@@ -103,6 +112,9 @@ Collection.getOne = function(projectId, collection, callback){
  * @param {number} collectionId Collection id defining collection to be activated
  * @param {boolean} force If set to True, will force the activation by deactivating all other collections that may share it's data_key.
  * @param {function} [callback] Function to be called when successful response comes
+ */
+/** 
+ *  @event syncano:collection:activate
  */
 Collection.activate = function(projectId, collectionId, force, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -134,6 +146,9 @@ Collection.activate = function(projectId, collectionId, force, callback){
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} [callback] Function to be called when successful response comes
  */
+/** 
+ *  @event syncano:collection:deactivate
+ */
 Collection.deactivate = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);
 
@@ -152,10 +167,13 @@ Collection.deactivate = function(projectId, collection, callback){
  * @method Collection.update
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
- *  @param {object} [optionalParams] Optional parameters:
+ * @param {object} [optionalParams] Optional parameters:
  * @param {string} [optionalParams.name] New collection name
  * @param {string} [optionalParams.description] New collection description
  * @param {function} [callback] Function to be called when successful response comes 
+ */
+/** 
+ *  @event syncano:collection:update
  */
 Collection.update = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
@@ -189,6 +207,9 @@ Collection.update = function(projectId, collection, optionalParams, callback){
  *  @param {float} [optionalParams.weight] Tags weight. Default value = 1
  *  @param {boolean} [optionalParams.removeOther] If true, will remove all other tags of specified collection. Default value: False
  *  @param {function} [callback] Function to be called when successful response comes 
+ */
+/** 
+ *  @event syncano:collection:add_tag
  */
 Collection.addTag = function(projectId, collection, tags, optionalParams, callback){
 	if(typeof arguments[3] === 'function'){
@@ -245,6 +266,9 @@ Collection.addTag = function(projectId, collection, tags, optionalParams, callba
  * @param {string / Array} tags Tag(s) to be added. Either string (one tag) or array (multiple tags)
  * @param {function} [callback] Function to be called when successful response comes 
  */
+/** 
+ *  @event syncano:collection:delete_tag
+ */
 Collection.deleteTag = function(projectId, collection, tags, callback){
 	this.__super__.__checkProjectId(projectId);
 	var method = 'collection.delete_tag';
@@ -282,6 +306,9 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
  * @param {number} projectId Project id
  * @param {string / Number} collection Either collection id (number) or key (string)
  * @param {function} [callback] Function to be called when successful response comes 
+ */
+/** 
+ *  @event syncano:collection:delete
  */
 Collection.delete = function(projectId, collection, callback){
 	this.__super__.__checkProjectId(projectId);

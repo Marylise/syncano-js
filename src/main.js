@@ -131,6 +131,18 @@ Syncano.prototype.onSocketClose = function(){
  *  @method onMessage
  *  @param {object} e event object
  */
+/** 
+ *  When server cannot process request (result == NOK)
+ *  @event syncano:error
+ */
+/** 
+ *  When authorization failed
+ *  @event syncano:auth:error
+ */
+/** 
+ *  When response to message sent comes
+ *  @event syncano:received
+ */
 Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
@@ -161,6 +173,14 @@ Syncano.prototype.onMessage = function(e){
 		case 'new':
 			this.parseNewRecordNotifier(data);
 			break;
+			
+		case 'change':
+			this.parseChangeRecordNotifier(data);
+			break;
+			
+		case 'delete':
+			this.parseDeleteRecordNotifier(data);
+			break;
 	}
 };
 
@@ -170,6 +190,9 @@ Syncano.prototype.onMessage = function(e){
  *
  *  @method parseAuthorizationResponse
  *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  @event syncano:authorized
  */
 Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
@@ -188,6 +211,18 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
  *  @method parseNewRecordNotifier
  *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
  */
+/**
+ *  Triggered after receiving message with new record in folder XXX
+ *  @event syncano:newdata:folder-XXX
+ */
+/** 
+ *  Triggered after receiving message with new record in project XXX
+ *  @event syncano:newdata:project-XXX
+ */
+/** 
+ *  Triggered after receiving message with new record in collection XXX 
+ *  @event syncano:newdata:collection-XXX
+ */
 Syncano.prototype.parseNewRecordNotifier = function(rec){
 	var projectId = rec.channel.project_id | 0;
 	var collectionId = rec.channel.collection_id | 0;
@@ -200,11 +235,62 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
 	this.trigger('syncano:newdata:collection-' + collectionId, recData);
 };
 
+
+/**
+ *  When message with type 'change' comes, trigger appropriate event for each data object modified.
+ *
+ *  @method parseChangeRecordNotifier
+ *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  Triggered after receiving message with changed record XXX 
+ *  @event syncano:change:data-XXX
+ */
+Syncano.prototype.parseChangeRecordNotifier = function(rec){
+	var targetIds = rec.target.id;
+	for(var i=0; i<targetIds.length; i++){
+		var id = targetIds[i];
+		var p = {};
+		if(typeof rec.add !== 'undefined'){
+			p.add = rec.add;
+		}
+		if(typeof rec.replace !== 'undefined'){
+			p.replace = rec.replace;
+		}
+		if(typeof rec.delete !== 'undefined'){
+			p['delete'] = rec['delete'];
+		}
+		this.trigger('syncano:change:data-'+id, p);
+	}
+};
+
+/**
+ *  When message with type 'delete' comes, trigger appropriate event for each data object modified.
+ *
+ *  @method parseChangeRecordNotifier
+ *  @param {object} rec Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  Triggered after receiving message with deleted record XXX 
+ *  @event syncano:delete:data-XXX
+ */
+Syncano.prototype.parseDeleteRecordNotifier = function(rec){
+	var targetIds = rec.target.id;
+	for(var i=0; i<targetIds.length; i++){
+		var id = targetIds[i];
+		this.trigger('syncano:delete:data-'+id);
+	}
+};
+
 /**
  *  When message with type 'message' comes, just trigger event with data passed
  *
  *  @method parseMessageNotifier
  *  @param {object} data Object send by server. Fields: timestamp, uuid, type, result
+ */
+/** 
+ *  Triggered after receiving message from server
+ *  @event syncano:message
  */
 Syncano.prototype.parseMessageNotifier = function(data){
 	this.trigger('syncano:message', data);
@@ -216,6 +302,10 @@ Syncano.prototype.parseMessageNotifier = function(data){
  *
  *  @method parseCallResponse
  *  @param {object} data - data received. Fields: type (=callresponse), message_id, result, data
+ */
+/** 
+ *  When server sends data we are not waiting for
+ *  @event syncano:ignored
  */
 Syncano.prototype.parseCallResponse = function(data){
 	var messageId = data.message_id;
@@ -278,6 +368,14 @@ Syncano.prototype.socketSend = function(request){
  *  @param {string} method Name of the Syncano method to call (check syncano docs)
  *  @param {object} params Parameters to send. Every method needs different parameters (check syncano docs)
  *  @param {function} callback Function to call after receiving response from server
+ */
+/** 
+ *  Before sending request to server
+ *  @event syncano:call
+ */
+/** 
+ *  When user wants to send data to the server, but connection has not been established yet
+ *  @event syncano:queued
  */
 Syncano.prototype.sendRequest = function(method, params, callback){
 	if(typeof params === 'undefined'){
