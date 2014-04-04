@@ -106,7 +106,7 @@ Notification.getHistory = function(optionalParams, callback){
 		}
 		
 		if(isset(optionalParams.order)){
-			if(inArray(optionalParams.order.toLowerCase(), ['asc', 'desc'])){
+			if(typeof optionalParams.order.toLowerCase !== 'undefined' && inArray(optionalParams.order.toLowerCase(), ['asc', 'desc'])){
 				params.order = optionalParams.order;
 			} else {
 				throw new Error(method + ': incorrect value of order param - only "asc" and "desc" are allowed');
