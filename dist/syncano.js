@@ -1828,7 +1828,7 @@ Subscription.subscribeProject = function(projectId, callback){
 	if(!isset(projectId) || !isNumber(projectId)){
 		throw new Error('projectId must be defined');
 	}
-	this.__super__.__sendWithCallback(method, {project_id: projectId}, true, callback);
+	this.__super__.__sendWithCallback(method, {project_id: projectId}, null, callback);
 };
 
 
@@ -1844,7 +1844,7 @@ Subscription.unsubscribeProject = function(projectId, callback){
 	if(!isset(projectId) || !isNumber(projectId)){
 		throw new Error('projectId must be defined');
 	}
-	this.__super__.__sendWithCallback(method, {project_id: projectId}, true, callback);
+	this.__super__.__sendWithCallback(method, {project_id: projectId}, null, callback);
 };
 
 
