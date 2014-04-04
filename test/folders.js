@@ -18,7 +18,7 @@
 	 *  TEST FOLDER MIXIN
 	 *
 	 */
-	describe('Data', function(){
+	describe('Folder', function(){
 		beforeEach(function(){
 			s = SyncanoConnector.getInstance();
 			s.off('all');

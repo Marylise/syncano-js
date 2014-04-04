@@ -1676,10 +1676,16 @@ User.get = function(projectId, collection, optionalParams, callback){
 User.getOne = function(user, callback){
 	var method = 'user.get_one';
 	var params = {};
-	if(typeof user === 'number'){
-		params.user_id = user;
-	} else if(typeof user === 'string'){
-		params.user_name = user;
+	if(isset(user)){
+		if(typeof user === 'number'){
+			params.user_id = user;
+		} else if(typeof user === 'string'){
+			params.user_name = user;
+		} else {
+			throw new Error('incorrect type of user param');
+		}
+	} else {
+		throw new Error('user id or name must be passed');
 	}
 	this.__super__.__sendWithCallback(method, params, 'user', callback);
 };
@@ -1696,14 +1702,24 @@ User.getOne = function(user, callback){
 User.update = function(user, nick, callback){
 	var method = 'user.update';
 	var params = {};
-	if(typeof user === 'number'){
-		params.user_id = user;
-	} else if(typeof user === 'string'){
-		params.user_name = user;
+	if(isset(user)){
+		if(typeof user === 'number'){
+			params.user_id = user;
+		} else if(typeof user === 'string'){
+			params.user_name = user;
+		} else {
+			throw new Error('incorrect type of user param');
+		}
+	} else {
+		throw new Error('user id or name must be passed');
 	}
 	
-	if(isset(nick) && typeof nick === 'string'){
-		params.nick = nick;
+	if(isset(nick)){
+		if(typeof nick === 'string'){
+			params.nick = nick;
+		} else {
+			throw new Error('nick must be given');
+		}
 	}
 	
 	this.__super__.__sendWithCallback(method, params, 'user', callback);
@@ -1788,6 +1804,8 @@ User.delete = function(user, callback){
 		params.user_id = user;
 	} else if(typeof user === 'string'){
 		params.user_name = user;
+	} else {
+		throw new Error('user identifier must be given');
 	}
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
