@@ -740,15 +740,17 @@ var Folder = {};
  */
 Folder.new = function(projectId, collection, name, callback){
 	this.__super__.__checkProjectId(projectId);
-	if(!name){
-		throw new Error('Folder must have a name');
-	}
 	var method = 'folder.new';
 	var params = {
 		name: name,
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(!name){
+		throw new Error('Folder must have a name');
+	}
+	
 	this.__super__.__sendWithCallback(method, params, 'folder', callback);
 };
 
@@ -830,7 +832,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
 	}
 	params.name = folderName;
 	
-	if(typeof newName !== 'undefined' && newName !== null){
+	if(isset(newName)){
 		if(typeof newName !== 'string'){
 			throw new Error('newName must be a string');
 		}
@@ -839,8 +841,12 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
 		throw new Error('newName must be passed');
 	}
 	
-	if(sourceId !== null){
-		params.source_id = sourceId + '';
+	if(isset(sourceId)){
+		if(isNumber(sourceId)){
+			params.source_id = sourceId + "";
+		} else {
+			throw new Error('sourceId must be a number');
+		}
 	}
 	this.__super__.__sendWithCallback(method, params, 'folder', callback);
 };
