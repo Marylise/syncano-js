@@ -1,15 +1,10 @@
 {
   "name": "syncano",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist/syncano.min.js",
-  "description": "library description",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com//syncano.git"
-  },
+  "description": "Real time high level library for Syncano (www.syncano.com)",
   "keywords": [],
-  "author": "Artur Wrobel",
-  "license": "MIT",
+  "author": "Artur Wróbel, Mindpower sp. z o.o.",
   "readmeFilename": "README.md",
   "dependencies": {
     "grunt-contrib-yuidoc": "~0.5.2"

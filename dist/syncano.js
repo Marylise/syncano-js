@@ -956,6 +956,12 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @example
+	var s = SyncanoConnector.getInstance();
+	s.connect({instance:'', api_key:''});
+	s.Data.new(projectId, 'Default', {}, function(res){
+		console.log('Added data object:', res);
+	});
  */
 /** 
  *  @event syncano:data:new
@@ -1041,6 +1047,15 @@ Data.new = function(projectId, collection, optionalParams, callback){
  *  @param {string / Array} [optionalParams.parentIds] Data Object id or ids. If specified, only children of specific Data Object parent will be listed
  *  @param {string} [optionalParams.byUser] If specified, filter by Data Object user's name
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @example
+	var s = SyncanoConnector.getInstance();
+	s.connect({instance:'', api_key:''});
+	s.Data.get(projectId, 'Default', {}, function(res){
+		console.log('Loaded '+ res.length + ' records');
+		res.forEach(function(d){
+			console.log(d);
+		});
+	});
  */
 /** 
  *  @event syncano:data:get
@@ -1145,6 +1160,12 @@ Data.get = function(projectId, collection, optionalParams, callback){
  *  @param {string / Number} collection Either collection id (number) or key (string)
  *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @example
+	var s = SyncanoConnector.getInstance();
+	s.connect({instance:'', api_key:''});
+	s.Data.getOne(projectId, 'Default', dataId, function(res){
+		console.log('Found record:', res);
+	});
  */
 /** 
  *  @event syncano:data:get_one
@@ -1188,6 +1209,12 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @example
+	var s = SyncanoConnector.getInstance();
+	s.connect({instance:'', api_key:''});
+	s.Data.update(projectId, 'Default', dataId, {title: 'New title'}, function(res){
+		console.log('Modified record:', res);
+	});
  */
 /** 
  *  @event syncano:data:update
@@ -1255,6 +1282,10 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
  *  @param {string} [optionalParams.newFolder] Destination folder where data will be moved. If not specified, leaves folder as is.
  *  @param {string} [optionalParams.newState] State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @example
+	var s = SyncanoConnector.getInstance();
+	s.connect({instance:'', api_key:''});
+	s.Data.move(projectId, 'Default', {newFolder: 'Output folder'});
  */
 /** 
  *  @event syncano:data:move
@@ -1325,6 +1356,12 @@ Data.move = function(projectId, collection, optionalParams, callback){
  *  @param {string / Number} collection Either collection id or key
  *  @param {string / Array} dataId Data id or ids
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @example
+	var s = SyncanoConnector.getInstance();
+	s.connect({instance:'', api_key:''});
+	s.Data.copy(projectId, 'Default', dataId, function(res){
+		console.log('Copied data object:', res);
+	});
  */
 /** 
  *  @event syncano:data:copy
