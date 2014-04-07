@@ -2325,12 +2325,7 @@ var states = {
  * @constructor
  */
 var Syncano = function(){
-	/**
-	 *  TODO: in final version change url to api.syncano.com
-	 *        during development stage, every time you start a session you have to open link below in browser
-	 *        and accept the certificate
-	 */
-	this.socketURL = 'https://api.hydraengine.com/ws';
+	this.socketURL = 'https://api.syncano.com/ws';
 	this.socket = null;
 	this.status = states.DISCONNECTED;
 	this.requestId = 1;
