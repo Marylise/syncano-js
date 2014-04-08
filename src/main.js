@@ -21,6 +21,8 @@ var Syncano = function(){
 	this.requestId = 1;
 	this.uuid = null;
 	
+	this.VERSION = '3.1.0beta';
+	
 	/**
 	 *  queue for messages which could not be sent because of no connection 
 	 */

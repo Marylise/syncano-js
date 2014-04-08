@@ -1,10 +1,10 @@
 {
   "name": "syncano",
-  "version": "1.0.0",
+  "version": "3.1.0beta",
   "main": "dist/syncano.min.js",
   "description": "Real time high level library for Syncano (www.syncano.com)",
   "keywords": [],
-  "author": "Artur Wróbel, Mindpower sp. z o.o.",
+  "author": "Artur /gTg/ Wróbel, Mindpower sp. z o.o.",
   "readmeFilename": "README.md",
   "dependencies": {
     "grunt-contrib-yuidoc": "~0.5.2"

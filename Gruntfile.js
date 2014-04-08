@@ -6,7 +6,8 @@ module.exports = function(grunt) {
 
     concat: {
       options: {
-        separator: "\n\n"
+        separator: "\n\n",
+		banner: '/*\n<%= pkg.name.replace(".js", "") %>\nver: <%= pkg.version %>\nbuild date: <%= grunt.template.today("dd-mm-yyyy")\n%>author: <%= pkg.author %>\n*/\n'
       },
       dist: {
         src: [
@@ -30,7 +31,7 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name.replace(".js", "") %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+        banner: '/*\n<%= pkg.name.replace(".js", "") %>\nver: <%= pkg.version %>\nbuild date: <%= grunt.template.today("dd-mm-yyyy")\n%>author: <%= pkg.author %>\n*/\n'
       },
       dist: {
         files: {
