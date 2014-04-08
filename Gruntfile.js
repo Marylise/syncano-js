@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     concat: {
       options: {
         separator: "\n\n",
-		banner: '/*\n<%= pkg.name.replace(".js", "") %>\nver: <%= pkg.version %>\nbuild date: <%= grunt.template.today("dd-mm-yyyy")\n%>author: <%= pkg.author %>\n*/\n'
+		banner: '/*\n<%= pkg.name.replace(".js", "") %>\nver: <%= pkg.version %>\nbuild date: <%= grunt.template.today("dd-mm-yyyy") %>\nCopyright 2014 Syncano Inc.\n*/\n'
       },
       dist: {
         src: [
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        banner: '/*\n<%= pkg.name.replace(".js", "") %>\nver: <%= pkg.version %>\nbuild date: <%= grunt.template.today("dd-mm-yyyy")\n%>author: <%= pkg.author %>\n*/\n'
+        banner: '/*\n<%= pkg.name.replace(".js", "") %>\nver: <%= pkg.version %>\nbuild date: <%= grunt.template.today("dd-mm-yyyy") %>\nCopyright 2014 Syncano Inc.\n*/\n'
       },
       dist: {
         files: {

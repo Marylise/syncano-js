@@ -1,7 +1,8 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 08-04-2014author: Artur /gTg/ Wróbel, Mindpower sp. z o.o.
+build date: 08-04-2014
+Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
   "use strict";
