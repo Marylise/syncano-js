@@ -2,11 +2,10 @@ bower_components/
 node_modules/
 temp/
 tmp/
-dist/
+demo/*
 logs/
 log/
 results/
-docs/
 *.seed
 *.log
 *.csv
