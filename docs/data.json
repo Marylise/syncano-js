@@ -1,0 +1,3057 @@
+{
+    "project": {
+        "name": "syncano",
+        "description": "Real time high level library for Syncano (www.syncano.com)",
+        "version": "3.1.0beta",
+        "url": ""
+    },
+    "files": {
+        "dist/syncano.js": {
+            "name": "dist/syncano.js",
+            "modules": {},
+            "classes": {
+                "Syncano": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Syncano": {
+            "name": "Syncano",
+            "shortname": "Syncano",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "dist/syncano.js",
+            "line": 2326,
+            "description": "Real time high level library for Syncano (www.syncano.com)",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "dist/syncano.js",
+            "line": 11,
+            "description": "Library agnostic version of jQuery's Extend by @jonjaques",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 100,
+            "description": "converts string in camel case (eg. dataKey) to lowercase with underscores (eg. data_key)",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 117,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 124,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 134,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 145,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 155,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 162,
+            "description": "very simple pub-sub structure. Based on PubSubJS by @mroderick (https://github.com/mroderick/PubSubJS)",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 171,
+            "description": "Register specified function as a callback for given message",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "Message identifier",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to call when message is triggered",
+                    "type": "Function"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 193,
+            "description": "Register specified function as a one-time callback (release it after the first run)",
+            "itemtype": "method",
+            "name": "once",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "Message identifier",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to call when message is triggered",
+                    "type": "Function"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 218,
+            "description": "Does message have subscribers?",
+            "itemtype": "method",
+            "name": "hasSubscribers",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "- message identifier",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": ": boolean"
+            },
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 236,
+            "description": "Remove specified function callback. If no func is given, removes all callbacks for given message",
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "- message identifier",
+                    "type": "String"
+                },
+                {
+                    "name": "func",
+                    "description": "- function to remove",
+                    "type": "Function"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 265,
+            "description": "Calls asynchronically all registered functions for given message. Shortcut method for doTrigger(message, false)",
+            "itemtype": "method",
+            "name": "trigger",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "- message identifier",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": ": boolean (true = success, false = fail)"
+            },
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 277,
+            "description": "Calls synchronically all registered functions for given message. Shortcut method for doTrigger(message, true)",
+            "itemtype": "method",
+            "name": "triggerSync",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "- message identifier",
+                    "type": "String"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 288,
+            "description": "Calls all registered functions for given message",
+            "itemtype": "method",
+            "name": "doTrigger",
+            "params": [
+                {
+                    "name": "message",
+                    "description": "- message identifier",
+                    "type": "String"
+                },
+                {
+                    "name": "sync",
+                    "description": "- true for synchronous calls, false for asynchronous",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 314,
+            "description": "trigger event for 'all'. Send original message name as the first parameter",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 336,
+            "description": "Methods for handling projects - creating, reading, updating, deleting",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 342,
+            "description": "Create new project",
+            "itemtype": "method",
+            "name": "Project.new",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of the project",
+                    "type": "String"
+                },
+                {
+                    "name": "description",
+                    "description": "Short description of the project",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 350,
+            "itemtype": "event",
+            "name": "syncano:project:new",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 371,
+            "description": "Gets list of all projects in current instance",
+            "itemtype": "method",
+            "name": "Project.get",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 377,
+            "itemtype": "event",
+            "name": "syncano:project:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 386,
+            "description": "Receives detailed informations about project with given id",
+            "itemtype": "method",
+            "name": "Project.getOne",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "Project identifier",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 393,
+            "itemtype": "event",
+            "name": "syncano:project:get_one",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 403,
+            "description": "Updates project details (name, description)",
+            "itemtype": "method",
+            "name": "Project.update",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "Project identifier",
+                    "type": "Number"
+                },
+                {
+                    "name": "name",
+                    "description": "Optional new name of the project",
+                    "type": "String"
+                },
+                {
+                    "name": "name",
+                    "description": "Optional new description of the project",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 412,
+            "itemtype": "event",
+            "name": "syncano:project:update",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 434,
+            "description": "Deletes project",
+            "itemtype": "method",
+            "name": "Project.delete",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 440,
+            "itemtype": "event",
+            "name": "syncano:project:delete",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 450,
+            "description": "Methods for handling collections - creating, reading, updating, deleting",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 456,
+            "description": "Create new collection within specified project",
+            "itemtype": "method",
+            "name": "Collection.new",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id that collection will be created for",
+                    "type": "Number"
+                },
+                {
+                    "name": "name",
+                    "description": "New collections name",
+                    "type": "String"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "key",
+                            "description": "New collections key",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "description",
+                            "description": "New collection's description",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 467,
+            "itemtype": "event",
+            "name": "syncano:collection:new",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 495,
+            "description": "Get collections from specified project",
+            "itemtype": "method",
+            "name": "Collection.get",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "status",
+                            "description": "Status of events to list. Accepted values: active, inactive, all. Default value: all",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "withTags",
+                            "description": "If specified, will only list events that has specified tag(s) defined. Note: tags are case sensitive",
+                            "type": "String / Array",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 505,
+            "itemtype": "event",
+            "name": "syncano:collection:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 532,
+            "description": "Get one collection from specified project.\ncollection_id/collection_key parameter means that one can use either one of them - collection_id or collection_key",
+            "itemtype": "method",
+            "name": "Collection.getOne",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 541,
+            "itemtype": "event",
+            "name": "syncano:collection:get_one",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 556,
+            "description": "Activates specified collection",
+            "itemtype": "method",
+            "name": "Collection.activate",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collectionId",
+                    "description": "Collection id defining collection to be activated",
+                    "type": "Number"
+                },
+                {
+                    "name": "force",
+                    "description": "If set to True, will force the activation by deactivating all other collections that may share it's data_key.",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 565,
+            "itemtype": "event",
+            "name": "syncano:collection:activate",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 589,
+            "description": "Deactivates specified collection\ncollection_id/collection_key parameter means that one can use either one of them - collection_id or collection_key",
+            "itemtype": "method",
+            "name": "Collection.deactivate",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 598,
+            "itemtype": "event",
+            "name": "syncano:collection:deactivate",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 613,
+            "description": "Update existing collections name and/or description",
+            "itemtype": "method",
+            "name": "Collection.update",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "name",
+                            "description": "New collection name",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "description",
+                            "description": "New collection description",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 624,
+            "itemtype": "event",
+            "name": "syncano:collection:update",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 647,
+            "description": "Add a tag to specific event.\nNote: tags are case sensitive. Non-ascii characters are not allowed.",
+            "itemtype": "method",
+            "name": "Collection.addTag",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "tags",
+                    "description": "Tag(s) to be added. Either string (one tag) or array (multiple tags)",
+                    "type": "String / Array"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "weight",
+                            "description": "Tags weight. Default value = 1",
+                            "type": "Float",
+                            "optional": true
+                        },
+                        {
+                            "name": "removeOther",
+                            "description": "If true, will remove all other tags of specified collection. Default value: False",
+                            "type": "Boolean",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 660,
+            "itemtype": "event",
+            "name": "syncano:collection:add_tag",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 680,
+            "description": "currently only ascii chars are supported",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 708,
+            "description": "Delete a tag or tags from specified collection.\nNote: tags are case sensitive",
+            "itemtype": "method",
+            "name": "Collection.deleteTag",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "tags",
+                    "description": "Tag(s) to be added. Either string (one tag) or array (multiple tags)",
+                    "type": "String / Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 718,
+            "itemtype": "event",
+            "name": "syncano:collection:delete_tag",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 733,
+            "description": "currently only ascii chars are supported",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 751,
+            "description": "Permanently delete specified collection and all associated data.",
+            "itemtype": "method",
+            "name": "Collection.delete",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 759,
+            "itemtype": "event",
+            "name": "syncano:collection:delete",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 773,
+            "description": "methods for handling folders - creating, reading, updating, deleting",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 779,
+            "description": "Create new folder within specified collection",
+            "itemtype": "method",
+            "name": "Folder.new",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "name",
+                    "description": "Folder name",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 788,
+            "itemtype": "event",
+            "name": "syncano:folder:new",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 808,
+            "description": "Get folders for specified collection",
+            "name": "method Folder.get",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Collection id or key defining collection for which folders will be returned",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 816,
+            "itemtype": "event",
+            "name": "syncano:folder:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 831,
+            "description": "Get folders for specified collection",
+            "name": "method Folder.getOne",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Collection id or key defining collection for which folder will be returned",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "folderName",
+                    "description": "Folder name defining folder",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 840,
+            "itemtype": "event",
+            "name": "syncano:folder:get_one",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 860,
+            "description": "Update existing folder\nParams newName and sourceId can be passed as a single object: {newName: '', sourceId: ''}",
+            "itemtype": "method",
+            "name": "Folder.update",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Collection id or key defining collection for which folder will be returned",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "folderName",
+                    "description": "Folder name defining folder",
+                    "type": "String"
+                },
+                {
+                    "name": "newName",
+                    "description": "New folder name",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "sourceId",
+                    "description": "New source id, can be used for mapping folders to external source",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 872,
+            "itemtype": "event",
+            "name": "syncano:folder:update",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 914,
+            "description": "Permanently delete specified folder and all associated data",
+            "itemtype": "method",
+            "name": "Folder.delete",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Collection id or key defining collection for which folder will be returned",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "folderName",
+                    "description": "Folder name defining folder",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 923,
+            "itemtype": "event",
+            "name": "syncano:folder:delete",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 944,
+            "description": "Creates a new Data Object",
+            "itemtype": "method",
+            "name": "Data.new",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "dataKey",
+                            "description": "Used for uniquely identifying message. Has to be unique within collection. Useful for updating",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "userName",
+                            "description": "Name of user to associate Data Object with. If not set, internal user 'syncano' is used",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sourceUrl",
+                            "description": "Source URL associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "title",
+                            "description": "Title of data object",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "text",
+                            "description": "Text data associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "link",
+                            "description": "Link associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "image",
+                            "description": "Image data associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "imageUrl",
+                            "description": "Image source URL. Used in combination with image parameter",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folder",
+                            "description": "Folder name that data will be put in. Default value: 'Default'.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "parentId",
+                            "description": "If specified, creates one parent-child relation with specified parent id.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "additional",
+                            "description": "Any number of additional parameters (key - value)",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tvar s = SyncanoConnector.getInstance();\n\ts.connect({instance:'', api_key:''});\n\ts.Data.new(projectId, 'Default', {}, function(res){\n\t\tconsole.log('Added data object:', res);\n\t});"
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 971,
+            "itemtype": "event",
+            "name": "syncano:data:new",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 983,
+            "description": "all optional params",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1030,
+            "description": "Get data from collection(s) or whole project with optional additional filtering. All filters, unless explicitly noted otherwise, affect all hierarchy levels.\nTo paginate and to get more data, use since_id or since_time parameter\nAll optional params should be passed as a single object: {key: value, ...}",
+            "itemtype": "method",
+            "name": "Data.get",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Object with additional parameters",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "dataIds",
+                            "description": "If specified, will return data objects with specified ids. Note: has no effect on returned data object's children. Max 100 values per request",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "State of data to be returned. Accepted values: Pending, Moderated, Rejected, All. Default value: All.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folders",
+                            "description": "Folder name that data will be returned from. Max 100 values per request. If not presents returns data from across all collection folders",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "sinceId",
+                            "description": "If specified, will only return data with id higher than since_id (newer). Note: has no effect on returned data object's children",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "sinceTime",
+                            "description": "String with date. If specified, will only return data with created_at or updated_at time after specified value (newer). Note: has no effect on returned data object's children",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "maxId",
+                            "description": "If specified, will only return data with id lower than max_id (older)",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Number of Data Objects to be returned. Default and max value: 100",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "order",
+                            "description": "Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "orderBy",
+                            "description": "Orders by specified criteria. created_at (default), updated_at",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "TEXT - only data with text field specified, IMAGE - only data with an image attached",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "includeChildren",
+                            "description": "If true, include Data Object children as well (recursively). Default value: True.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "depth",
+                            "description": "Max depth of children to follow. If not specified, will follow all levels until children limit is reached",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "childrenLimit",
+                            "description": "Limit of children to show (if include_children is True). Default and max value: 100 (some children levels may be incomplete if there are more than this limit).",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "parentIds",
+                            "description": "Data Object id or ids. If specified, only children of specific Data Object parent will be listed",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "byUser",
+                            "description": "If specified, filter by Data Object user's name",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tvar s = SyncanoConnector.getInstance();\n\ts.connect({instance:'', api_key:''});\n\ts.Data.get(projectId, 'Default', {}, function(res){\n\t\tconsole.log('Loaded '+ res.length + ' records');\n\t\tres.forEach(function(d){\n\t\t\tconsole.log(d);\n\t\t});\n\t});"
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1065,
+            "itemtype": "event",
+            "name": "syncano:data:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1081,
+            "description": "these optionalParams are just copied to params array if they are set",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1092,
+            "description": "these optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1160,
+            "description": "Get data by data_id or data_key",
+            "itemtype": "method",
+            "name": "Data.getOne",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataKeyOrId",
+                    "description": "Either data id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tvar s = SyncanoConnector.getInstance();\n\ts.connect({instance:'', api_key:''});\n\ts.Data.getOne(projectId, 'Default', dataId, function(res){\n\t\tconsole.log('Found record:', res);\n\t});"
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1175,
+            "itemtype": "event",
+            "name": "syncano:data:get_one",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1198,
+            "itemtype": "method",
+            "name": "Data.update",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataKeyOrId",
+                    "description": "Either data id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Object with additional parameters",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "updateMethod",
+                            "description": "Default value: replace",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "user_name",
+                            "description": "User name of user to associate Data Object with. If not set, internal user 'syncano' is used",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sourceUrl",
+                            "description": "Source URL associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "title",
+                            "description": "Title of message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "text",
+                            "description": "Text data associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "link",
+                            "description": "Link associated with message",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "image",
+                            "description": "Image data associated with message. If specified as empty string - will instead delete current image",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "imageUrl",
+                            "description": "Image source URL. Used in combination with image parameter",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folder",
+                            "description": "Folder name that data will be put in. Default value: 'Default'",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "parentId",
+                            "description": "If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed",
+                            "type": "Number",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tvar s = SyncanoConnector.getInstance();\n\ts.connect({instance:'', api_key:''});\n\ts.Data.update(projectId, 'Default', dataId, {title: 'New title'}, function(res){\n\t\tconsole.log('Modified record:', res);\n\t});"
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1224,
+            "itemtype": "event",
+            "name": "syncano:data:update",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1274,
+            "description": "Moves data to folder and/or state",
+            "itemtype": "method",
+            "name": "Data.move",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Object with additional parameters",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "dataIds",
+                            "description": "If specified, will filter by Data id or ids. Max 100 ids per request.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folders",
+                            "description": "If specified, filter by specified folder or folders. Max 100 values per request.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "If specified, filter by Data state. Accepted values: Pending, Moderated, All. Default value: All.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "TEXT - only data with text IMAGE - only data with an image",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "byUser",
+                            "description": "If specified, filter by user's name",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Number of Data Objects to process. Default and max value: 100",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "newFolder",
+                            "description": "Destination folder where data will be moved. If not specified, leaves folder as is.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "newState",
+                            "description": "State to be set data for specified data. Accepted values: Pending, Moderated. If not specified, leaves state as is.",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tvar s = SyncanoConnector.getInstance();\n\ts.connect({instance:'', api_key:''});\n\ts.Data.move(projectId, 'Default', {newFolder: 'Output folder'});"
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1295,
+            "itemtype": "event",
+            "name": "syncano:data:move",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1308,
+            "description": "these optionalParams are just copied to params array if they are set",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1356,
+            "description": "Copies data with data_id. Copy has data_key cleared",
+            "itemtype": "method",
+            "name": "Data.copy",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataId",
+                    "description": "Data id or ids",
+                    "type": "String / Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tvar s = SyncanoConnector.getInstance();\n\ts.connect({instance:'', api_key:''});\n\ts.Data.copy(projectId, 'Default', dataId, function(res){\n\t\tconsole.log('Copied data object:', res);\n\t});"
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1371,
+            "itemtype": "event",
+            "name": "syncano:data:copy",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1407,
+            "description": "Adds additional parent to data with data_id. If remove_other is True, all other parents of specified Data Object will be removed.",
+            "itemtype": "method",
+            "name": "Data.addParent",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataId",
+                    "description": "Data Object id",
+                    "type": "Number"
+                },
+                {
+                    "name": "parentId",
+                    "description": "Parent id to add",
+                    "type": "Number"
+                },
+                {
+                    "name": "removeOther",
+                    "description": "If true, will remove all other parents. Default value: False",
+                    "type": "Boolean",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1418,
+            "itemtype": "event",
+            "name": "syncano:data:add_parent",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1450,
+            "description": "Removes a parent (or parents) from data with data_id",
+            "itemtype": "method",
+            "name": "Data.removeParent",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataId",
+                    "description": "Data Object id",
+                    "type": "Number"
+                },
+                {
+                    "name": "parentId",
+                    "description": "Parent id to remove. If not specified, will remove all Data Object parents",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1460,
+            "itemtype": "event",
+            "name": "syncano:data:remove_parent",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1486,
+            "description": "Adds additional child to data with data_id. If remove_other is True, all other children of specified Data Object will be removed.\nNote: There is a limit of maximum 250 parents per Data Object, but there is no limit of children.",
+            "itemtype": "method",
+            "name": "Data.addChild",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataId",
+                    "description": "Data Object id",
+                    "type": "Number"
+                },
+                {
+                    "name": "childId",
+                    "description": "Child id to add",
+                    "type": "Number"
+                },
+                {
+                    "name": "removeOther",
+                    "description": "If true, will remove all other parents. Default value: False",
+                    "type": "Boolean",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1498,
+            "itemtype": "event",
+            "name": "syncano:data:add_child",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1530,
+            "description": "Removes a child (or children) from data with data_id.",
+            "itemtype": "method",
+            "name": "Data.removeChild",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "dataId",
+                    "description": "Data Object id",
+                    "type": "Number"
+                },
+                {
+                    "name": "childId",
+                    "description": "Child id to remove. If not specified, will remove all Data Object children",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1540,
+            "itemtype": "event",
+            "name": "syncano:data:remove_child",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1566,
+            "description": "Deletes Data Object. If no filters are specified, will process all Data Objects in defined collection(s) (up to defined limit).",
+            "itemtype": "method",
+            "name": "Data.delete",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "dataIds",
+                            "description": "If specified, will filter by Data id or ids. Max 100 ids per request",
+                            "type": "Number / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "If specified, filter by Data state. Accepted values: Pending, Moderated, All. Default value: All",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folders",
+                            "description": "If specified, filter by specified folder or folders. Max 100 values per request",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "TEXT - only data with text IMAGE - only data with an image",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "byUser",
+                            "description": "If specified, filter by user name.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Number of Data Objects to process. Default and max value: 100.",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1581,
+            "itemtype": "event",
+            "name": "syncano:data:delete",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1594,
+            "description": "these optionalParams are just copied to params array if they are set",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1634,
+            "description": "Counts data of specified criteria",
+            "itemtype": "method",
+            "name": "Data.count",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "state",
+                            "description": "State of data to be counted. Accepted values: Pending, Moderated, All. Default value: All",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folders",
+                            "description": "Folder name(s) that data will be counted from. If not presents counts data from across all collection folders. Max 100 values per request",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "TEXT - only data with text IMAGE - only data with an image",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "byUser",
+                            "description": "If specified, filter by user name.",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1647,
+            "itemtype": "event",
+            "name": "syncano:data:count",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1660,
+            "description": "these optionalParams are just copied to params array if they are set",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1691,
+            "description": "Methods for user management",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1696,
+            "description": "Creates new user",
+            "itemtype": "method",
+            "name": "User.new",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "User's name",
+                    "type": "String"
+                },
+                {
+                    "name": "nick",
+                    "description": "User's nick",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1704,
+            "itemtype": "event",
+            "name": "syncano:user:new",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1723,
+            "description": "Get all users from within instance. To paginate and to get more data, use since_id or since_time parameter.",
+            "itemtype": "method",
+            "name": "User.getAll",
+            "params": [
+                {
+                    "name": "sinceId",
+                    "description": "If specified, will only return users with id higher than since_id (newer).",
+                    "type": "Number"
+                },
+                {
+                    "name": "limit",
+                    "description": "Number of users to be returned. Default and max value: 100",
+                    "type": "Number"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1730,
+            "itemtype": "event",
+            "name": "syncano:user:get_all",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1763,
+            "description": "Get users of specified criteria that are associated with Data Objects within specified collection",
+            "itemtype": "method",
+            "name": "User.count",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id or key",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "state",
+                            "description": "Return only users whose Data Objects are in specified state. Accepted values: Pending, Moderated, Rejected, All. Default value: All",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folders",
+                            "description": "Folder name that data will be returned from. Max 100 values per request. If not present returns data from across all collection folders",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1775,
+            "itemtype": "event",
+            "name": "syncano:user:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1813,
+            "description": "Get one user",
+            "itemtype": "method",
+            "name": "User.getOne",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "User id or name",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1820,
+            "itemtype": "event",
+            "name": "syncano:user:get_one",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1841,
+            "description": "Updates specified user",
+            "itemtype": "method",
+            "name": "User.update",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "User id or name",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "nick",
+                    "description": "User's nick",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1849,
+            "itemtype": "event",
+            "name": "syncano:user:update",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1879,
+            "description": "Count users of specified criteria",
+            "itemtype": "method",
+            "name": "User.count",
+            "params": [
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "projectId",
+                            "description": "Project id. If defined, will only count users that has a Data Object associated within project.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "collection",
+                            "description": "Collection id or key defining collection. If defined, will only count users that has a Data Object associated within collection",
+                            "type": "String / Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "Return only users whose Data Objects are in specified state. Accepted values: Pending, Moderated, All. Default value: All",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "folders",
+                            "description": "Folder name that data will be returned from. Max 100 values per request. If not present returns data from across all collection folders",
+                            "type": "String / Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "TEXT - only return users that sent data with text IMAGE - only return users that sent data with an image",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1891,
+            "itemtype": "event",
+            "name": "syncano:user:count",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1946,
+            "description": "Deletes (permanently) specified user and all associated data",
+            "itemtype": "method",
+            "name": "User.delete",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "User id or name",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1953,
+            "itemtype": "event",
+            "name": "syncano:user:delete",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1969,
+            "description": "Subscriptions handling methods",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1975,
+            "description": "Subscribe to project level notifications",
+            "itemtype": "method",
+            "name": "Subscription.subscribeProject",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1982,
+            "itemtype": "event",
+            "name": "syncano:subscription:subscribe_project",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 1994,
+            "description": "Unsubscribe from project",
+            "itemtype": "method",
+            "name": "Subscription.unsubscribeProject",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2001,
+            "itemtype": "event",
+            "name": "syncano:subscription:unsubscribe_project",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2013,
+            "description": "Subscribe to collection level notifications within specified project",
+            "itemtype": "method",
+            "name": "Subscription.subscribeCollection",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2021,
+            "itemtype": "event",
+            "name": "syncano:subscription:subscribe_collection",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2036,
+            "description": "Unsubscribe from collection within specified project",
+            "itemtype": "method",
+            "name": "Subscription.unsubscribeCollection",
+            "params": [
+                {
+                    "name": "projectId",
+                    "description": "Project id",
+                    "type": "Number"
+                },
+                {
+                    "name": "collection",
+                    "description": "Either collection id (number) or key (string)",
+                    "type": "String / Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2044,
+            "itemtype": "event",
+            "name": "syncano:subscription:unsubscribe_collection",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2059,
+            "description": "Get API client subscriptions",
+            "itemtype": "method",
+            "name": "Subscription.get",
+            "params": [
+                {
+                    "name": "apiId",
+                    "description": "API client id defining client. If not present, gets subscriptions for current client",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2066,
+            "itemtype": "event",
+            "name": "syncano:subscription:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2085,
+            "description": "Get currently connected API client connections up to limit (max 100).",
+            "itemtype": "method",
+            "name": "Connection.get",
+            "params": [
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "apiClientId",
+                            "description": "API client id. If not specified, will get connections for current API client",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "name",
+                            "description": "If specified, will only return connections of specified name.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sinceId",
+                            "description": "If specified, will only return data with id higher than since_id (newer).",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Maximum number of API client connections to get. Default and max: 100",
+                            "type": "Number",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2096,
+            "itemtype": "event",
+            "name": "syncano:connection:get",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2133,
+            "description": "Updates specified API client connection info.",
+            "itemtype": "method",
+            "name": "Connection.update",
+            "params": [
+                {
+                    "name": "uuid",
+                    "description": "Identity UUID",
+                    "type": "String"
+                },
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "apiClientId",
+                            "description": "API client id. If not specified, will query current API client connections",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "name",
+                            "description": "New connection name to set.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "state",
+                            "description": "New state to set",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2144,
+            "itemtype": "event",
+            "name": "syncano:connection:update",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2194,
+            "description": "Sends custom notification to API client through Sync Server. If uuid is specified - will only send to this specific instance.",
+            "itemtype": "method",
+            "name": "Notification.send",
+            "params": [
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "apiClientId",
+                            "description": "Destination API client id. If not specified, will use current API client",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "uuid",
+                            "description": "UUID of client identity. If not specified, will send a broadcast to all API client identities within current instance",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "data",
+                            "description": "Additional key-value parameters to be sent.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2204,
+            "itemtype": "event",
+            "name": "syncano:notification:send",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2249,
+            "description": "Get history of notifications of specified API client. History items are stored for 24 hours",
+            "itemtype": "method",
+            "name": "Notification.getHistory",
+            "params": [
+                {
+                    "name": "optionalParams",
+                    "description": "Optional parameters:",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "apiClientId",
+                            "description": "Client id. If not specified, will return history of current API client.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "sinceId",
+                            "description": "If specified, will only return data with id higher than since_id (newer).",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "sinceTime",
+                            "description": "String with date. If specified, will only return data with timestamp after specified value (newer).",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "limit",
+                            "description": "Maximum number of history items to get. Default and max: 100",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "order",
+                            "description": "Sets order of data that will be returned. ASC (default) - oldest first, DESC - newest first",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when successful response comes",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2261,
+            "itemtype": "event",
+            "name": "syncano:notification:get_history",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2281,
+            "description": "these optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2316,
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2341,
+            "description": "queue for messages which could not be sent because of no connection",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2346,
+            "description": "in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2352,
+            "description": "High-level function mixins",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2374,
+            "description": "add PubSub mixin",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2380,
+            "description": "Establishes connecion to the server and sends authorization request.",
+            "itemtype": "method",
+            "name": "connect",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "Connection parameters {instance, api_key, optional timezone}. If any of them is not defined, error is thrown",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Optional callback to be called after successful connection and authorization.",
+                    "type": "Function"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2411,
+            "description": "Internal method called after the socket is open. Sends authorization request - instance, api_key and (optional) timezone \ndefined in this.connectionParams.",
+            "itemtype": "method",
+            "name": "onSocketOpen",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2423,
+            "description": "Internal method called automatically when socket is closed. Clears SockJS instance, changes state to DISCONNECTED. If there was\nwaiting request to reconnect, handles reconnection with the same params.",
+            "itemtype": "method",
+            "name": "onSocketClose",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2439,
+            "description": "Method called every time the message is received. Message is passed as e.data\nIf there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.",
+            "itemtype": "method",
+            "name": "onMessage",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "event object",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2446,
+            "description": "When server cannot process request (result == NOK)",
+            "itemtype": "event",
+            "name": "syncano:error",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2450,
+            "description": "When authorization failed",
+            "itemtype": "event",
+            "name": "syncano:auth:error",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2454,
+            "description": "When response to message sent comes",
+            "itemtype": "event",
+            "name": "syncano:received",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2500,
+            "description": "After successful authorization trigger event and send all queued messages",
+            "itemtype": "method",
+            "name": "parseAuthorizationResponse",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object send by server. Fields: timestamp, uuid, type, result",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2506,
+            "itemtype": "event",
+            "name": "syncano:authorized",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2518,
+            "description": "When message with type 'new' comes, we trigger 3 events: one for the project (syncano:newdata:project-ID), \none for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).\nYou can handle any of them.",
+            "itemtype": "method",
+            "name": "parseNewRecordNotifier",
+            "params": [
+                {
+                    "name": "rec",
+                    "description": "Object send by server. Fields: timestamp, uuid, type, result",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2526,
+            "description": "Triggered after receiving message with new record in folder XXX",
+            "itemtype": "event",
+            "name": "syncano:newdata:folder-XXX",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2530,
+            "description": "Triggered after receiving message with new record in project XXX",
+            "itemtype": "event",
+            "name": "syncano:newdata:project-XXX",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2534,
+            "description": "Triggered after receiving message with new record in collection XXX",
+            "itemtype": "event",
+            "name": "syncano:newdata:collection-XXX",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2551,
+            "description": "When message with type 'change' comes, trigger appropriate event for each data object modified.",
+            "itemtype": "method",
+            "name": "parseChangeRecordNotifier",
+            "params": [
+                {
+                    "name": "rec",
+                    "description": "Object send by server. Fields: timestamp, uuid, type, result",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2557,
+            "description": "Triggered after receiving message with changed record XXX",
+            "itemtype": "event",
+            "name": "syncano:change:data-XXX",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2579,
+            "description": "When message with type 'delete' comes, trigger appropriate event for each data object modified.",
+            "itemtype": "method",
+            "name": "parseChangeRecordNotifier",
+            "params": [
+                {
+                    "name": "rec",
+                    "description": "Object send by server. Fields: timestamp, uuid, type, result",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2585,
+            "description": "Triggered after receiving message with deleted record XXX",
+            "itemtype": "event",
+            "name": "syncano:delete:data-XXX",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2597,
+            "description": "When message with type 'message' comes, just trigger event with data passed",
+            "itemtype": "method",
+            "name": "parseMessageNotifier",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object send by server. Fields: timestamp, uuid, type, result",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2603,
+            "description": "Triggered after receiving message from server",
+            "itemtype": "event",
+            "name": "syncano:message",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2612,
+            "description": "Receiven new callresponse message. If we were waiting for this response, handle it (call callback, etc). Otherwise - ignore",
+            "itemtype": "method",
+            "name": "parseCallResponse",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "- data received. Fields: type (=callresponse), message_id, result, data",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2618,
+            "description": "When server sends data we are not waiting for",
+            "itemtype": "event",
+            "name": "syncano:ignored",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2639,
+            "description": "Sends all requests waiting in the queue and clears the queue.",
+            "itemtype": "method",
+            "name": "sendQueue",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2652,
+            "description": "Generates unique message id",
+            "itemtype": "method",
+            "name": "getNextRequestId",
+            "return": {
+                "description": "next unique identifier",
+                "type": "Number"
+            },
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2663,
+            "description": "Sends request as a string. Internal low-level function, should not be used outside",
+            "itemtype": "method",
+            "name": "socketSend",
+            "params": [
+                {
+                    "name": "request",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2674,
+            "description": "Universal high-level function for sending requests to syncano. \nSends request to 'method' with given 'params' if the socket is connected. If not, puts request on the queue to be sent later.\nUses internal 'waitingForResponse' object to match request with response.",
+            "itemtype": "method",
+            "name": "sendRequest",
+            "params": [
+                {
+                    "name": "method",
+                    "description": "Name of the Syncano method to call (check syncano docs)",
+                    "type": "String"
+                },
+                {
+                    "name": "params",
+                    "description": "Parameters to send. Every method needs different parameters (check syncano docs)",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to call after receiving response from server",
+                    "type": "Function"
+                }
+            ],
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2684,
+            "description": "Before sending request to server",
+            "itemtype": "event",
+            "name": "syncano:call",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2688,
+            "description": "When user wants to send data to the server, but connection has not been established yet",
+            "itemtype": "event",
+            "name": "syncano:queued",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2705,
+            "description": "Remember method and callback on the waitingForResponse list. When the response comes, callback will be called",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2710,
+            "description": "Send message to socket if already open and authorized. Otherwise - push to requestsQueue",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2722,
+            "description": "Internal method to check if projectId is a number - so I don't have to write this manualy again and again",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2731,
+            "description": "Internal method to check the variable name (string or number) and add correct key to passed object",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2745,
+            "description": "Internal shortcut method to send request and run the callback function with proper data as parameter",
+            "class": "Syncano"
+        },
+        {
+            "file": "dist/syncano.js",
+            "line": 2765,
+            "description": "Export to the root, which is probably `window`.",
+            "class": "Syncano"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: name",
+            "line": " dist/syncano.js:808"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " dist/syncano.js:831"
+        },
+        {
+            "message": "Missing item type\nLibrary agnostic version of jQuery's Extend by @jonjaques",
+            "line": " dist/syncano.js:11"
+        },
+        {
+            "message": "Missing item type\nconverts string in camel case (eg. dataKey) to lowercase with underscores (eg. data_key)",
+            "line": " dist/syncano.js:100"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/syncano.js:117"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/syncano.js:124"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/syncano.js:134"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/syncano.js:145"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/syncano.js:155"
+        },
+        {
+            "message": "Missing item type\nvery simple pub-sub structure. Based on PubSubJS by @mroderick (https://github.com/mroderick/PubSubJS)",
+            "line": " dist/syncano.js:162"
+        },
+        {
+            "message": "Missing item type\ntrigger event for 'all'. Send original message name as the first parameter",
+            "line": " dist/syncano.js:314"
+        },
+        {
+            "message": "Missing item type\nMethods for handling projects - creating, reading, updating, deleting",
+            "line": " dist/syncano.js:336"
+        },
+        {
+            "message": "Missing item type\nMethods for handling collections - creating, reading, updating, deleting",
+            "line": " dist/syncano.js:450"
+        },
+        {
+            "message": "Missing item type\ncurrently only ascii chars are supported",
+            "line": " dist/syncano.js:680"
+        },
+        {
+            "message": "Missing item type\ncurrently only ascii chars are supported",
+            "line": " dist/syncano.js:733"
+        },
+        {
+            "message": "Missing item type\nmethods for handling folders - creating, reading, updating, deleting",
+            "line": " dist/syncano.js:773"
+        },
+        {
+            "message": "Missing item type\nGet folders for specified collection",
+            "line": " dist/syncano.js:808"
+        },
+        {
+            "message": "Missing item type\nGet folders for specified collection",
+            "line": " dist/syncano.js:831"
+        },
+        {
+            "message": "Missing item type\nall optional params",
+            "line": " dist/syncano.js:983"
+        },
+        {
+            "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
+            "line": " dist/syncano.js:1081"
+        },
+        {
+            "message": "Missing item type\nthese optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error",
+            "line": " dist/syncano.js:1092"
+        },
+        {
+            "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
+            "line": " dist/syncano.js:1308"
+        },
+        {
+            "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
+            "line": " dist/syncano.js:1594"
+        },
+        {
+            "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
+            "line": " dist/syncano.js:1660"
+        },
+        {
+            "message": "Missing item type\nMethods for user management",
+            "line": " dist/syncano.js:1691"
+        },
+        {
+            "message": "Missing item type\nSubscriptions handling methods",
+            "line": " dist/syncano.js:1969"
+        },
+        {
+            "message": "Missing item type\nthese optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error",
+            "line": " dist/syncano.js:2281"
+        },
+        {
+            "message": "Missing item type",
+            "line": " dist/syncano.js:2316"
+        },
+        {
+            "message": "Missing item type\nqueue for messages which could not be sent because of no connection",
+            "line": " dist/syncano.js:2341"
+        },
+        {
+            "message": "Missing item type\nin this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
+            "line": " dist/syncano.js:2346"
+        },
+        {
+            "message": "Missing item type\nHigh-level function mixins",
+            "line": " dist/syncano.js:2352"
+        },
+        {
+            "message": "Missing item type\nadd PubSub mixin",
+            "line": " dist/syncano.js:2374"
+        },
+        {
+            "message": "Missing item type\nRemember method and callback on the waitingForResponse list. When the response comes, callback will be called",
+            "line": " dist/syncano.js:2705"
+        },
+        {
+            "message": "Missing item type\nSend message to socket if already open and authorized. Otherwise - push to requestsQueue",
+            "line": " dist/syncano.js:2710"
+        },
+        {
+            "message": "Missing item type\nInternal method to check if projectId is a number - so I don't have to write this manualy again and again",
+            "line": " dist/syncano.js:2722"
+        },
+        {
+            "message": "Missing item type\nInternal method to check the variable name (string or number) and add correct key to passed object",
+            "line": " dist/syncano.js:2731"
+        },
+        {
+            "message": "Missing item type\nInternal shortcut method to send request and run the callback function with proper data as parameter",
+            "line": " dist/syncano.js:2745"
+        },
+        {
+            "message": "Missing item type\nExport to the root, which is probably `window`.",
+            "line": " dist/syncano.js:2765"
+        }
+    ]
+}
