@@ -272,6 +272,7 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
+ *  @param {string} [optionalParams.additional] any number of additional parameters passed as key - value object literal
  *  @param {function} [callback] Function to be called when successful response comes
  *  @example
 	var s = SyncanoConnector.getInstance();
@@ -325,6 +326,18 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 			}
 		}
 	}
+
+	if(isset(optionalParams.additional)){
+			for(var key in optionalParams.additional){
+				if(optionalParams.additional.hasOwnProperty(key)){
+					var val = optionalParams.additional[key];
+					if(typeof params[key] !== 'undefined'){
+						throw new Error('Cannot use additional (custom) param named ' + key);
+					}
+					params[key] = val;
+				}
+			}
+		}
 	
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
