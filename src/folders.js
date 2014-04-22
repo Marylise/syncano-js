@@ -130,7 +130,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
 	
 	if(isset(sourceId)){
 		if(isNumber(sourceId)){
-			params.source_id = sourceId + "";
+			params.source_id = sourceId + '';
 		} else {
 			throw new Error('sourceId must be a number');
 		}

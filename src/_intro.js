@@ -1,2 +1,2 @@
 (function(root, undefined) {
-  "use strict";
+  'use strict';

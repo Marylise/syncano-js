@@ -89,11 +89,11 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 17-04-2014
+build date: 22-04-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
-  &quot;use strict&quot;;
+  &#x27;use strict&#x27;;
 
 
 /**
@@ -102,17 +102,17 @@ Copyright 2014 Syncano Inc.
 
 function type(obj) {
 	var checker = {};
-	var types = &quot;Boolean Number String Function Array Date RegExp Object&quot;.split(&quot; &quot;);
+	var types = &#x27;Boolean Number String Function Array Date RegExp Object&#x27;.split(&#x27; &#x27;);
 	for(var i in types){
-		checker[ &quot;[object &quot; + types[i] + &quot;]&quot; ] = types[i].toLowerCase();
+		checker[ &#x27;[object &#x27; + types[i] + &#x27;]&#x27; ] = types[i].toLowerCase();
 	}
 	return obj === null ?
 		String( obj ) :
-		checker[ Object.prototype.toString.call(obj) ] || &quot;object&quot;;
+		checker[ Object.prototype.toString.call(obj) ] || &#x27;object&#x27;;
 }
 
 function isFunction(obj) {
-	return type(obj) === &quot;function&quot;;
+	return type(obj) === &#x27;function&#x27;;
 }
 
 function isWindow(obj) {
@@ -121,13 +121,13 @@ function isWindow(obj) {
 
 function isPlainObject(obj) {
 	var hasOwn = Object.prototype.hasOwnProperty;
-	if ( !obj || type(obj) !== &quot;object&quot; || obj.nodeType || isWindow( obj ) ) {
+	if ( !obj || type(obj) !== &#x27;object&#x27; || obj.nodeType || isWindow( obj ) ) {
 		return false;
 	}
 	try {
 		if ( obj.constructor &amp;&amp;
-			!hasOwn.call(obj, &quot;constructor&quot;) &amp;&amp;
-			!hasOwn.call(obj.constructor.prototype, &quot;isPrototypeOf&quot;) ) {
+			!hasOwn.call(obj, &#x27;constructor&#x27;) &amp;&amp;
+			!hasOwn.call(obj.constructor.prototype, &#x27;isPrototypeOf&#x27;) ) {
 				return false;
 		}
 	} catch ( e ) {
@@ -139,7 +139,7 @@ function isPlainObject(obj) {
 }
 
 function isArray(obj){
-	return type(obj) === &quot;array&quot;;
+	return type(obj) === &#x27;array&#x27;;
 }
 
 
@@ -150,12 +150,12 @@ function extend() {
 		length = arguments.length,
 		deep = false;
  
-	if ( typeof target === &quot;boolean&quot; ) {
+	if ( typeof target === &#x27;boolean&#x27; ) {
 		deep = target;
 		target = arguments[1] || {};
 		i = 2;
 	}
-	if ( typeof target !== &quot;object&quot; &amp;&amp; !isFunction(target) ) {
+	if ( typeof target !== &#x27;object&#x27; &amp;&amp; !isFunction(target) ) {
 		target = {};
 	}
 
@@ -224,7 +224,7 @@ function isNumber(v){
  */
 function isDate(v){
 	var d = new Date(v);
-	if(Object.prototype.toString.call(d) !== &quot;[object Date]&quot;){
+	if(Object.prototype.toString.call(d) !== &#x27;[object Date]&#x27;){
 		return false;
 	}
 	return !isNaN(d.getTime());
@@ -990,7 +990,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
 	
 	if(isset(sourceId)){
 		if(isNumber(sourceId)){
-			params.source_id = sourceId + &quot;&quot;;
+			params.source_id = sourceId + &#x27;&#x27;;
 		} else {
 			throw new Error(&#x27;sourceId must be a number&#x27;);
 		}
@@ -2768,7 +2768,7 @@ Syncano.prototype.getNextRequestId = function(){
  *  @param {object} request 
  */
 Syncano.prototype.socketSend = function(request){
-	this.socket.send(JSON.stringify(request) + &quot;\n&quot;);
+	this.socket.send(JSON.stringify(request) + &#x27;\n&#x27;);
 };
 
 

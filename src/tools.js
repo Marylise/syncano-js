@@ -4,17 +4,17 @@
 
 function type(obj) {
 	var checker = {};
-	var types = "Boolean Number String Function Array Date RegExp Object".split(" ");
+	var types = 'Boolean Number String Function Array Date RegExp Object'.split(' ');
 	for(var i in types){
-		checker[ "[object " + types[i] + "]" ] = types[i].toLowerCase();
+		checker[ '[object ' + types[i] + ']' ] = types[i].toLowerCase();
 	}
 	return obj === null ?
 		String( obj ) :
-		checker[ Object.prototype.toString.call(obj) ] || "object";
+		checker[ Object.prototype.toString.call(obj) ] || 'object';
 }
 
 function isFunction(obj) {
-	return type(obj) === "function";
+	return type(obj) === 'function';
 }
 
 function isWindow(obj) {
@@ -23,13 +23,13 @@ function isWindow(obj) {
 
 function isPlainObject(obj) {
 	var hasOwn = Object.prototype.hasOwnProperty;
-	if ( !obj || type(obj) !== "object" || obj.nodeType || isWindow( obj ) ) {
+	if ( !obj || type(obj) !== 'object' || obj.nodeType || isWindow( obj ) ) {
 		return false;
 	}
 	try {
 		if ( obj.constructor &&
-			!hasOwn.call(obj, "constructor") &&
-			!hasOwn.call(obj.constructor.prototype, "isPrototypeOf") ) {
+			!hasOwn.call(obj, 'constructor') &&
+			!hasOwn.call(obj.constructor.prototype, 'isPrototypeOf') ) {
 				return false;
 		}
 	} catch ( e ) {
@@ -41,7 +41,7 @@ function isPlainObject(obj) {
 }
 
 function isArray(obj){
-	return type(obj) === "array";
+	return type(obj) === 'array';
 }
 
 
@@ -52,12 +52,12 @@ function extend() {
 		length = arguments.length,
 		deep = false;
  
-	if ( typeof target === "boolean" ) {
+	if ( typeof target === 'boolean' ) {
 		deep = target;
 		target = arguments[1] || {};
 		i = 2;
 	}
-	if ( typeof target !== "object" && !isFunction(target) ) {
+	if ( typeof target !== 'object' && !isFunction(target) ) {
 		target = {};
 	}
 
@@ -126,7 +126,7 @@ function isNumber(v){
  */
 function isDate(v){
 	var d = new Date(v);
-	if(Object.prototype.toString.call(d) !== "[object Date]"){
+	if(Object.prototype.toString.call(d) !== '[object Date]'){
 		return false;
 	}
 	return !isNaN(d.getTime());
