@@ -168,7 +168,11 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case 'new':
-			this.parseNewRecordNotifier(data);
+			if(data.object === 'data'){
+				this.parseNewRecordNotifier(data);
+			} else if(data.object === 'datarelation'){
+				// TODO
+			}
 			break;
 			
 		case 'change':
