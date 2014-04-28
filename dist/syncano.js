@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 22-04-2014
+build date: 28-04-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2496,7 +2496,11 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case 'new':
-			this.parseNewRecordNotifier(data);
+			if(data.object === 'data'){
+				this.parseNewRecordNotifier(data);
+			} else if(data.object === 'datarelation'){
+				// TODO
+			}
 			break;
 			
 		case 'change':
