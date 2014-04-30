@@ -89,7 +89,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 29-04-2014
+build date: 30-04-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -1111,6 +1111,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
 			}
 		}
 	}
+	this.__super__.ignoreNextNew = true;
 	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
@@ -1357,17 +1358,18 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 	}
 
 	if(isset(optionalParams.additional)){
-			for(var key in optionalParams.additional){
-				if(optionalParams.additional.hasOwnProperty(key)){
-					var val = optionalParams.additional[key];
-					if(typeof params[key] !== &#x27;undefined&#x27;){
-						throw new Error(&#x27;Cannot use additional (custom) param named &#x27; + key);
-					}
-					params[key] = val;
+		for(var key in optionalParams.additional){
+			if(optionalParams.additional.hasOwnProperty(key)){
+				var val = optionalParams.additional[key];
+				if(typeof params[key] !== &#x27;undefined&#x27;){
+					throw new Error(&#x27;Cannot use additional (custom) param named &#x27; + key);
 				}
+				params[key] = val;
 			}
 		}
+	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
 };
 
@@ -1450,6 +1452,7 @@ Data.move = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1544,6 +1547,7 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1580,6 +1584,7 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 		params.parent_id = parentId;
 	}
 	
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1624,6 +1629,7 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1660,6 +1666,7 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
 		params.child_id = childId;
 	}
 
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1728,6 +1735,7 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 		}
 	}
 
+	this.__super__.ignoreNextDelete = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -2436,6 +2444,17 @@ var Syncano = function(){
 	this.status = states.DISCONNECTED;
 	this.requestId = 1;
 	this.uuid = null;
+
+	/**
+		this flags are set by Data.new, Data.addChild, Data.addParent methods
+		when we create new data object in syncano, we still get notification from the backend that new data has been created
+		we already know that (cause we&#x27;ve created it!), so we have to ignore message
+	 */
+	this.ignoreNextNew = false;
+	this.ignoreNextNewRelation = false;
+	this.ignoreNextDelete = false;
+	this.ignoreNextDeleteRelation = false;
+	this.ignoreNextChange = false;
 	
 	this.VERSION = &#x27;3.1.0beta&#x27;;
 	
@@ -2566,8 +2585,6 @@ Syncano.prototype.onMessage = function(e){
 			this.trigger(&#x27;syncano:auth:error&#x27;);
 		}
 		return;
-	} else {
-		this.trigger(&#x27;syncano:received&#x27;, data);
 	}
 	
 	switch(data.type){
@@ -2587,7 +2604,7 @@ Syncano.prototype.onMessage = function(e){
 			if(data.object === &#x27;data&#x27;){
 				this.parseNewRecordNotifier(data);
 			} else if(data.object === &#x27;datarelation&#x27;){
-				// TODO
+				this.parseNewRelationNotifier(data);
 			}
 			break;
 			
@@ -2596,7 +2613,11 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case &#x27;delete&#x27;:
-			this.parseDeleteRecordNotifier(data);
+			if(data.object === &#x27;data&#x27;){
+				this.parseDeleteRecordNotifier(data);
+			} else {
+				this.parseDeleteRelationNotifier(data);
+			}
 			break;
 	}
 };
@@ -2614,6 +2635,7 @@ Syncano.prototype.onMessage = function(e){
 Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
+	this.trigger(&#x27;syncano:received&#x27;, data);
 	this.trigger(&#x27;syncano:authorized&#x27;, this.uuid);
 	this.parseCallResponse({message_id: &#x27;auth&#x27;, data:data});
 	this.sendQueue();
@@ -2641,6 +2663,13 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
  *  @event syncano:newdata:collection-XXX
  */
 Syncano.prototype.parseNewRecordNotifier = function(rec){
+	// ignore means ignore
+	if(this.ignoreNextNew === true){
+		this.trigger(&#x27;syncano:ignored&#x27;, rec);
+		this.ignoreNextNew = false;
+		return;
+	}
+	this.trigger(&#x27;syncano:received&#x27;, rec);
 	var projectId = rec.channel.project_id | 0;
 	var collectionId = rec.channel.collection_id | 0;
 	var recData = rec.data;
@@ -2650,6 +2679,36 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
 	}
 	this.trigger(&#x27;syncano:newdata:project-&#x27; + projectId, recData);
 	this.trigger(&#x27;syncano:newdata:collection-&#x27; + collectionId, recData);
+};
+
+
+/**
+ *  When message with type &#x27;new&#x27; and object &#x27;datarelation&#x27; comes, trigger two events - for parent and for child 
+ *
+ *  @method parseNewRelationNotifier
+ *  @param {object} rec Object send by server
+ */
+/** 
+ *  Triggered after receiving message with new relation between records XXX (child) and YYY (parent)
+ *  @event syncano:newparent:data-XXX
+ */
+/** 
+ *  Triggered after receiving message with new relation between records XXX (child) and YYY (parent)
+ *  @event syncano:newchild:data-YYY
+ */
+Syncano.prototype.parseNewRelationNotifier = function(rec){
+	if(this.ignoreNextNewRelation === true){
+		this.trigger(&#x27;syncano:ignored&#x27;, rec);
+		this.ignoreNextNewRelation = false;
+		return;
+	}
+	this.trigger(&#x27;syncano:received&#x27;, rec);
+	if(typeof rec.target !== &#x27;undefined&#x27;){
+		var parentId = rec.target.parent_id;
+		var childId = rec.target.child_id;
+		this.trigger(&#x27;syncano:newparent:data-&#x27; + childId, parentId);
+		this.trigger(&#x27;syncano:newchild:data-&#x27; + parentId, childId);
+	}
 };
 
 
@@ -2664,7 +2723,14 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
  *  @event syncano:change:data-XXX
  */
 Syncano.prototype.parseChangeRecordNotifier = function(rec){
+	// ignore means ignore
+	if(this.ignoreNextChange === true){
+		this.trigger(&#x27;syncano:ignored&#x27;, rec);
+		this.ignoreNextChange = false;
+		return;
+	}
 	var targetIds = rec.target.id;
+	this.trigger(&#x27;syncano:received&#x27;, rec);
 	for(var i=0; i&lt;targetIds.length; i++){
 		var id = targetIds[i];
 		var p = {};
@@ -2692,10 +2758,45 @@ Syncano.prototype.parseChangeRecordNotifier = function(rec){
  *  @event syncano:delete:data-XXX
  */
 Syncano.prototype.parseDeleteRecordNotifier = function(rec){
+	if(this.ignoreNextDelete === true){
+		this.trigger(&#x27;syncano:ignored&#x27;, rec);
+		this.ignoreNextDelete = false;
+		return;
+	}
 	var targetIds = rec.target.id;
+	this.trigger(&#x27;syncano:received&#x27;, rec);
 	for(var i=0; i&lt;targetIds.length; i++){
 		var id = targetIds[i];
 		this.trigger(&#x27;syncano:delete:data-&#x27;+id);
+	}
+};
+
+/**
+ *  When message with type &#x27;delete&#x27; and object &#x27;datarelation&#x27; comes, trigger two events - for parent and for child 
+ *
+ *  @method parseDeleteRelationNotifier
+ *  @param {object} rec Object send by server
+ */
+/** 
+ *  Triggered after receiving message with removed relation between records XXX (child) and YYY (parent)
+ *  @event syncano:removeparent:data-XXX
+ */
+/** 
+ *  Triggered after receiving message with removed relation between records XXX (child) and YYY (parent)
+ *  @event syncano:removechild:data-YYY
+ */
+Syncano.prototype.parseDeleteRelationNotifier = function(rec){
+	if(this.ignoreNextDeleteRelation === true){
+		this.trigger(&#x27;syncano:ignored&#x27;, rec);
+		this.ignoreNextDeleteRelation = false;
+		return;
+	}
+	this.trigger(&#x27;syncano:received&#x27;, rec);
+	if(typeof rec.target !== &#x27;undefined&#x27;){
+		var parentId = rec.target.parent_id;
+		var childId = rec.target.child_id;
+		this.trigger(&#x27;syncano:removeparent:data-&#x27; + childId, parentId);
+		this.trigger(&#x27;syncano:removechild:data-&#x27; + parentId, childId);
 	}
 };
 
@@ -2710,6 +2811,7 @@ Syncano.prototype.parseDeleteRecordNotifier = function(rec){
  *  @event syncano:message
  */
 Syncano.prototype.parseMessageNotifier = function(data){
+	this.trigger(&#x27;syncano:received&#x27;, data);
 	this.trigger(&#x27;syncano:message&#x27;, data);
 };
 
@@ -2730,6 +2832,7 @@ Syncano.prototype.parseCallResponse = function(data){
 		var rec = this.waitingForResponse[messageId];
 		var actionType = rec[0].replace(&#x27;.&#x27;, &#x27;:&#x27;);
 		var callback = rec[1];
+		this.trigger(&#x27;syncano:received&#x27;, data);
 		this.trigger(&#x27;syncano:&#x27; + actionType, data.data);
 		if(typeof callback === &#x27;function&#x27;){
 			callback(data.data);

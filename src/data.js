@@ -82,6 +82,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
 			}
 		}
 	}
+	this.__super__.ignoreNextNew = true;
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
@@ -328,17 +329,18 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 	}
 
 	if(isset(optionalParams.additional)){
-			for(var key in optionalParams.additional){
-				if(optionalParams.additional.hasOwnProperty(key)){
-					var val = optionalParams.additional[key];
-					if(typeof params[key] !== 'undefined'){
-						throw new Error('Cannot use additional (custom) param named ' + key);
-					}
-					params[key] = val;
+		for(var key in optionalParams.additional){
+			if(optionalParams.additional.hasOwnProperty(key)){
+				var val = optionalParams.additional[key];
+				if(typeof params[key] !== 'undefined'){
+					throw new Error('Cannot use additional (custom) param named ' + key);
 				}
+				params[key] = val;
 			}
 		}
+	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
@@ -421,6 +423,7 @@ Data.move = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -515,6 +518,7 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -551,6 +555,7 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 		params.parent_id = parentId;
 	}
 	
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -595,6 +600,7 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -631,6 +637,7 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
 		params.child_id = childId;
 	}
 
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -699,6 +706,7 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 		}
 	}
 
+	this.__super__.ignoreNextDelete = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
