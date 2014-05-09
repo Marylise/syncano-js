@@ -27,7 +27,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "dist/syncano.js",
-            "line": 2347,
+            "line": 2348,
             "description": "Real time high level library for Syncano (www.syncano.com)",
             "is_constructor": 1
         }
@@ -1362,6 +1362,12 @@
                             "optional": true
                         },
                         {
+                            "name": "dataKey",
+                            "description": "New data key to be set",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
                             "name": "state",
                             "description": "State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending",
                             "type": "String",
@@ -1395,14 +1401,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1226,
+            "line": 1227,
             "itemtype": "event",
             "name": "syncano:data:update",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1289,
+            "line": 1290,
             "description": "Moves data to folder and/or state",
             "itemtype": "method",
             "name": "Data.move",
@@ -1487,20 +1493,20 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1310,
+            "line": 1311,
             "itemtype": "event",
             "name": "syncano:data:move",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1323,
+            "line": 1324,
             "description": "these optionalParams are just copied to params array if they are set",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1372,
+            "line": 1373,
             "description": "Copies data with data_id. Copy has data_key cleared",
             "itemtype": "method",
             "name": "Data.copy",
@@ -1534,14 +1540,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1387,
+            "line": 1388,
             "itemtype": "event",
             "name": "syncano:data:copy",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1423,
+            "line": 1424,
             "description": "Adds additional parent to data with data_id. If remove_other is True, all other parents of specified Data Object will be removed.",
             "itemtype": "method",
             "name": "Data.addParent",
@@ -1583,14 +1589,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1434,
+            "line": 1435,
             "itemtype": "event",
             "name": "syncano:data:add_parent",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1467,
+            "line": 1468,
             "description": "Removes a parent (or parents) from data with data_id",
             "itemtype": "method",
             "name": "Data.removeParent",
@@ -1626,14 +1632,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1477,
+            "line": 1478,
             "itemtype": "event",
             "name": "syncano:data:remove_parent",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1504,
+            "line": 1505,
             "description": "Adds additional child to data with data_id. If remove_other is True, all other children of specified Data Object will be removed.\nNote: There is a limit of maximum 250 parents per Data Object, but there is no limit of children.",
             "itemtype": "method",
             "name": "Data.addChild",
@@ -1675,14 +1681,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1516,
+            "line": 1517,
             "itemtype": "event",
             "name": "syncano:data:add_child",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1549,
+            "line": 1550,
             "description": "Removes a child (or children) from data with data_id.",
             "itemtype": "method",
             "name": "Data.removeChild",
@@ -1718,14 +1724,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1559,
+            "line": 1560,
             "itemtype": "event",
             "name": "syncano:data:remove_child",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1586,
+            "line": 1587,
             "description": "Deletes Data Object. If no filters are specified, will process all Data Objects in defined collection(s) (up to defined limit).",
             "itemtype": "method",
             "name": "Data.delete",
@@ -1795,20 +1801,20 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1601,
+            "line": 1602,
             "itemtype": "event",
             "name": "syncano:data:delete",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1614,
+            "line": 1615,
             "description": "these optionalParams are just copied to params array if they are set",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1655,
+            "line": 1656,
             "description": "Counts data of specified criteria",
             "itemtype": "method",
             "name": "Data.count",
@@ -1866,26 +1872,26 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1668,
+            "line": 1669,
             "itemtype": "event",
             "name": "syncano:data:count",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1681,
+            "line": 1682,
             "description": "these optionalParams are just copied to params array if they are set",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1712,
+            "line": 1713,
             "description": "Methods for user management",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1717,
+            "line": 1718,
             "description": "Creates new user",
             "itemtype": "method",
             "name": "User.new",
@@ -1912,14 +1918,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1725,
+            "line": 1726,
             "itemtype": "event",
             "name": "syncano:user:new",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1744,
+            "line": 1745,
             "description": "Get all users from within instance. To paginate and to get more data, use since_id or since_time parameter.",
             "itemtype": "method",
             "name": "User.getAll",
@@ -1939,14 +1945,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1751,
+            "line": 1752,
             "itemtype": "event",
             "name": "syncano:user:get_all",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1784,
+            "line": 1785,
             "description": "Get users of specified criteria that are associated with Data Objects within specified collection",
             "itemtype": "method",
             "name": "User.count",
@@ -1998,14 +2004,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1796,
+            "line": 1797,
             "itemtype": "event",
             "name": "syncano:user:get",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1834,
+            "line": 1835,
             "description": "Get one user",
             "itemtype": "method",
             "name": "User.getOne",
@@ -2026,14 +2032,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1841,
+            "line": 1842,
             "itemtype": "event",
             "name": "syncano:user:get_one",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1862,
+            "line": 1863,
             "description": "Updates specified user",
             "itemtype": "method",
             "name": "User.update",
@@ -2060,14 +2066,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1870,
+            "line": 1871,
             "itemtype": "event",
             "name": "syncano:user:update",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1900,
+            "line": 1901,
             "description": "Count users of specified criteria",
             "itemtype": "method",
             "name": "User.count",
@@ -2121,14 +2127,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1912,
+            "line": 1913,
             "itemtype": "event",
             "name": "syncano:user:count",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1967,
+            "line": 1968,
             "description": "Deletes (permanently) specified user and all associated data",
             "itemtype": "method",
             "name": "User.delete",
@@ -2149,20 +2155,20 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 1974,
+            "line": 1975,
             "itemtype": "event",
             "name": "syncano:user:delete",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1990,
+            "line": 1991,
             "description": "Subscriptions handling methods",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 1996,
+            "line": 1997,
             "description": "Subscribe to project level notifications",
             "itemtype": "method",
             "name": "Subscription.subscribeProject",
@@ -2183,14 +2189,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2003,
+            "line": 2004,
             "itemtype": "event",
             "name": "syncano:subscription:subscribe_project",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2015,
+            "line": 2016,
             "description": "Unsubscribe from project",
             "itemtype": "method",
             "name": "Subscription.unsubscribeProject",
@@ -2211,14 +2217,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2022,
+            "line": 2023,
             "itemtype": "event",
             "name": "syncano:subscription:unsubscribe_project",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2034,
+            "line": 2035,
             "description": "Subscribe to collection level notifications within specified project",
             "itemtype": "method",
             "name": "Subscription.subscribeCollection",
@@ -2244,14 +2250,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2042,
+            "line": 2043,
             "itemtype": "event",
             "name": "syncano:subscription:subscribe_collection",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2057,
+            "line": 2058,
             "description": "Unsubscribe from collection within specified project",
             "itemtype": "method",
             "name": "Subscription.unsubscribeCollection",
@@ -2277,14 +2283,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2065,
+            "line": 2066,
             "itemtype": "event",
             "name": "syncano:subscription:unsubscribe_collection",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2080,
+            "line": 2081,
             "description": "Get API client subscriptions",
             "itemtype": "method",
             "name": "Subscription.get",
@@ -2306,14 +2312,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2087,
+            "line": 2088,
             "itemtype": "event",
             "name": "syncano:subscription:get",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2106,
+            "line": 2107,
             "description": "Get currently connected API client connections up to limit (max 100).",
             "itemtype": "method",
             "name": "Connection.get",
@@ -2361,14 +2367,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2117,
+            "line": 2118,
             "itemtype": "event",
             "name": "syncano:connection:get",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2154,
+            "line": 2155,
             "description": "Updates specified API client connection info.",
             "itemtype": "method",
             "name": "Connection.update",
@@ -2415,14 +2421,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2165,
+            "line": 2166,
             "itemtype": "event",
             "name": "syncano:connection:update",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2215,
+            "line": 2216,
             "description": "Sends custom notification to API client through Sync Server. If uuid is specified - will only send to this specific instance.",
             "itemtype": "method",
             "name": "Notification.send",
@@ -2464,14 +2470,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2225,
+            "line": 2226,
             "itemtype": "event",
             "name": "syncano:notification:send",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2270,
+            "line": 2271,
             "description": "Get history of notifications of specified API client. History items are stored for 24 hours",
             "itemtype": "method",
             "name": "Notification.getHistory",
@@ -2525,55 +2531,55 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2282,
+            "line": 2283,
             "itemtype": "event",
             "name": "syncano:notification:get_history",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2302,
+            "line": 2303,
             "description": "these optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2337,
+            "line": 2338,
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2360,
+            "line": 2361,
             "description": "this flags are set by Data.new, Data.addChild, Data.addParent methods\nwhen we create new data object in syncano, we still get notification from the backend that new data has been created\nwe already know that (cause we've created it!), so we have to ignore message",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2373,
+            "line": 2374,
             "description": "queue for messages which could not be sent because of no connection",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2378,
+            "line": 2379,
             "description": "in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2384,
+            "line": 2385,
             "description": "High-level function mixins",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2406,
+            "line": 2407,
             "description": "add PubSub mixin",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2412,
+            "line": 2413,
             "description": "Establishes connecion to the server and sends authorization request.",
             "itemtype": "method",
             "name": "connect",
@@ -2593,7 +2599,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2443,
+            "line": 2444,
             "description": "Internal method called after the socket is open. Sends authorization request - instance, api_key and (optional) timezone \ndefined in this.connectionParams.",
             "itemtype": "method",
             "name": "onSocketOpen",
@@ -2601,7 +2607,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2455,
+            "line": 2456,
             "description": "Internal method called automatically when socket is closed. Clears SockJS instance, changes state to DISCONNECTED. If there was\nwaiting request to reconnect, handles reconnection with the same params.",
             "itemtype": "method",
             "name": "onSocketClose",
@@ -2609,7 +2615,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2471,
+            "line": 2472,
             "description": "Method called every time the message is received. Message is passed as e.data\nIf there was an error, e.data.result is 'NOK' (not ok), otherwise e.data has response data.",
             "itemtype": "method",
             "name": "onMessage",
@@ -2624,7 +2630,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2478,
+            "line": 2479,
             "description": "When server cannot process request (result == NOK)",
             "itemtype": "event",
             "name": "syncano:error",
@@ -2632,7 +2638,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2482,
+            "line": 2483,
             "description": "When authorization failed",
             "itemtype": "event",
             "name": "syncano:auth:error",
@@ -2640,7 +2646,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2486,
+            "line": 2487,
             "description": "When response to message sent comes",
             "itemtype": "event",
             "name": "syncano:received",
@@ -2648,7 +2654,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2538,
+            "line": 2539,
             "description": "After successful authorization trigger event and send all queued messages",
             "itemtype": "method",
             "name": "parseAuthorizationResponse",
@@ -2663,14 +2669,14 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2544,
+            "line": 2545,
             "itemtype": "event",
             "name": "syncano:authorized",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2557,
+            "line": 2558,
             "description": "When message with type 'new' comes, we trigger 3 events: one for the project (syncano:newdata:project-ID), \none for the collection (syncano:newdata:collection-ID) and one for the folder (syncano:newdata:folder-NAME).\nYou can handle any of them.",
             "itemtype": "method",
             "name": "parseNewRecordNotifier",
@@ -2685,7 +2691,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2565,
+            "line": 2566,
             "description": "Triggered after receiving message with new record in folder XXX",
             "itemtype": "event",
             "name": "syncano:newdata:folder-XXX",
@@ -2693,7 +2699,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2569,
+            "line": 2570,
             "description": "Triggered after receiving message with new record in project XXX",
             "itemtype": "event",
             "name": "syncano:newdata:project-XXX",
@@ -2701,7 +2707,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2573,
+            "line": 2574,
             "description": "Triggered after receiving message with new record in collection XXX",
             "itemtype": "event",
             "name": "syncano:newdata:collection-XXX",
@@ -2709,7 +2715,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2597,
+            "line": 2598,
             "description": "When message with type 'new' and object 'datarelation' comes, trigger two events - for parent and for child",
             "itemtype": "method",
             "name": "parseNewRelationNotifier",
@@ -2724,7 +2730,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2603,
+            "line": 2604,
             "description": "Triggered after receiving message with new relation between records XXX (child) and YYY (parent)",
             "itemtype": "event",
             "name": "syncano:newparent:data-XXX",
@@ -2732,7 +2738,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2607,
+            "line": 2608,
             "description": "Triggered after receiving message with new relation between records XXX (child) and YYY (parent)",
             "itemtype": "event",
             "name": "syncano:newchild:data-YYY",
@@ -2740,7 +2746,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2627,
+            "line": 2628,
             "description": "When message with type 'change' comes, trigger appropriate event for each data object modified.",
             "itemtype": "method",
             "name": "parseChangeRecordNotifier",
@@ -2755,7 +2761,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2633,
+            "line": 2634,
             "description": "Triggered after receiving message with changed record XXX",
             "itemtype": "event",
             "name": "syncano:change:data-XXX",
@@ -2763,7 +2769,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2662,
+            "line": 2663,
             "description": "When message with type 'delete' comes, trigger appropriate event for each data object modified.",
             "itemtype": "method",
             "name": "parseChangeRecordNotifier",
@@ -2778,7 +2784,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2668,
+            "line": 2669,
             "description": "Triggered after receiving message with deleted record XXX",
             "itemtype": "event",
             "name": "syncano:delete:data-XXX",
@@ -2786,7 +2792,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2686,
+            "line": 2687,
             "description": "When message with type 'delete' and object 'datarelation' comes, trigger two events - for parent and for child",
             "itemtype": "method",
             "name": "parseDeleteRelationNotifier",
@@ -2801,7 +2807,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2692,
+            "line": 2693,
             "description": "Triggered after receiving message with removed relation between records XXX (child) and YYY (parent)",
             "itemtype": "event",
             "name": "syncano:removeparent:data-XXX",
@@ -2809,7 +2815,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2696,
+            "line": 2697,
             "description": "Triggered after receiving message with removed relation between records XXX (child) and YYY (parent)",
             "itemtype": "event",
             "name": "syncano:removechild:data-YYY",
@@ -2817,7 +2823,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2715,
+            "line": 2716,
             "description": "When message with type 'message' comes, just trigger event with data passed",
             "itemtype": "method",
             "name": "parseMessageNotifier",
@@ -2832,7 +2838,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2721,
+            "line": 2722,
             "description": "Triggered after receiving message from server",
             "itemtype": "event",
             "name": "syncano:message",
@@ -2840,7 +2846,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2731,
+            "line": 2732,
             "description": "Receiven new callresponse message. If we were waiting for this response, handle it (call callback, etc). Otherwise - ignore",
             "itemtype": "method",
             "name": "parseCallResponse",
@@ -2855,7 +2861,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2737,
+            "line": 2738,
             "description": "When server sends data we are not waiting for",
             "itemtype": "event",
             "name": "syncano:ignored",
@@ -2863,7 +2869,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2759,
+            "line": 2760,
             "description": "Sends all requests waiting in the queue and clears the queue.",
             "itemtype": "method",
             "name": "sendQueue",
@@ -2871,7 +2877,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2772,
+            "line": 2773,
             "description": "Generates unique message id",
             "itemtype": "method",
             "name": "getNextRequestId",
@@ -2883,7 +2889,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2783,
+            "line": 2784,
             "description": "Sends request as a string. Internal low-level function, should not be used outside",
             "itemtype": "method",
             "name": "socketSend",
@@ -2898,7 +2904,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2794,
+            "line": 2795,
             "description": "Universal high-level function for sending requests to syncano. \nSends request to 'method' with given 'params' if the socket is connected. If not, puts request on the queue to be sent later.\nUses internal 'waitingForResponse' object to match request with response.",
             "itemtype": "method",
             "name": "sendRequest",
@@ -2923,7 +2929,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2804,
+            "line": 2805,
             "description": "Before sending request to server",
             "itemtype": "event",
             "name": "syncano:call",
@@ -2931,7 +2937,7 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2808,
+            "line": 2809,
             "description": "When user wants to send data to the server, but connection has not been established yet",
             "itemtype": "event",
             "name": "syncano:queued",
@@ -2939,37 +2945,37 @@
         },
         {
             "file": "dist/syncano.js",
-            "line": 2825,
+            "line": 2826,
             "description": "Remember method and callback on the waitingForResponse list. When the response comes, callback will be called",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2830,
+            "line": 2831,
             "description": "Send message to socket if already open and authorized. Otherwise - push to requestsQueue",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2842,
+            "line": 2843,
             "description": "Internal method to check if projectId is a number - so I don't have to write this manualy again and again",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2851,
+            "line": 2852,
             "description": "Internal method to check the variable name (string or number) and add correct key to passed object",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2865,
+            "line": 2866,
             "description": "Internal shortcut method to send request and run the callback function with proper data as parameter",
             "class": "Syncano"
         },
         {
             "file": "dist/syncano.js",
-            "line": 2885,
+            "line": 2886,
             "description": "Export to the root, which is probably `window`.",
             "class": "Syncano"
         }
@@ -3061,75 +3067,75 @@
         },
         {
             "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
-            "line": " dist/syncano.js:1323"
+            "line": " dist/syncano.js:1324"
         },
         {
             "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
-            "line": " dist/syncano.js:1614"
+            "line": " dist/syncano.js:1615"
         },
         {
             "message": "Missing item type\nthese optionalParams are just copied to params array if they are set",
-            "line": " dist/syncano.js:1681"
+            "line": " dist/syncano.js:1682"
         },
         {
             "message": "Missing item type\nMethods for user management",
-            "line": " dist/syncano.js:1712"
+            "line": " dist/syncano.js:1713"
         },
         {
             "message": "Missing item type\nSubscriptions handling methods",
-            "line": " dist/syncano.js:1990"
+            "line": " dist/syncano.js:1991"
         },
         {
             "message": "Missing item type\nthese optionalParams have to be numbers - so check if they are set and are proper numbers. If not - throw an Error",
-            "line": " dist/syncano.js:2302"
+            "line": " dist/syncano.js:2303"
         },
         {
             "message": "Missing item type",
-            "line": " dist/syncano.js:2337"
+            "line": " dist/syncano.js:2338"
         },
         {
             "message": "Missing item type\nthis flags are set by Data.new, Data.addChild, Data.addParent methods\nwhen we create new data object in syncano, we still get notification from the backend that new data has been created\nwe already know that (cause we've created it!), so we have to ignore message",
-            "line": " dist/syncano.js:2360"
+            "line": " dist/syncano.js:2361"
         },
         {
             "message": "Missing item type\nqueue for messages which could not be sent because of no connection",
-            "line": " dist/syncano.js:2373"
+            "line": " dist/syncano.js:2374"
         },
         {
             "message": "Missing item type\nin this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function\nwhen answer to message arrives. The list is indexed with message_id attribute",
-            "line": " dist/syncano.js:2378"
+            "line": " dist/syncano.js:2379"
         },
         {
             "message": "Missing item type\nHigh-level function mixins",
-            "line": " dist/syncano.js:2384"
+            "line": " dist/syncano.js:2385"
         },
         {
             "message": "Missing item type\nadd PubSub mixin",
-            "line": " dist/syncano.js:2406"
+            "line": " dist/syncano.js:2407"
         },
         {
             "message": "Missing item type\nRemember method and callback on the waitingForResponse list. When the response comes, callback will be called",
-            "line": " dist/syncano.js:2825"
+            "line": " dist/syncano.js:2826"
         },
         {
             "message": "Missing item type\nSend message to socket if already open and authorized. Otherwise - push to requestsQueue",
-            "line": " dist/syncano.js:2830"
+            "line": " dist/syncano.js:2831"
         },
         {
             "message": "Missing item type\nInternal method to check if projectId is a number - so I don't have to write this manualy again and again",
-            "line": " dist/syncano.js:2842"
+            "line": " dist/syncano.js:2843"
         },
         {
             "message": "Missing item type\nInternal method to check the variable name (string or number) and add correct key to passed object",
-            "line": " dist/syncano.js:2851"
+            "line": " dist/syncano.js:2852"
         },
         {
             "message": "Missing item type\nInternal shortcut method to send request and run the callback function with proper data as parameter",
-            "line": " dist/syncano.js:2865"
+            "line": " dist/syncano.js:2866"
         },
         {
             "message": "Missing item type\nExport to the root, which is probably `window`.",
-            "line": " dist/syncano.js:2885"
+            "line": " dist/syncano.js:2886"
         }
     ]
 }

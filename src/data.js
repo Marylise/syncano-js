@@ -271,6 +271,7 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.image] Image data associated with message. If specified as empty string - will instead delete current image
  *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
  *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'
+ *  @param {string} [optionalParams.dataKey] New data key to be set
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
  *  @param {string} [optionalParams.additional] any number of additional parameters passed as key - value object literal
@@ -303,7 +304,7 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 	}
 	
 	if(isset(optionalParams)){
-		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl'];
+		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl', 'dataKey'];
 		for(var i=0; i<paramsToPass.length; i++){
 			var jsParam = paramsToPass[i];
 			if(isset(optionalParams[jsParam])){
