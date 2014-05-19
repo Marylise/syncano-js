@@ -87,7 +87,7 @@ Syncano.prototype.connect = function(params, callback){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
 	if(typeof root.SockJS === 'undefined'){
-		throw new Error('SockJS is required');
+		this.connectionType = 'ajax';
 	}
 	if(typeof params.type !== 'undefined'){
 		this.connectionType = params.type;
