@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 09-05-2014
+build date: 19-05-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2335,6 +2335,7 @@ Notification.getHistory = function(optionalParams, callback){
 	this.__super__.__sendWithCallback(method, params, 'history', callback);
 };
 
+/*global XMLHttpRequest*/
 /**
  *  
  */
@@ -2375,6 +2376,8 @@ var Syncano = function(){
 	 *  queue for messages which could not be sent because of no connection 
 	 */
 	this.requestsQueue = [];
+
+	this.connectionType = 'socket';
 	
 	/**
 	 *  in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function
@@ -2422,7 +2425,10 @@ Syncano.prototype.connect = function(params, callback){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
 	if(typeof root.SockJS === 'undefined'){
-		throw new Error('SockJS is required');
+		this.connectionType = 'ajax';
+	}
+	if(typeof params.type !== 'undefined'){
+		this.connectionType = params.type;
 	}
 	this.connectionParams = params;
 	if(this.status != states.DISCONNECTED){
@@ -2434,10 +2440,16 @@ Syncano.prototype.connect = function(params, callback){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
 
-	this.socket = new root.SockJS(this.socketURL);
-	this.socket.onopen = this.onSocketOpen.bind(this);
-	this.socket.onclose = this.onSocketClose.bind(this);
-	this.socket.onmessage = this.onMessage.bind(this);
+	if(this.connectionType === 'socket'){
+		this.socket = new root.SockJS(this.socketURL);
+		this.socket.onopen = this.onSocketOpen.bind(this);
+		this.socket.onclose = this.onSocketClose.bind(this);
+		this.socket.onmessage = this.onMessage.bind(this);
+	} else {
+		this.instance = params.instance;
+		this.apiKey = params.api_key;
+		callback();
+	}
 };
 
 
@@ -2814,29 +2826,48 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 	if(typeof params === 'undefined'){
 		params = {};
 	}
-	
-	var request = {
-		type: 'call',
-		method: method,
-		params: params
-	};
-	
-	request.message_id = this.getNextRequestId();
+	if(this.connectionType === 'socket'){
+		var request = {
+			type: 'call',
+			method: method,
+			params: params
+		};
+		
+		request.message_id = this.getNextRequestId();
 
-	/**
-	 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
-	 */
-	this.waitingForResponse[request.message_id] = [method, callback];
-	
-	/**
-	 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
-	 */
-	if(this.status == states.AUTHORIZED){
-		this.trigger('syncano:call', request);
-		this.socketSend(request);
+		/**
+		 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
+		 */
+		this.waitingForResponse[request.message_id] = [method, callback];
+		
+		/**
+		 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
+		 */
+		if(this.status == states.AUTHORIZED){
+			this.trigger('syncano:call', request);
+			this.socketSend(request);
+		} else {
+			this.trigger('syncano:queued', request);
+			this.requestsQueue.push(request);
+		}
 	} else {
-		this.trigger('syncano:queued', request);
-		this.requestsQueue.push(request);
+		var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
+		console.log('url', url);
+		for(var key in params){
+			if(params.hasOwnProperty(key)){
+				url += key + '=' + params[key] + '&';
+			}
+		}
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 && xhr.status === 200){
+				var data = JSON.parse(xhr.responseText);
+				this.trigger('syncano:received', data);
+				callback(data);
+			}
+		}.bind(this);
+		xhr.send();
 	}
 };
 

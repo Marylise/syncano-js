@@ -89,7 +89,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 09-05-2014
+build date: 19-05-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2423,6 +2423,7 @@ Notification.getHistory = function(optionalParams, callback){
 	this.__super__.__sendWithCallback(method, params, &#x27;history&#x27;, callback);
 };
 
+/*global XMLHttpRequest*/
 /**
  *  
  */
@@ -2463,6 +2464,8 @@ var Syncano = function(){
 	 *  queue for messages which could not be sent because of no connection 
 	 */
 	this.requestsQueue = [];
+
+	this.connectionType = &#x27;socket&#x27;;
 	
 	/**
 	 *  in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function
@@ -2510,7 +2513,10 @@ Syncano.prototype.connect = function(params, callback){
 		throw new Error(&#x27;syncano.connect requires instance name and api_key&#x27;);
 	}
 	if(typeof root.SockJS === &#x27;undefined&#x27;){
-		throw new Error(&#x27;SockJS is required&#x27;);
+		this.connectionType = &#x27;ajax&#x27;;
+	}
+	if(typeof params.type !== &#x27;undefined&#x27;){
+		this.connectionType = params.type;
 	}
 	this.connectionParams = params;
 	if(this.status != states.DISCONNECTED){
@@ -2522,10 +2528,16 @@ Syncano.prototype.connect = function(params, callback){
 		this.waitingForResponse.auth = [&#x27;auth&#x27;, callback];
 	}
 
-	this.socket = new root.SockJS(this.socketURL);
-	this.socket.onopen = this.onSocketOpen.bind(this);
-	this.socket.onclose = this.onSocketClose.bind(this);
-	this.socket.onmessage = this.onMessage.bind(this);
+	if(this.connectionType === &#x27;socket&#x27;){
+		this.socket = new root.SockJS(this.socketURL);
+		this.socket.onopen = this.onSocketOpen.bind(this);
+		this.socket.onclose = this.onSocketClose.bind(this);
+		this.socket.onmessage = this.onMessage.bind(this);
+	} else {
+		this.instance = params.instance;
+		this.apiKey = params.api_key;
+		callback();
+	}
 };
 
 
@@ -2902,29 +2914,48 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 	if(typeof params === &#x27;undefined&#x27;){
 		params = {};
 	}
-	
-	var request = {
-		type: &#x27;call&#x27;,
-		method: method,
-		params: params
-	};
-	
-	request.message_id = this.getNextRequestId();
+	if(this.connectionType === &#x27;socket&#x27;){
+		var request = {
+			type: &#x27;call&#x27;,
+			method: method,
+			params: params
+		};
+		
+		request.message_id = this.getNextRequestId();
 
-	/**
-	 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
-	 */
-	this.waitingForResponse[request.message_id] = [method, callback];
-	
-	/**
-	 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
-	 */
-	if(this.status == states.AUTHORIZED){
-		this.trigger(&#x27;syncano:call&#x27;, request);
-		this.socketSend(request);
+		/**
+		 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
+		 */
+		this.waitingForResponse[request.message_id] = [method, callback];
+		
+		/**
+		 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
+		 */
+		if(this.status == states.AUTHORIZED){
+			this.trigger(&#x27;syncano:call&#x27;, request);
+			this.socketSend(request);
+		} else {
+			this.trigger(&#x27;syncano:queued&#x27;, request);
+			this.requestsQueue.push(request);
+		}
 	} else {
-		this.trigger(&#x27;syncano:queued&#x27;, request);
-		this.requestsQueue.push(request);
+		var url = &#x27;https://&#x27; + this.instance + &#x27;.syncano.com/api/&#x27; + method + &#x27;?api_key=&#x27; + this.apiKey + &#x27;&amp;&#x27;;
+		console.log(&#x27;url&#x27;, url);
+		for(var key in params){
+			if(params.hasOwnProperty(key)){
+				url += key + &#x27;=&#x27; + params[key] + &#x27;&amp;&#x27;;
+			}
+		}
+		var xhr = new XMLHttpRequest();
+		xhr.open(&#x27;GET&#x27;, url, true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 &amp;&amp; xhr.status === 200){
+				var data = JSON.parse(xhr.responseText);
+				this.trigger(&#x27;syncano:received&#x27;, data);
+				callback(data);
+			}
+		}.bind(this);
+		xhr.send();
 	}
 };
 
