@@ -111,7 +111,9 @@ Syncano.prototype.connect = function(params, callback){
 	} else {
 		this.instance = params.instance;
 		this.apiKey = params.api_key;
-		callback();
+		if(typeof callback === 'function'){
+			callback();
+		}
 	}
 };
 

@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 19-05-2014
+build date: 22-05-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2448,7 +2448,9 @@ Syncano.prototype.connect = function(params, callback){
 	} else {
 		this.instance = params.instance;
 		this.apiKey = params.api_key;
-		callback();
+		if(typeof callback === 'function'){
+			callback();
+		}
 	}
 };
 
