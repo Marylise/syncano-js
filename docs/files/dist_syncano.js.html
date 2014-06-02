@@ -89,7 +89,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 22-05-2014
+build date: 02-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2447,6 +2447,8 @@ var Syncano = function(){
 	this.requestId = 1;
 	this.uuid = null;
 
+	this.requestInProgress = false;
+
 	/**
 		this flags are set by Data.new, Data.addChild, Data.addParent methods
 		when we create new data object in syncano, we still get notification from the backend that new data has been created
@@ -2608,6 +2610,10 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case &#x27;callresponse&#x27;:
+			if(this.status === states.AUTHORIZED){
+				this.requestInProgress = false;
+				this.sendQueue();
+			}
 			this.parseCallResponse(data);
 			break;
 			
@@ -2865,7 +2871,8 @@ Syncano.prototype.parseCallResponse = function(data){
  *  @method sendQueue
  */
 Syncano.prototype.sendQueue = function(){
-	while(this.requestsQueue.length &gt; 0){
+	// while(this.requestsQueue.length &gt; 0){
+	if(this.requestsQueue.length &gt; 0){
 		var request = this.requestsQueue.shift();
 		this.socketSend(request);
 	}
@@ -2933,7 +2940,8 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 		/**
 		 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
 		 */
-		if(this.status == states.AUTHORIZED){
+		if(this.status == states.AUTHORIZED &amp;&amp; this.requestInProgress === false){
+			this.requestInProgress = true;
 			this.trigger(&#x27;syncano:call&#x27;, request);
 			this.socketSend(request);
 		} else {
@@ -2942,7 +2950,6 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 		}
 	} else {
 		var url = &#x27;https://&#x27; + this.instance + &#x27;.syncano.com/api/&#x27; + method + &#x27;?api_key=&#x27; + this.apiKey + &#x27;&amp;&#x27;;
-		console.log(&#x27;url&#x27;, url);
 		for(var key in params){
 			if(params.hasOwnProperty(key)){
 				url += key + &#x27;=&#x27; + params[key] + &#x27;&amp;&#x27;;
