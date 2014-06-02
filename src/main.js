@@ -22,6 +22,8 @@ var Syncano = function(){
 	this.requestId = 1;
 	this.uuid = null;
 
+	this.requestInProgress = false;
+
 	/**
 		this flags are set by Data.new, Data.addChild, Data.addParent methods
 		when we create new data object in syncano, we still get notification from the backend that new data has been created
@@ -183,6 +185,10 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case 'callresponse':
+			if(this.status === states.AUTHORIZED){
+				this.requestInProgress = false;
+				this.sendQueue();
+			}
 			this.parseCallResponse(data);
 			break;
 			
@@ -440,7 +446,8 @@ Syncano.prototype.parseCallResponse = function(data){
  *  @method sendQueue
  */
 Syncano.prototype.sendQueue = function(){
-	while(this.requestsQueue.length > 0){
+	// while(this.requestsQueue.length > 0){
+	if(this.requestsQueue.length > 0){
 		var request = this.requestsQueue.shift();
 		this.socketSend(request);
 	}
@@ -508,7 +515,8 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 		/**
 		 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
 		 */
-		if(this.status == states.AUTHORIZED){
+		if(this.status == states.AUTHORIZED && this.requestInProgress === false){
+			this.requestInProgress = true;
 			this.trigger('syncano:call', request);
 			this.socketSend(request);
 		} else {
@@ -517,7 +525,6 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 		}
 	} else {
 		var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
-		console.log('url', url);
 		for(var key in params){
 			if(params.hasOwnProperty(key)){
 				url += key + '=' + params[key] + '&';
