@@ -172,11 +172,14 @@ Syncano.prototype.onMessage = function(e){
 	
 	if(data.result === 'NOK'){
 		this.trigger('syncano:error', data.error || data.data.error);
-		if(data.type === 'auth'){
-			this.socket.close();
-			this.trigger('syncano:auth:error');
-		}
-		return;
+			if(data.type === 'auth'){
+				this.socket.close();
+				this.trigger('syncano:auth:error');
+			} else {
+				this.requestInProgress = false;
+				this.sendQueue();
+			}
+			return;
 	}
 	
 	switch(data.type){

@@ -89,7 +89,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 02-06-2014
+build date: 03-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2597,11 +2597,14 @@ Syncano.prototype.onMessage = function(e){
 	
 	if(data.result === &#x27;NOK&#x27;){
 		this.trigger(&#x27;syncano:error&#x27;, data.error || data.data.error);
-		if(data.type === &#x27;auth&#x27;){
-			this.socket.close();
-			this.trigger(&#x27;syncano:auth:error&#x27;);
-		}
-		return;
+			if(data.type === &#x27;auth&#x27;){
+				this.socket.close();
+				this.trigger(&#x27;syncano:auth:error&#x27;);
+			} else {
+				this.requestInProgress = false;
+				this.sendQueue();
+			}
+			return;
 	}
 	
 	switch(data.type){
