@@ -89,7 +89,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 03-06-2014
+build date: 04-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -1049,6 +1049,7 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = &#x27;ajax&#x27;
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:&#x27;&#x27;, api_key:&#x27;&#x27;});
@@ -1059,7 +1060,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback){
+Data.new = function(projectId, collection, optionalParams, callback, requestType){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = &#x27;data.new&#x27;;
@@ -1112,7 +1113,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	this.__super__.ignoreNextNew = true;
-	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback);
+	this.__super__.__sendWithCallback(method, params, &#x27;data&#x27;, callback, requestType);
 };
 
 
@@ -2529,6 +2530,9 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof callback === &#x27;function&#x27;){
 		this.waitingForResponse.auth = [&#x27;auth&#x27;, callback];
 	}
+	
+	this.instance = params.instance;
+	this.apiKey = params.api_key;
 
 	if(this.connectionType === &#x27;socket&#x27;){
 		this.socket = new root.SockJS(this.socketURL);
@@ -2536,8 +2540,6 @@ Syncano.prototype.connect = function(params, callback){
 		this.socket.onclose = this.onSocketClose.bind(this);
 		this.socket.onmessage = this.onMessage.bind(this);
 	} else {
-		this.instance = params.instance;
-		this.apiKey = params.api_key;
 		if(typeof callback === &#x27;function&#x27;){
 			callback();
 		}
@@ -2922,11 +2924,28 @@ Syncano.prototype.socketSend = function(request){
  *  When user wants to send data to the server, but connection has not been established yet
  *  @event syncano:queued
  */
-Syncano.prototype.sendRequest = function(method, params, callback){
+Syncano.prototype.sendRequest = function(method, params, callback, requestType){
 	if(typeof params === &#x27;undefined&#x27;){
 		params = {};
 	}
-	if(this.connectionType === &#x27;socket&#x27;){
+	if(this.connectionType === &#x27;ajax&#x27; || requestType === &#x27;ajax&#x27;){
+		var url = &#x27;https://&#x27; + this.instance + &#x27;.syncano.com/api/&#x27; + method + &#x27;?api_key=&#x27; + this.apiKey + &#x27;&amp;&#x27;;
+		for(var key in params){
+			if(params.hasOwnProperty(key)){
+				url += key + &#x27;=&#x27; + params[key] + &#x27;&amp;&#x27;;
+			}
+		}
+		var xhr = new XMLHttpRequest();
+		xhr.open(&#x27;GET&#x27;, url, true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 &amp;&amp; xhr.status === 200){
+				var data = JSON.parse(xhr.responseText);
+				this.trigger(&#x27;syncano:received&#x27;, data);
+				callback(data);
+			}
+		}.bind(this);
+		xhr.send();
+	} else if(this.connectionType === &#x27;socket&#x27;){
 		var request = {
 			type: &#x27;call&#x27;,
 			method: method,
@@ -2951,23 +2970,6 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 			this.trigger(&#x27;syncano:queued&#x27;, request);
 			this.requestsQueue.push(request);
 		}
-	} else {
-		var url = &#x27;https://&#x27; + this.instance + &#x27;.syncano.com/api/&#x27; + method + &#x27;?api_key=&#x27; + this.apiKey + &#x27;&amp;&#x27;;
-		for(var key in params){
-			if(params.hasOwnProperty(key)){
-				url += key + &#x27;=&#x27; + params[key] + &#x27;&amp;&#x27;;
-			}
-		}
-		var xhr = new XMLHttpRequest();
-		xhr.open(&#x27;GET&#x27;, url, true);
-		xhr.onreadystatechange = function(){
-			if(xhr.readyState == 4 &amp;&amp; xhr.status === 200){
-				var data = JSON.parse(xhr.responseText);
-				this.trigger(&#x27;syncano:received&#x27;, data);
-				callback(data);
-			}
-		}.bind(this);
-		xhr.send();
 	}
 };
 
@@ -2997,7 +2999,7 @@ Syncano.prototype.__addCollectionIdentifier = function(params, collection){
 /**
  *  Internal shortcut method to send request and run the callback function with proper data as parameter
  */
-Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
+Syncano.prototype.__sendWithCallback = function(method, params, key, callback, requestType){
 	this.sendRequest(method, params, function(data){
 		var res;
 		if(key === null){
@@ -3008,7 +3010,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
 		if(typeof callback === &#x27;function&#x27;){
 			callback(res);
 		}
-	});
+	}, requestType);
 };
 
 var instance = null;

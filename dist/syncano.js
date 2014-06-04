@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 03-06-2014
+build date: 04-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -961,6 +961,7 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = 'ajax'
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:'', api_key:''});
@@ -971,7 +972,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback){
+Data.new = function(projectId, collection, optionalParams, callback, requestType){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.new';
@@ -1024,7 +1025,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	this.__super__.ignoreNextNew = true;
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, 'data', callback, requestType);
 };
 
 
@@ -2441,6 +2442,9 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof callback === 'function'){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
+	
+	this.instance = params.instance;
+	this.apiKey = params.api_key;
 
 	if(this.connectionType === 'socket'){
 		this.socket = new root.SockJS(this.socketURL);
@@ -2448,8 +2452,6 @@ Syncano.prototype.connect = function(params, callback){
 		this.socket.onclose = this.onSocketClose.bind(this);
 		this.socket.onmessage = this.onMessage.bind(this);
 	} else {
-		this.instance = params.instance;
-		this.apiKey = params.api_key;
 		if(typeof callback === 'function'){
 			callback();
 		}
@@ -2834,11 +2836,28 @@ Syncano.prototype.socketSend = function(request){
  *  When user wants to send data to the server, but connection has not been established yet
  *  @event syncano:queued
  */
-Syncano.prototype.sendRequest = function(method, params, callback){
+Syncano.prototype.sendRequest = function(method, params, callback, requestType){
 	if(typeof params === 'undefined'){
 		params = {};
 	}
-	if(this.connectionType === 'socket'){
+	if(this.connectionType === 'ajax' || requestType === 'ajax'){
+		var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
+		for(var key in params){
+			if(params.hasOwnProperty(key)){
+				url += key + '=' + params[key] + '&';
+			}
+		}
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 && xhr.status === 200){
+				var data = JSON.parse(xhr.responseText);
+				this.trigger('syncano:received', data);
+				callback(data);
+			}
+		}.bind(this);
+		xhr.send();
+	} else if(this.connectionType === 'socket'){
 		var request = {
 			type: 'call',
 			method: method,
@@ -2863,23 +2882,6 @@ Syncano.prototype.sendRequest = function(method, params, callback){
 			this.trigger('syncano:queued', request);
 			this.requestsQueue.push(request);
 		}
-	} else {
-		var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
-		for(var key in params){
-			if(params.hasOwnProperty(key)){
-				url += key + '=' + params[key] + '&';
-			}
-		}
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', url, true);
-		xhr.onreadystatechange = function(){
-			if(xhr.readyState == 4 && xhr.status === 200){
-				var data = JSON.parse(xhr.responseText);
-				this.trigger('syncano:received', data);
-				callback(data);
-			}
-		}.bind(this);
-		xhr.send();
 	}
 };
 
@@ -2909,7 +2911,7 @@ Syncano.prototype.__addCollectionIdentifier = function(params, collection){
 /**
  *  Internal shortcut method to send request and run the callback function with proper data as parameter
  */
-Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
+Syncano.prototype.__sendWithCallback = function(method, params, key, callback, requestType){
 	this.sendRequest(method, params, function(data){
 		var res;
 		if(key === null){
@@ -2920,7 +2922,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
 		if(typeof callback === 'function'){
 			callback(res);
 		}
-	});
+	}, requestType);
 };
 
 var instance = null;
