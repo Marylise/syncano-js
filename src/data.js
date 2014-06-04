@@ -20,6 +20,7 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = 'ajax'
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:'', api_key:''});
@@ -30,7 +31,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback){
+Data.new = function(projectId, collection, optionalParams, callback, requestType){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.new';
@@ -83,7 +84,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	this.__super__.ignoreNextNew = true;
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.__sendWithCallback(method, params, 'data', callback, requestType);
 };
 
 
