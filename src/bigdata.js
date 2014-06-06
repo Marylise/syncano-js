@@ -2,14 +2,13 @@ var BigData = {};
 
 BigData.__internalDataGet = function(res, limit, projectId, collectionId, params, callback){
 	this.__super__.Data.get(projectId, collectionId, params, function(part){
-		res = res.concat(part);
 		var pLen = part.length;
-		var lastId = part[pLen - 1].id;
-		if(pLen === limit){
-			params.sinceId = lastId;
-			this.__internalDataGet(res, limit, projectId, collectionId, params, callback);
-		} else {
+		res = res.concat(part);
+		if(pLen === 0 || pLen !== limit){
 			callback(res);
+		} else {
+			params.sinceId = part[pLen - 1].id;
+			this.__internalDataGet(res, limit, projectId, collectionId, params, callback);
 		}
 	}.bind(this));
 };

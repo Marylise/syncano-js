@@ -1803,14 +1803,13 @@ var BigData = {};
 
 BigData.__internalDataGet = function(res, limit, projectId, collectionId, params, callback){
 	this.__super__.Data.get(projectId, collectionId, params, function(part){
-		res = res.concat(part);
 		var pLen = part.length;
-		var lastId = part[pLen - 1].id;
-		if(pLen === limit){
-			params.sinceId = lastId;
-			this.internalDataGet(res, limit, projectId, collectionId, params, callback);
-		} else {
+		res = res.concat(part);
+		if(pLen === 0 || pLen !== limit){
 			callback(res);
+		} else {
+			params.sinceId = part[pLen - 1].id;
+			this.__internalDataGet(res, limit, projectId, collectionId, params, callback);
 		}
 	}.bind(this));
 };
@@ -1828,8 +1827,55 @@ BigData.get = function(projectId, collectionId, params, callback){
 
 var Tree = {};
 
-Tree.delete = function(){
-	
+Tree.__internalReadLevel = function(projectId, collection, params, ids, callback){
+	this.__super__.BigData.get(projectId, collection, params, function(levelData){
+		var len = levelData.length;
+		var parentIds = [];
+		for(var i=0; i&lt;len; i++){
+			var item = levelData[i];
+			var id = item.id | 0;
+			ids.push(id);
+			if(item.children_count &gt; 0){
+				parentIds.push(id);
+			}
+		}
+		if(parentIds.length &gt; 0){
+			params.parentIds = parentIds;
+			this.__internalReadLevel(projectId, collection, params, ids, callback);
+		} else {
+			callback(ids);
+		}
+	}.bind(this));
+};
+
+Tree.__internalRemoveIds = function(projectId, collection, ids, folders, callback){
+	var packSize = 100;
+	var idsPack = ids.splice(0, packSize);
+
+	var params = {
+		dataIds: idsPack,
+		folders: folders
+	};
+	this.__super__.Data.delete(projectId, collection, params, function(){
+		if(ids.length === 0){
+			callback();
+		} else {
+			this.__internalRemoveIds(projectId, collection, ids, folders, callback);
+		}
+	}.bind(this));
+};
+
+
+Tree.delete = function(projectId, collection, dataId, folders, callback){
+	var params = {
+		parentIds: dataId,
+		folders: folders,
+		includeChildren: false
+	};
+	var ids = [dataId];
+	this.__internalReadLevel(projectId, collection, params, ids, function(ids){
+		this.__internalRemoveIds(projectId, collection, ids, folders, callback);
+	}.bind(this));
 };
 
 /**
