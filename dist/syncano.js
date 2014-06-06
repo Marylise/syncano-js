@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 04-06-2014
+build date: 06-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -1711,6 +1711,39 @@ Data.count = function(projectId, collection, optionalParams, callback){
 	this.__super__.__sendWithCallback(method, params, 'count', callback);
 };
 
+var BigData = {};
+
+BigData.__internalDataGet = function(res, limit, projectId, collectionId, params, callback){
+	this.__super__.Data.get(projectId, collectionId, params, function(part){
+		res = res.concat(part);
+		var pLen = part.length;
+		var lastId = part[pLen - 1].id;
+		if(pLen === limit){
+			params.sinceId = lastId;
+			this.internalDataGet(res, limit, projectId, collectionId, params, callback);
+		} else {
+			callback(res);
+		}
+	}.bind(this));
+};
+
+BigData.get = function(projectId, collectionId, params, callback){
+	var res = [];
+	var limit = 100;
+	if(typeof params.limit !== 'undefined'){
+		limit = params.limit;
+	}
+	this.__internalDataGet(res, limit, projectId, collectionId, params, function(res){
+		callback(res);
+	});
+};
+
+var Tree = {};
+
+Tree.delete = function(){
+	
+};
+
 /**
  * Methods for user management 
  */
@@ -2399,6 +2432,10 @@ var Syncano = function(){
 	this.Folder.__super__ = this;
 	this.Data = Data;
 	this.Data.__super__ = this;
+	this.BigData = BigData;
+	this.BigData.__super__ = this;
+	this.Tree = Tree;
+	this.Tree.__super__ = this;
 	this.User = User;
 	this.User.__super__ = this;
 	this.Subscription = Subscription;
