@@ -1,11 +1,11 @@
 /*
 syncano
 ver: 3.1.0beta
-build date: 08-04-2014
+build date: 06-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
-  "use strict";
+  'use strict';
 
 
 /**
@@ -14,17 +14,17 @@ Copyright 2014 Syncano Inc.
 
 function type(obj) {
 	var checker = {};
-	var types = "Boolean Number String Function Array Date RegExp Object".split(" ");
+	var types = 'Boolean Number String Function Array Date RegExp Object'.split(' ');
 	for(var i in types){
-		checker[ "[object " + types[i] + "]" ] = types[i].toLowerCase();
+		checker[ '[object ' + types[i] + ']' ] = types[i].toLowerCase();
 	}
 	return obj === null ?
 		String( obj ) :
-		checker[ Object.prototype.toString.call(obj) ] || "object";
+		checker[ Object.prototype.toString.call(obj) ] || 'object';
 }
 
 function isFunction(obj) {
-	return type(obj) === "function";
+	return type(obj) === 'function';
 }
 
 function isWindow(obj) {
@@ -33,13 +33,13 @@ function isWindow(obj) {
 
 function isPlainObject(obj) {
 	var hasOwn = Object.prototype.hasOwnProperty;
-	if ( !obj || type(obj) !== "object" || obj.nodeType || isWindow( obj ) ) {
+	if ( !obj || type(obj) !== 'object' || obj.nodeType || isWindow( obj ) ) {
 		return false;
 	}
 	try {
 		if ( obj.constructor &&
-			!hasOwn.call(obj, "constructor") &&
-			!hasOwn.call(obj.constructor.prototype, "isPrototypeOf") ) {
+			!hasOwn.call(obj, 'constructor') &&
+			!hasOwn.call(obj.constructor.prototype, 'isPrototypeOf') ) {
 				return false;
 		}
 	} catch ( e ) {
@@ -51,7 +51,7 @@ function isPlainObject(obj) {
 }
 
 function isArray(obj){
-	return type(obj) === "array";
+	return type(obj) === 'array';
 }
 
 
@@ -62,12 +62,12 @@ function extend() {
 		length = arguments.length,
 		deep = false;
  
-	if ( typeof target === "boolean" ) {
+	if ( typeof target === 'boolean' ) {
 		deep = target;
 		target = arguments[1] || {};
 		i = 2;
 	}
-	if ( typeof target !== "object" && !isFunction(target) ) {
+	if ( typeof target !== 'object' && !isFunction(target) ) {
 		target = {};
 	}
 
@@ -136,7 +136,7 @@ function isNumber(v){
  */
 function isDate(v){
 	var d = new Date(v);
-	if(Object.prototype.toString.call(d) !== "[object Date]"){
+	if(Object.prototype.toString.call(d) !== '[object Date]'){
 		return false;
 	}
 	return !isNaN(d.getTime());
@@ -902,7 +902,7 @@ Folder.update = function(projectId, collection, folderName, newName, sourceId, c
 	
 	if(isset(sourceId)){
 		if(isNumber(sourceId)){
-			params.source_id = sourceId + "";
+			params.source_id = sourceId + '';
 		} else {
 			throw new Error('sourceId must be a number');
 		}
@@ -961,6 +961,7 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = 'ajax'
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:'', api_key:''});
@@ -971,7 +972,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback){
+Data.new = function(projectId, collection, optionalParams, callback, requestType){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.new';
@@ -1023,7 +1024,8 @@ Data.new = function(projectId, collection, optionalParams, callback){
 			}
 		}
 	}
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.ignoreNextNew = true;
+	this.__super__.__sendWithCallback(method, params, 'data', callback, requestType);
 };
 
 
@@ -1211,8 +1213,10 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.image] Image data associated with message. If specified as empty string - will instead delete current image
  *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
  *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'
+ *  @param {string} [optionalParams.dataKey] New data key to be set
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
+ *  @param {string} [optionalParams.additional] any number of additional parameters passed as key - value object literal
  *  @param {function} [callback] Function to be called when successful response comes
  *  @example
 	var s = SyncanoConnector.getInstance();
@@ -1242,7 +1246,7 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 	}
 	
 	if(isset(optionalParams)){
-		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl'];
+		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl', 'dataKey'];
 		for(var i=0; i<paramsToPass.length; i++){
 			var jsParam = paramsToPass[i];
 			if(isset(optionalParams[jsParam])){
@@ -1266,7 +1270,20 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 			}
 		}
 	}
+
+	if(isset(optionalParams.additional)){
+		for(var key in optionalParams.additional){
+			if(optionalParams.additional.hasOwnProperty(key)){
+				var val = optionalParams.additional[key];
+				if(typeof params[key] !== 'undefined'){
+					throw new Error('Cannot use additional (custom) param named ' + key);
+				}
+				params[key] = val;
+			}
+		}
+	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
@@ -1349,6 +1366,7 @@ Data.move = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1443,6 +1461,7 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1479,6 +1498,7 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 		params.parent_id = parentId;
 	}
 	
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1523,6 +1543,7 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1559,6 +1580,7 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
 		params.child_id = childId;
 	}
 
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1627,6 +1649,7 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 		}
 	}
 
+	this.__super__.ignoreNextDelete = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1686,6 +1709,85 @@ Data.count = function(projectId, collection, optionalParams, callback){
 	}
 	
 	this.__super__.__sendWithCallback(method, params, 'count', callback);
+};
+
+var BigData = {};
+
+BigData.__internalDataGet = function(res, limit, projectId, collectionId, params, callback){
+	this.__super__.Data.get(projectId, collectionId, params, function(part){
+		var pLen = part.length;
+		res = res.concat(part);
+		if(pLen === 0 || pLen !== limit){
+			callback(res);
+		} else {
+			params.sinceId = part[pLen - 1].id;
+			this.__internalDataGet(res, limit, projectId, collectionId, params, callback);
+		}
+	}.bind(this));
+};
+
+BigData.get = function(projectId, collectionId, params, callback){
+	var res = [];
+	var limit = 100;
+	if(typeof params.limit !== 'undefined'){
+		limit = params.limit;
+	}
+	this.__internalDataGet(res, limit, projectId, collectionId, params, function(res){
+		callback(res);
+	});
+};
+
+var Tree = {};
+
+Tree.__internalReadLevel = function(projectId, collection, params, ids, callback){
+	this.__super__.BigData.get(projectId, collection, params, function(levelData){
+		var len = levelData.length;
+		var parentIds = [];
+		for(var i=0; i<len; i++){
+			var item = levelData[i];
+			var id = item.id | 0;
+			ids.push(id);
+			if(item.children_count > 0){
+				parentIds.push(id);
+			}
+		}
+		if(parentIds.length > 0){
+			params.parentIds = parentIds;
+			this.__internalReadLevel(projectId, collection, params, ids, callback);
+		} else {
+			callback(ids);
+		}
+	}.bind(this));
+};
+
+Tree.__internalRemoveIds = function(projectId, collection, ids, folders, callback){
+	var packSize = 100;
+	var idsPack = ids.splice(0, packSize);
+
+	var params = {
+		dataIds: idsPack,
+		folders: folders
+	};
+	this.__super__.Data.delete(projectId, collection, params, function(){
+		if(ids.length === 0){
+			callback();
+		} else {
+			this.__internalRemoveIds(projectId, collection, ids, folders, callback);
+		}
+	}.bind(this));
+};
+
+
+Tree.delete = function(projectId, collection, dataId, folders, callback){
+	var params = {
+		parentIds: dataId,
+		folders: folders,
+		includeChildren: false
+	};
+	var ids = [dataId];
+	this.__internalReadLevel(projectId, collection, params, ids, function(ids){
+		this.__internalRemoveIds(projectId, collection, ids, folders, callback);
+	}.bind(this));
 };
 
 /**
@@ -2313,6 +2415,7 @@ Notification.getHistory = function(optionalParams, callback){
 	this.__super__.__sendWithCallback(method, params, 'history', callback);
 };
 
+/*global XMLHttpRequest*/
 /**
  *  
  */
@@ -2335,6 +2438,19 @@ var Syncano = function(){
 	this.status = states.DISCONNECTED;
 	this.requestId = 1;
 	this.uuid = null;
+
+	this.requestInProgress = false;
+
+	/**
+		this flags are set by Data.new, Data.addChild, Data.addParent methods
+		when we create new data object in syncano, we still get notification from the backend that new data has been created
+		we already know that (cause we've created it!), so we have to ignore message
+	 */
+	this.ignoreNextNew = false;
+	this.ignoreNextNewRelation = false;
+	this.ignoreNextDelete = false;
+	this.ignoreNextDeleteRelation = false;
+	this.ignoreNextChange = false;
 	
 	this.VERSION = '3.1.0beta';
 	
@@ -2342,6 +2458,8 @@ var Syncano = function(){
 	 *  queue for messages which could not be sent because of no connection 
 	 */
 	this.requestsQueue = [];
+
+	this.connectionType = 'socket';
 	
 	/**
 	 *  in this list we will keep arrays of [action, callback] for every sent message, so we will be able to run callback function
@@ -2360,6 +2478,10 @@ var Syncano = function(){
 	this.Folder.__super__ = this;
 	this.Data = Data;
 	this.Data.__super__ = this;
+	this.BigData = BigData;
+	this.BigData.__super__ = this;
+	this.Tree = Tree;
+	this.Tree.__super__ = this;
 	this.User = User;
 	this.User.__super__ = this;
 	this.Subscription = Subscription;
@@ -2389,7 +2511,10 @@ Syncano.prototype.connect = function(params, callback){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
 	if(typeof root.SockJS === 'undefined'){
-		throw new Error('SockJS is required');
+		this.connectionType = 'ajax';
+	}
+	if(typeof params.type !== 'undefined'){
+		this.connectionType = params.type;
 	}
 	this.connectionParams = params;
 	if(this.status != states.DISCONNECTED){
@@ -2400,11 +2525,20 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof callback === 'function'){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
+	
+	this.instance = params.instance;
+	this.apiKey = params.api_key;
 
-	this.socket = new root.SockJS(this.socketURL);
-	this.socket.onopen = this.onSocketOpen.bind(this);
-	this.socket.onclose = this.onSocketClose.bind(this);
-	this.socket.onmessage = this.onMessage.bind(this);
+	if(this.connectionType === 'socket'){
+		this.socket = new root.SockJS(this.socketURL);
+		this.socket.onopen = this.onSocketOpen.bind(this);
+		this.socket.onclose = this.onSocketClose.bind(this);
+		this.socket.onmessage = this.onMessage.bind(this);
+	} else {
+		if(typeof callback === 'function'){
+			callback();
+		}
+	}
 };
 
 
@@ -2460,13 +2594,14 @@ Syncano.prototype.onMessage = function(e){
 	
 	if(data.result === 'NOK'){
 		this.trigger('syncano:error', data.error || data.data.error);
-		if(data.type === 'auth'){
-			this.socket.close();
-			this.trigger('syncano:auth:error');
-		}
-		return;
-	} else {
-		this.trigger('syncano:received', data);
+			if(data.type === 'auth'){
+				this.socket.close();
+				this.trigger('syncano:auth:error');
+			} else {
+				this.requestInProgress = false;
+				this.sendQueue();
+			}
+			return;
 	}
 	
 	switch(data.type){
@@ -2475,6 +2610,10 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case 'callresponse':
+			if(this.status === states.AUTHORIZED){
+				this.requestInProgress = false;
+				this.sendQueue();
+			}
 			this.parseCallResponse(data);
 			break;
 			
@@ -2483,7 +2622,11 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case 'new':
-			this.parseNewRecordNotifier(data);
+			if(data.object === 'data'){
+				this.parseNewRecordNotifier(data);
+			} else if(data.object === 'datarelation'){
+				this.parseNewRelationNotifier(data);
+			}
 			break;
 			
 		case 'change':
@@ -2491,7 +2634,11 @@ Syncano.prototype.onMessage = function(e){
 			break;
 			
 		case 'delete':
-			this.parseDeleteRecordNotifier(data);
+			if(data.object === 'data'){
+				this.parseDeleteRecordNotifier(data);
+			} else {
+				this.parseDeleteRelationNotifier(data);
+			}
 			break;
 	}
 };
@@ -2509,6 +2656,7 @@ Syncano.prototype.onMessage = function(e){
 Syncano.prototype.parseAuthorizationResponse = function(data){
 	this.uuid = data.uuid;
 	this.status = states.AUTHORIZED;
+	this.trigger('syncano:received', data);
 	this.trigger('syncano:authorized', this.uuid);
 	this.parseCallResponse({message_id: 'auth', data:data});
 	this.sendQueue();
@@ -2536,6 +2684,13 @@ Syncano.prototype.parseAuthorizationResponse = function(data){
  *  @event syncano:newdata:collection-XXX
  */
 Syncano.prototype.parseNewRecordNotifier = function(rec){
+	// ignore means ignore
+	if(this.ignoreNextNew === true){
+		this.trigger('syncano:ignored', rec);
+		this.ignoreNextNew = false;
+		return;
+	}
+	this.trigger('syncano:received', rec);
 	var projectId = rec.channel.project_id | 0;
 	var collectionId = rec.channel.collection_id | 0;
 	var recData = rec.data;
@@ -2545,6 +2700,36 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
 	}
 	this.trigger('syncano:newdata:project-' + projectId, recData);
 	this.trigger('syncano:newdata:collection-' + collectionId, recData);
+};
+
+
+/**
+ *  When message with type 'new' and object 'datarelation' comes, trigger two events - for parent and for child 
+ *
+ *  @method parseNewRelationNotifier
+ *  @param {object} rec Object send by server
+ */
+/** 
+ *  Triggered after receiving message with new relation between records XXX (child) and YYY (parent)
+ *  @event syncano:newparent:data-XXX
+ */
+/** 
+ *  Triggered after receiving message with new relation between records XXX (child) and YYY (parent)
+ *  @event syncano:newchild:data-YYY
+ */
+Syncano.prototype.parseNewRelationNotifier = function(rec){
+	if(this.ignoreNextNewRelation === true){
+		this.trigger('syncano:ignored', rec);
+		this.ignoreNextNewRelation = false;
+		return;
+	}
+	this.trigger('syncano:received', rec);
+	if(typeof rec.target !== 'undefined'){
+		var parentId = rec.target.parent_id;
+		var childId = rec.target.child_id;
+		this.trigger('syncano:newparent:data-' + childId, parentId);
+		this.trigger('syncano:newchild:data-' + parentId, childId);
+	}
 };
 
 
@@ -2559,7 +2744,14 @@ Syncano.prototype.parseNewRecordNotifier = function(rec){
  *  @event syncano:change:data-XXX
  */
 Syncano.prototype.parseChangeRecordNotifier = function(rec){
+	// ignore means ignore
+	if(this.ignoreNextChange === true){
+		this.trigger('syncano:ignored', rec);
+		this.ignoreNextChange = false;
+		return;
+	}
 	var targetIds = rec.target.id;
+	this.trigger('syncano:received', rec);
 	for(var i=0; i<targetIds.length; i++){
 		var id = targetIds[i];
 		var p = {};
@@ -2587,10 +2779,45 @@ Syncano.prototype.parseChangeRecordNotifier = function(rec){
  *  @event syncano:delete:data-XXX
  */
 Syncano.prototype.parseDeleteRecordNotifier = function(rec){
+	if(this.ignoreNextDelete === true){
+		this.trigger('syncano:ignored', rec);
+		this.ignoreNextDelete = false;
+		return;
+	}
 	var targetIds = rec.target.id;
+	this.trigger('syncano:received', rec);
 	for(var i=0; i<targetIds.length; i++){
 		var id = targetIds[i];
 		this.trigger('syncano:delete:data-'+id);
+	}
+};
+
+/**
+ *  When message with type 'delete' and object 'datarelation' comes, trigger two events - for parent and for child 
+ *
+ *  @method parseDeleteRelationNotifier
+ *  @param {object} rec Object send by server
+ */
+/** 
+ *  Triggered after receiving message with removed relation between records XXX (child) and YYY (parent)
+ *  @event syncano:removeparent:data-XXX
+ */
+/** 
+ *  Triggered after receiving message with removed relation between records XXX (child) and YYY (parent)
+ *  @event syncano:removechild:data-YYY
+ */
+Syncano.prototype.parseDeleteRelationNotifier = function(rec){
+	if(this.ignoreNextDeleteRelation === true){
+		this.trigger('syncano:ignored', rec);
+		this.ignoreNextDeleteRelation = false;
+		return;
+	}
+	this.trigger('syncano:received', rec);
+	if(typeof rec.target !== 'undefined'){
+		var parentId = rec.target.parent_id;
+		var childId = rec.target.child_id;
+		this.trigger('syncano:removeparent:data-' + childId, parentId);
+		this.trigger('syncano:removechild:data-' + parentId, childId);
 	}
 };
 
@@ -2605,6 +2832,7 @@ Syncano.prototype.parseDeleteRecordNotifier = function(rec){
  *  @event syncano:message
  */
 Syncano.prototype.parseMessageNotifier = function(data){
+	this.trigger('syncano:received', data);
 	this.trigger('syncano:message', data);
 };
 
@@ -2625,6 +2853,7 @@ Syncano.prototype.parseCallResponse = function(data){
 		var rec = this.waitingForResponse[messageId];
 		var actionType = rec[0].replace('.', ':');
 		var callback = rec[1];
+		this.trigger('syncano:received', data);
 		this.trigger('syncano:' + actionType, data.data);
 		if(typeof callback === 'function'){
 			callback(data.data);
@@ -2642,7 +2871,8 @@ Syncano.prototype.parseCallResponse = function(data){
  *  @method sendQueue
  */
 Syncano.prototype.sendQueue = function(){
-	while(this.requestsQueue.length > 0){
+	// while(this.requestsQueue.length > 0){
+	if(this.requestsQueue.length > 0){
 		var request = this.requestsQueue.shift();
 		this.socketSend(request);
 	}
@@ -2667,7 +2897,7 @@ Syncano.prototype.getNextRequestId = function(){
  *  @param {object} request 
  */
 Syncano.prototype.socketSend = function(request){
-	this.socket.send(JSON.stringify(request) + "\n");
+	this.socket.send(JSON.stringify(request) + '\n');
 };
 
 
@@ -2689,33 +2919,52 @@ Syncano.prototype.socketSend = function(request){
  *  When user wants to send data to the server, but connection has not been established yet
  *  @event syncano:queued
  */
-Syncano.prototype.sendRequest = function(method, params, callback){
+Syncano.prototype.sendRequest = function(method, params, callback, requestType){
 	if(typeof params === 'undefined'){
 		params = {};
 	}
-	
-	var request = {
-		type: 'call',
-		method: method,
-		params: params
-	};
-	
-	request.message_id = this.getNextRequestId();
+	if(this.connectionType === 'ajax' || requestType === 'ajax'){
+		var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
+		for(var key in params){
+			if(params.hasOwnProperty(key)){
+				url += key + '=' + params[key] + '&';
+			}
+		}
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4 && xhr.status === 200){
+				var data = JSON.parse(xhr.responseText);
+				this.trigger('syncano:received', data);
+				callback(data);
+			}
+		}.bind(this);
+		xhr.send();
+	} else if(this.connectionType === 'socket'){
+		var request = {
+			type: 'call',
+			method: method,
+			params: params
+		};
+		
+		request.message_id = this.getNextRequestId();
 
-	/**
-	 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
-	 */
-	this.waitingForResponse[request.message_id] = [method, callback];
-	
-	/**
-	 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
-	 */
-	if(this.status == states.AUTHORIZED){
-		this.trigger('syncano:call', request);
-		this.socketSend(request);
-	} else {
-		this.trigger('syncano:queued', request);
-		this.requestsQueue.push(request);
+		/**
+		 *  Remember method and callback on the waitingForResponse list. When the response comes, callback will be called
+		 */
+		this.waitingForResponse[request.message_id] = [method, callback];
+		
+		/**
+		 *  Send message to socket if already open and authorized. Otherwise - push to requestsQueue
+		 */
+		if(this.status == states.AUTHORIZED && this.requestInProgress === false){
+			this.requestInProgress = true;
+			this.trigger('syncano:call', request);
+			this.socketSend(request);
+		} else {
+			this.trigger('syncano:queued', request);
+			this.requestsQueue.push(request);
+		}
 	}
 };
 
@@ -2745,7 +2994,7 @@ Syncano.prototype.__addCollectionIdentifier = function(params, collection){
 /**
  *  Internal shortcut method to send request and run the callback function with proper data as parameter
  */
-Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
+Syncano.prototype.__sendWithCallback = function(method, params, key, callback, requestType){
 	this.sendRequest(method, params, function(data){
 		var res;
 		if(key === null){
@@ -2756,7 +3005,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback){
 		if(typeof callback === 'function'){
 			callback(res);
 		}
-	});
+	}, requestType);
 };
 
 var instance = null;

@@ -20,6 +20,7 @@ var Data = {};
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
  *  @param {function} [callback] Function to be called when successful response comes
+ *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = 'ajax'
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:'', api_key:''});
@@ -30,7 +31,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback){
+Data.new = function(projectId, collection, optionalParams, callback, requestType){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.new';
@@ -82,7 +83,8 @@ Data.new = function(projectId, collection, optionalParams, callback){
 			}
 		}
 	}
-	this.__super__.__sendWithCallback(method, params, 'data', callback);
+	this.__super__.ignoreNextNew = true;
+	this.__super__.__sendWithCallback(method, params, 'data', callback, requestType);
 };
 
 
@@ -270,8 +272,10 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
  *  @param {string} [optionalParams.image] Image data associated with message. If specified as empty string - will instead delete current image
  *  @param {string} [optionalParams.imageUrl] Image source URL. Used in combination with image parameter
  *  @param {string} [optionalParams.folder] Folder name that data will be put in. Default value: 'Default'
+ *  @param {string} [optionalParams.dataKey] New data key to be set
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, new Data Object becomes a child of specified parent id. Note that all other parent-child relations for this Data Object are removed
+ *  @param {string} [optionalParams.additional] any number of additional parameters passed as key - value object literal
  *  @param {function} [callback] Function to be called when successful response comes
  *  @example
 	var s = SyncanoConnector.getInstance();
@@ -301,7 +305,7 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 	}
 	
 	if(isset(optionalParams)){
-		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl'];
+		var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl', 'dataKey'];
 		for(var i=0; i<paramsToPass.length; i++){
 			var jsParam = paramsToPass[i];
 			if(isset(optionalParams[jsParam])){
@@ -325,7 +329,20 @@ Data.update = function(projectId, collection, dataKeyOrId, optionalParams, callb
 			}
 		}
 	}
+
+	if(isset(optionalParams.additional)){
+		for(var key in optionalParams.additional){
+			if(optionalParams.additional.hasOwnProperty(key)){
+				var val = optionalParams.additional[key];
+				if(typeof params[key] !== 'undefined'){
+					throw new Error('Cannot use additional (custom) param named ' + key);
+				}
+				params[key] = val;
+			}
+		}
+	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
@@ -408,6 +425,7 @@ Data.move = function(projectId, collection, optionalParams, callback){
 		}
 	}
 	
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -502,6 +520,7 @@ Data.addParent = function(projectId, collection, dataId, parentId, removeOther, 
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -538,6 +557,7 @@ Data.removeParent = function(projectId, collection, dataId, parentId, callback){
 		params.parent_id = parentId;
 	}
 	
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -582,6 +602,7 @@ Data.addChild = function(projectId, collection, dataId, childId, removeOther, ca
 		params.remove_other = removeOther;
 	}
 	
+	this.__super__.ignoreNextNewRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -618,6 +639,7 @@ Data.removeChild = function(projectId, collection, dataId, childId, callback){
 		params.child_id = childId;
 	}
 
+	this.__super__.ignoreNextDeleteRelation = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -686,6 +708,7 @@ Data.delete = function(projectId, collection, optionalParams, callback){
 		}
 	}
 
+	this.__super__.ignoreNextDelete = true;
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
