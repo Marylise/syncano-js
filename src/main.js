@@ -22,6 +22,9 @@ var Syncano = function(){
 	this.requestId = 1;
 	this.uuid = null;
 
+	this.instance = null;
+	this.apiKey = null;
+
 	this.requestInProgress = false;
 
 	/**
@@ -93,13 +96,23 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
+
+	this.instance = params.instance;
+	this.apiKey = params.api_key;
+
 	if(typeof root.SockJS === 'undefined'){
 		this.connectionType = 'ajax';
 	}
 	if(typeof params.type !== 'undefined'){
 		this.connectionType = params.type;
 	}
+
 	this.connectionParams = params;
+	if(this.auth_key){
+		this.connectionParams.auth_key = this.auth_key;
+	}
+
+
 	if(this.status != states.DISCONNECTED){
 		this.reconnectOnSocketClose = true;
 		return;
@@ -108,9 +121,6 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof callback === 'function'){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
-	
-	this.instance = params.instance;
-	this.apiKey = params.api_key;
 
 	if(this.connectionType === 'socket'){
 		this.socket = new root.SockJS(this.socketURL);
@@ -480,6 +490,7 @@ Syncano.prototype.getNextRequestId = function(){
  *  @param {object} request 
  */
 Syncano.prototype.socketSend = function(request){
+	console.log('SENDING',request);
 	this.socket.send(JSON.stringify(request) + '\n');
 };
 
@@ -583,7 +594,11 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 		if(key === null){
 			res = true;
 		} else {
-			res = data[key];
+			if(typeof data[key] !== 'undefined'){
+				res = data[key];
+			} else {
+				res = data;
+			}
 		}
 		if(typeof callback === 'function'){
 			callback(res);
@@ -591,7 +606,56 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 	}, requestType);
 };
 
-var instance = null;
+/**
+ *
+ */
+Syncano.prototype.__sendAjaxRequest = function(method, params, resultKey, callback){
+	if(typeof params === 'undefined'){
+		params = {};
+	}
+	if(this.instance === null){
+		if(typeof params.instance !== 'undefined'){
+			this.instance = params.instance;
+			delete params.instance;
+		} else {
+			throw new Error('Please provide instance name');
+		}
+	}
+	if(this.apiKey === null){
+		if(typeof params.apiKey !== 'undefined'){
+			this.apiKey = params.apiKey;
+			delete params.apiKey;
+		} else {
+			throw new Error('Please provide api key');
+		}
+	}
+
+	var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
+	for(var key in params){
+		if(params.hasOwnProperty(key)){
+			url += key + '=' + params[key] + '&';
+		}
+	}
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', url, true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status === 200){
+			var data = JSON.parse(xhr.responseText);
+			var callbackParam;
+			if(typeof data[resultKey] !== 'undefined'){
+				callbackParam = data[resultKey];
+			} else {
+				callbackParam = data;
+			}
+			this.trigger('syncano:received', data);
+			callback(callbackParam);
+		}
+	}.bind(this);
+	xhr.send();
+};
+
+var objectInstance = null;
 
 
 /**
@@ -599,9 +663,9 @@ var instance = null;
  */
 root.SyncanoConnector = {
 	getInstance: function(){
-		if(instance === null){
-			instance = new Syncano();
+		if(objectInstance === null){
+			objectInstance = new Syncano();
 		}
-		return instance;
+		return objectInstance;
 	}
 };

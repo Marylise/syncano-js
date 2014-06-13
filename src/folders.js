@@ -166,3 +166,31 @@ Folder.delete = function(projectId, collection, folderName, callback){
 	
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
+
+
+Folder.authorize = function(apiKey, projectId, collection, permission, folderName, callback){
+	this.__super__.__checkProjectId(projectId);
+	var method = 'folder.authorize';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	params.api_client_id = apiKey;
+
+	if(typeof folderName !== 'string'){
+		throw new Error('FolderName must be a string');
+	}
+	params.name = folderName;
+
+	var availPermissions = [
+		'create_data', 'read_data', 'read_own_data', 'update_data', 'update_own_data', 'delete_data', 'delete_own_data'
+	];
+
+	if(isset(permission) && availPermissions.indexOf(permission) !== -1){
+		params.permission = permission;
+	} else {
+		throw new Error('Permission must be one of: ' + availPermissions.join(', '));
+	}
+
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
