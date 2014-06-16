@@ -250,3 +250,78 @@ syncano.Data.delete(projectId, collectionKey, {
 	console.log('Deleted');
 });
 ```
+
+
+## Backbone.js
+---
+
+SyncanoJS comes with a Backbone (http://backbonejs.org/) library extensions for Models and Collections.
+SyncanoModel and SyncanoCollection overwrite Backbone.sync method and make it easy to integrate Syncano backend into your Backbone application.
+Both SyncanoModel and SyncanoCollection override default `initialize` method, but if you need to write some code that executes on init, 
+please use `start` method. There's a possibility to pass aditional parameters to collection, for example parent identifiers - in that case you have to prepare `additionalReadParams` method which returns javascript object with required params.
+
+
+### Model examples
+---
+
+```javascript
+var TodoModel = SyncanoModel.extend({
+	syncanoParams: {
+		projectId: PROJECT_ID,
+        collectionId: COLLECTION_ID,
+        folder: 'FOLDER NAME'
+	}
+});
+```
+
+### Create new model
+
+```javascript
+var todo = new TodoModel();
+todo.set({
+	title: 'Buy some stuff',
+	finished: false
+});
+todo.save();
+```
+
+### Load model and destroy it
+
+```javascript
+var todo = new TodoModel({id: MODEL_ID});
+todo.fetch({
+	success: function(){
+		console.log('MODEL', todo.toJSON());
+		todo.destroy();
+	}
+});
+```
+
+### Collection example
+
+```javascript
+var MyCollection = SyncanoCollection.extend({
+	syncanoParams: {
+		projectId: PROJECT_ID,
+        collectionId: COLLECTION_ID,
+        folder: 'FOLDER NAME'
+	},
+
+	additionalReadParams: function(){
+		return {
+			state: 'Moderated'
+		}
+	}
+});
+```
+
+### Load collection
+
+```javascript
+var collection = new MyCollection();
+collection.fetch({
+	success: function(res){
+		console.log('COLLECTION LENGTH', res.length);
+	}
+});
+```
