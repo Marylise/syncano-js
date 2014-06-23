@@ -1,7 +1,7 @@
 /*
 syncano
-ver: 3.1.0beta
-build date: 06-06-2014
+ver: 3.1.1beta
+build date: 23-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
