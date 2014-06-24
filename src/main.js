@@ -490,7 +490,6 @@ Syncano.prototype.getNextRequestId = function(){
  *  @param {object} request 
  */
 Syncano.prototype.socketSend = function(request){
-	console.log('SENDING',request);
 	this.socket.send(JSON.stringify(request) + '\n');
 };
 

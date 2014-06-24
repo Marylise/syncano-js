@@ -300,6 +300,89 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
 
 
 /**
+ * Adds collection-level permission to specified User API client. Requires Backend API key with Admin permission role.
+ * Available permissions:
+ *   create_data - can create new Data Objects within container,
+ *   read_data - can read all Data Objects within container,
+ *   read_own_data - can read only Data Objects within container that were created by associated user,
+ *   update_data - can update all Data Objects within container,
+ *   update_own_data - can update only Data Objects within container that were created by associated user,
+ *   delete_data - can delete all Data Objects within container,
+ *   delete_own_data - can delete only Data Objects within container that were created by associated user
+ * 
+ * @method Collection.authorize
+ * @param {number} projectId Project id
+ * @param {string} collection Either collection id (number) or key (string)
+ * @param {number} apiClientId User API client id
+ * @param {string} permission User API client's permission to add
+ * @param {function} [callback] Function to be called when successful response comes 
+ */
+Collection.authorize = function(projectId, collection, apiClientId, permission, callback){
+	this.__super__.__checkProjectId(projectId);
+	var method = 'collection.authorize';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	if(!isNumber(apiClientId)){
+		throw new Error(method + ': apiClientId must be a number');
+	}
+
+	var availablePermissions = [
+		'create_data', 'read_data', 'read_own_data', 'update_data', 'update_own_data', 'delete_data', 'delete_own_data'
+	];
+	if(availablePermissions.indexOf(permission) === -1){
+		throw new Error(method + ': unknown permission name (' + permission + ')');
+	}
+	params.api_client_id = apiClientId;
+	params.permission = permission;
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+/**
+ * Removes container-level permission from specified User API client. Requires Backend API key with Admin permission role.
+ * Available permissions:
+ *   create_data - can create new Data Objects within container,
+ *   read_data - can read all Data Objects within container,
+ *   read_own_data - can read only Data Objects within container that were created by associated user,
+ *   update_data - can update all Data Objects within container,
+ *   update_own_data - can update only Data Objects within container that were created by associated user,
+ *   delete_data - can delete all Data Objects within container,
+ *   delete_own_data - can delete only Data Objects within container that were created by associated user
+ * 
+ * @method Collection.deauthorize
+ * @param {number} projectId Project id
+ * @param {string} collection Either collection id (number) or key (string)
+ * @param {number} apiClientId User API client id
+ * @param {string} permission User API client's permission to add
+ * @param {function} [callback] Function to be called when successful response comes 
+ */
+Collection.deauthorize = function(projectId, collection, apiClientId, permission, callback){
+	this.__super__.__checkProjectId(projectId);
+	var method = 'collection.deauthorize';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	if(!isNumber(apiClientId)){
+		throw new Error(method + ': apiClientId must be a number');
+	}
+
+	var availablePermissions = [
+		'create_data', 'read_data', 'read_own_data', 'update_data', 'update_own_data', 'delete_data', 'delete_own_data'
+	];
+	if(availablePermissions.indexOf(permission) === -1){
+		throw new Error(method + ': unknown permission name (' + permission + ')');
+	}
+	params.api_client_id = apiClientId;
+	params.permission = permission;
+	this.__super__.__sendWithCallback(method, params, null, callback);
+};
+
+
+/**
  * Permanently delete specified collection and all associated data.
  * 
  * @method Collection.delete
