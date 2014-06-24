@@ -1,7 +1,7 @@
 /*
 syncano
-ver: 3.1.0beta
-build date: 24-06-2014
+ver: 3.1.1beta
+build date: 23-06-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -749,89 +749,6 @@ Collection.deleteTag = function(projectId, collection, tags, callback){
 
 
 /**
- * Adds collection-level permission to specified User API client. Requires Backend API key with Admin permission role.
- * Available permissions:
- *   create_data - can create new Data Objects within container,
- *   read_data - can read all Data Objects within container,
- *   read_own_data - can read only Data Objects within container that were created by associated user,
- *   update_data - can update all Data Objects within container,
- *   update_own_data - can update only Data Objects within container that were created by associated user,
- *   delete_data - can delete all Data Objects within container,
- *   delete_own_data - can delete only Data Objects within container that were created by associated user
- * 
- * @method Collection.authorize
- * @param {number} projectId Project id
- * @param {string} collection Either collection id (number) or key (string)
- * @param {number} apiClientId User API client id
- * @param {string} permission User API client's permission to add
- * @param {function} [callback] Function to be called when successful response comes 
- */
-Collection.authorize = function(projectId, collection, apiClientId, permission, callback){
-	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.authorize';
-	var params = {
-		project_id: projectId
-	};
-	params = this.__super__.__addCollectionIdentifier(params, collection);
-
-	if(!isNumber(apiClientId)){
-		throw new Error(method + ': apiClientId must be a number');
-	}
-
-	var availablePermissions = [
-		'create_data', 'read_data', 'read_own_data', 'update_data', 'update_own_data', 'delete_data', 'delete_own_data'
-	];
-	if(availablePermissions.indexOf(permission) === -1){
-		throw new Error(method + ': unknown permission name (' + permission + ')');
-	}
-	params.api_client_id = apiClientId;
-	params.permission = permission;
-	this.__super__.__sendWithCallback(method, params, null, callback);
-};
-
-/**
- * Removes container-level permission from specified User API client. Requires Backend API key with Admin permission role.
- * Available permissions:
- *   create_data - can create new Data Objects within container,
- *   read_data - can read all Data Objects within container,
- *   read_own_data - can read only Data Objects within container that were created by associated user,
- *   update_data - can update all Data Objects within container,
- *   update_own_data - can update only Data Objects within container that were created by associated user,
- *   delete_data - can delete all Data Objects within container,
- *   delete_own_data - can delete only Data Objects within container that were created by associated user
- * 
- * @method Collection.deauthorize
- * @param {number} projectId Project id
- * @param {string} collection Either collection id (number) or key (string)
- * @param {number} apiClientId User API client id
- * @param {string} permission User API client's permission to add
- * @param {function} [callback] Function to be called when successful response comes 
- */
-Collection.deauthorize = function(projectId, collection, apiClientId, permission, callback){
-	this.__super__.__checkProjectId(projectId);
-	var method = 'collection.deauthorize';
-	var params = {
-		project_id: projectId
-	};
-	params = this.__super__.__addCollectionIdentifier(params, collection);
-
-	if(!isNumber(apiClientId)){
-		throw new Error(method + ': apiClientId must be a number');
-	}
-
-	var availablePermissions = [
-		'create_data', 'read_data', 'read_own_data', 'update_data', 'update_own_data', 'delete_data', 'delete_own_data'
-	];
-	if(availablePermissions.indexOf(permission) === -1){
-		throw new Error(method + ': unknown permission name (' + permission + ')');
-	}
-	params.api_client_id = apiClientId;
-	params.permission = permission;
-	this.__super__.__sendWithCallback(method, params, null, callback);
-};
-
-
-/**
  * Permanently delete specified collection and all associated data.
  * 
  * @method Collection.delete
@@ -1019,34 +936,6 @@ Folder.delete = function(projectId, collection, folderName, callback){
 	}
 	params.name = folderName;
 	
-	this.__super__.__sendWithCallback(method, params, null, callback);
-};
-
-
-Folder.authorize = function(apiKey, projectId, collection, permission, folderName, callback){
-	this.__super__.__checkProjectId(projectId);
-	var method = 'folder.authorize';
-	var params = {
-		project_id: projectId
-	};
-	params = this.__super__.__addCollectionIdentifier(params, collection);
-	params.api_client_id = apiKey;
-
-	if(typeof folderName !== 'string'){
-		throw new Error('FolderName must be a string');
-	}
-	params.name = folderName;
-
-	var availPermissions = [
-		'create_data', 'read_data', 'read_own_data', 'update_data', 'update_own_data', 'delete_data', 'delete_own_data'
-	];
-
-	if(isset(permission) && availPermissions.indexOf(permission) !== -1){
-		params.permission = permission;
-	} else {
-		throw new Error('Permission must be one of: ' + availPermissions.join(', '));
-	}
-
 	this.__super__.__sendWithCallback(method, params, null, callback);
 };
 
@@ -1907,54 +1796,6 @@ Tree.delete = function(projectId, collection, dataId, folders, callback){
 var User = {};
 
 /**
- *
- */
-User.login = function(userName, password, instanceName, apiKey, callback){
-	var method = 'user.login';
-	var params = {};
-
-	if(type(userName) === 'object' && isFunction(password)){
-		var tempParams = userName;
-		callback = password;
-		apiKey = tempParams.api_key;
-		userName = tempParams.user_name;
-		password = tempParams.password;
-		instanceName = tempParams.instance;
-	}
-
-	if(isset(userName)){
-		params.user_name = userName;
-	} else {
-		throw new Error('Please provide user name');
-	}
-	if(isset(password)){
-		params.password = password;
-	} else {
-		throw new Error('Please provide password');
-	}
-	if(isset(instanceName)){
-		params.instance = instanceName;
-	}
-	if(isset(apiKey)){
-		params.apiKey = apiKey;
-	}
-
-	this.__super__.__sendAjaxRequest(method, params, 'user', function(result){
-		if(typeof result.auth_key !== 'undefined'){
-			this.auth_key = result.auth_key;
-			if(typeof callback === 'function'){
-				callback(result);
-			}
-		} else {
-			if(typeof callback === 'function'){
-				callback(result);
-			}
-		}
-	}.bind(this.__super__));
-};
-
-
-/**
  *  Creates new user
  *  
  *  @method User.new
@@ -2598,9 +2439,6 @@ var Syncano = function(){
 	this.requestId = 1;
 	this.uuid = null;
 
-	this.instance = null;
-	this.apiKey = null;
-
 	this.requestInProgress = false;
 
 	/**
@@ -2672,23 +2510,13 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof params === 'undefined' || typeof params.api_key === 'undefined' || typeof params.instance === 'undefined'){
 		throw new Error('syncano.connect requires instance name and api_key');
 	}
-
-	this.instance = params.instance;
-	this.apiKey = params.api_key;
-
 	if(typeof root.SockJS === 'undefined'){
 		this.connectionType = 'ajax';
 	}
 	if(typeof params.type !== 'undefined'){
 		this.connectionType = params.type;
 	}
-
 	this.connectionParams = params;
-	if(this.auth_key){
-		this.connectionParams.auth_key = this.auth_key;
-	}
-
-
 	if(this.status != states.DISCONNECTED){
 		this.reconnectOnSocketClose = true;
 		return;
@@ -2697,6 +2525,9 @@ Syncano.prototype.connect = function(params, callback){
 	if(typeof callback === 'function'){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
+	
+	this.instance = params.instance;
+	this.apiKey = params.api_key;
 
 	if(this.connectionType === 'socket'){
 		this.socket = new root.SockJS(this.socketURL);
@@ -3169,11 +3000,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 		if(key === null){
 			res = true;
 		} else {
-			if(typeof data[key] !== 'undefined'){
-				res = data[key];
-			} else {
-				res = data;
-			}
+			res = data[key];
 		}
 		if(typeof callback === 'function'){
 			callback(res);
@@ -3181,56 +3008,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 	}, requestType);
 };
 
-/**
- *
- */
-Syncano.prototype.__sendAjaxRequest = function(method, params, resultKey, callback){
-	if(typeof params === 'undefined'){
-		params = {};
-	}
-	if(this.instance === null){
-		if(typeof params.instance !== 'undefined'){
-			this.instance = params.instance;
-			delete params.instance;
-		} else {
-			throw new Error('Please provide instance name');
-		}
-	}
-	if(this.apiKey === null){
-		if(typeof params.apiKey !== 'undefined'){
-			this.apiKey = params.apiKey;
-			delete params.apiKey;
-		} else {
-			throw new Error('Please provide api key');
-		}
-	}
-
-	var url = 'https://' + this.instance + '.syncano.com/api/' + method + '?api_key=' + this.apiKey + '&';
-	for(var key in params){
-		if(params.hasOwnProperty(key)){
-			url += key + '=' + params[key] + '&';
-		}
-	}
-
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', url, true);
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState == 4 && xhr.status === 200){
-			var data = JSON.parse(xhr.responseText);
-			var callbackParam;
-			if(typeof data[resultKey] !== 'undefined'){
-				callbackParam = data[resultKey];
-			} else {
-				callbackParam = data;
-			}
-			this.trigger('syncano:received', data);
-			callback(callbackParam);
-		}
-	}.bind(this);
-	xhr.send();
-};
-
-var objectInstance = null;
+var instance = null;
 
 
 /**
@@ -3238,10 +3016,10 @@ var objectInstance = null;
  */
 root.SyncanoConnector = {
 	getInstance: function(){
-		if(objectInstance === null){
-			objectInstance = new Syncano();
+		if(instance === null){
+			instance = new Syncano();
 		}
-		return objectInstance;
+		return instance;
 	}
 };
 
