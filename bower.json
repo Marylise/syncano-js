@@ -1,6 +1,6 @@
 {
   "name": "syncano",
-  "version": "3.1.1beta",
+  "version": "3.1.0beta",
   "main": "dist/syncano.min.js",
   "ignore": [
     "**/.*",

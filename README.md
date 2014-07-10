@@ -128,6 +128,47 @@ syncano.methodName(params, function(data){
 });
 ```
 
+### Working as user without admin priviledges
+---
+
+Create new user in _Syncano -> Users_. Set the password.
+
+Generate new User API Key in _Syncano -> Settings -> API Keys_. Remember its ID (numeric) and Key (string).
+
+Call following code as an admin:
+
+```javascript
+var s = SyncanoConnector.getInstance();
+s.connect({
+    instance: INSTANCE,
+    api_key: YOUR_ADMIN_AUTH_KEY,
+}, function(){
+    var permission = YOUR_PERMISSION_NAME;
+    s.Collection.authorize(projectId, collectionId, API_KEY_ID, permission, function(){
+        console.log(permission + ' granted');
+    });
+});
+```
+
+Connect as an user with login and password:
+
+```javascript
+var params = {
+    instance: INSTANCE,
+    api_key: USER_API_KEY,
+    user_name: USER_NAME,
+    password: USER_PASSWORD
+};
+s.User.login(params, function(){
+    s.connect({instance: INSTANCE, api_key: USER_API_KEY}, function(){
+    	console.log('Connected as ' + params.user_name);
+    });
+});
+```
+
+Now you have access to your Syncano instance with restricted priviledges.
+
+
 ### Examples
 ---
 	

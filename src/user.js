@@ -4,6 +4,54 @@
 var User = {};
 
 /**
+ *
+ */
+User.login = function(userName, password, instanceName, apiKey, callback){
+	var method = 'user.login';
+	var params = {};
+
+	if(type(userName) === 'object' && isFunction(password)){
+		var tempParams = userName;
+		callback = password;
+		apiKey = tempParams.api_key;
+		userName = tempParams.user_name;
+		password = tempParams.password;
+		instanceName = tempParams.instance;
+	}
+
+	if(isset(userName)){
+		params.user_name = userName;
+	} else {
+		throw new Error('Please provide user name');
+	}
+	if(isset(password)){
+		params.password = password;
+	} else {
+		throw new Error('Please provide password');
+	}
+	if(isset(instanceName)){
+		params.instance = instanceName;
+	}
+	if(isset(apiKey)){
+		params.apiKey = apiKey;
+	}
+
+	this.__super__.__sendAjaxRequest(method, params, 'user', function(result){
+		if(typeof result.auth_key !== 'undefined'){
+			this.auth_key = result.auth_key;
+			if(typeof callback === 'function'){
+				callback(result);
+			}
+		} else {
+			if(typeof callback === 'function'){
+				callback(result);
+			}
+		}
+	}.bind(this.__super__));
+};
+
+
+/**
  *  Creates new user
  *  
  *  @method User.new
