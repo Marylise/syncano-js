@@ -19,8 +19,8 @@ var Data = {};
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
+ *  @param {object} [optionalParams.special] Special object with max 3 keys - data1, data2 and data3. These fields are "special purpose" integers - one can sort and filter by them in Data.get method
  *  @param {function} [callback] Function to be called when successful response comes
- *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = 'ajax'
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:'', api_key:''});
@@ -31,7 +31,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback, requestType){
+Data.new = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.new';
@@ -82,9 +82,42 @@ Data.new = function(projectId, collection, optionalParams, callback, requestType
 				}
 			}
 		}
+
+		if(isset(optionalParams.special) && Object.keys(optionalParams.special).length > 0){
+			var predefined = ['data1', 'data2', 'data3'];
+			var key, value;
+			for(key in optionalParams.special){
+				if(optionalParams.special.hasOwnProperty(key)){
+					value = optionalParams.special[key];
+					var idx = predefined.indexOf(key);
+					if(idx !== -1){
+						params[key] = value;
+						predefined[idx] = null;
+						delete optionalParams.special[key];
+					}
+				}
+			}
+			if(Object.keys(optionalParams.special).length > 0){
+				// there are some keys left, so we didn't use default data1...data3 names
+				for(key in optionalParams.special){
+					if(optionalParams.special.hasOwnProperty(key)){
+						value = optionalParams.special[key];
+						var predefinedKey;
+						do {
+							predefinedKey = predefined.shift();
+						} while(predefinedKey === null && predefined.length > 0);
+						if(typeof predefinedKey !== 'undefined'){
+							params[predefinedKey] = value;
+							params[key] = predefinedKey;
+						}
+					}
+				}
+			}
+		}
 	}
+
 	this.__super__.ignoreNextNew = true;
-	this.__super__.__sendWithCallback(method, params, 'data', callback, requestType);
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
 
@@ -190,7 +223,7 @@ Data.get = function(projectId, collection, optionalParams, callback){
 		}
 		
 		if(isset(optionalParams.orderBy)){
-			if(inArray(optionalParams.orderBy.toLowerCase(), ['created_at', 'updated_at'])){
+			if(inArray(optionalParams.orderBy.toLowerCase(), ['created_at', 'updated_at', 'data1', 'data2', 'data3'])){
 				params.order_by = optionalParams.orderBy;
 			} else {
 				throw new Error('incorrect value of order_by param - only "created_at" and "updated_at" are allowed');
@@ -210,6 +243,17 @@ Data.get = function(projectId, collection, optionalParams, callback){
 				params.include_children = optionalParams.includeChildren;
 			} else {
 				throw new Error('includeChildren param must be boolean');
+			}
+		}
+
+		var specialFields = ['data1', 'data2', 'data3'];
+		var operators = ['eq', 'neq', 'lte', 'lt', 'gte', 'gt'];
+		for(var f=0; f<specialFields.length; f++){
+			for(var o=0; o<operators.length; o++){
+				var key = specialFields[f] + '__' + operators[o];
+				if(isset(optionalParams[key])){
+					params[key] = optionalParams[key];
+				}
 			}
 		}
 	}
@@ -252,6 +296,82 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 		throw new Error('Data key/id must be passed');
 	}
 	
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+/**
+ * Increase one of special fields in data object
+ *
+ *  @method Data.increase
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
+ *  @param {string} field One of predefined fields - data1, data2 or data3
+ *  @param {int} value Value by which the field has to be increased
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.increase = function(projectId, collection, dataKeyOrId, field, value, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.update';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+
+	var allowedFields = ['data1', 'data2', 'data3'];
+	if(allowedFields.indexOf(field) !== -1){
+		params[field + '__inc'] = value;
+	}
+
+	this.__super__.ignoreNextChange = true;
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+/**
+ * Decrease one of special fields in data object
+ *
+ *  @method Data.increase
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
+ *  @param {string} field One of predefined fields - data1, data2 or data3
+ *  @param {int} value Value by which the field has to be decreased
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.decrease = function(projectId, collection, dataKeyOrId, field, value, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.update';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+
+	var allowedFields = ['data1', 'data2', 'data3'];
+	if(allowedFields.indexOf(field) !== -1){
+		params[field + '__dec'] = value;
+	}
+
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
