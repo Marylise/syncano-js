@@ -39,6 +39,8 @@ Data.new = function(projectId, collection, optionalParams, callback){
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	var key, value;
 	
 	/**
 	 *  all optional params
@@ -72,7 +74,7 @@ Data.new = function(projectId, collection, optionalParams, callback){
 		}
 		
 		if(isset(optionalParams.additional)){
-			for(var key in optionalParams.additional){
+			for(key in optionalParams.additional){
 				if(optionalParams.additional.hasOwnProperty(key)){
 					var val = optionalParams.additional[key];
 					if(stringParams.indexOf(key) !== -1 || key === 'parent_id'){
@@ -85,7 +87,6 @@ Data.new = function(projectId, collection, optionalParams, callback){
 
 		if(isset(optionalParams.special) && Object.keys(optionalParams.special).length > 0){
 			var predefined = ['data1', 'data2', 'data3'];
-			var key, value;
 			for(key in optionalParams.special){
 				if(optionalParams.special.hasOwnProperty(key)){
 					value = optionalParams.special[key];

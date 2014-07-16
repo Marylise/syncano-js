@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.2beta
-build date: 24-06-2014
+build date: 16-07-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -1071,8 +1071,8 @@ var Data = {};
  *  @param {string} [optionalParams.state] State of data to be initially set. Accepted values: Pending, Moderated, Rejected. Default value: Pending
  *  @param {number} [optionalParams.parentId] If specified, creates one parent-child relation with specified parent id.
  *  @param {object} [optionalParams.additional] Any number of additional parameters (key - value)
+ *  @param {object} [optionalParams.special] Special object with max 3 keys - data1, data2 and data3. These fields are "special purpose" integers - one can sort and filter by them in Data.get method
  *  @param {function} [callback] Function to be called when successful response comes
- *  @param {string} [requestType] Optional parameter to force ajax request. Only possible value = 'ajax'
  *  @example
 	var s = SyncanoConnector.getInstance();
 	s.connect({instance:'', api_key:''});
@@ -1083,7 +1083,7 @@ var Data = {};
 /** 
  *  @event syncano:data:new
  */
-Data.new = function(projectId, collection, optionalParams, callback, requestType){
+Data.new = function(projectId, collection, optionalParams, callback){
 	this.__super__.__checkProjectId(projectId);
 	
 	var method = 'data.new';
@@ -1091,6 +1091,8 @@ Data.new = function(projectId, collection, optionalParams, callback, requestType
 		project_id: projectId
 	};
 	params = this.__super__.__addCollectionIdentifier(params, collection);
+
+	var key, value;
 	
 	/**
 	 *  all optional params
@@ -1124,7 +1126,7 @@ Data.new = function(projectId, collection, optionalParams, callback, requestType
 		}
 		
 		if(isset(optionalParams.additional)){
-			for(var key in optionalParams.additional){
+			for(key in optionalParams.additional){
 				if(optionalParams.additional.hasOwnProperty(key)){
 					var val = optionalParams.additional[key];
 					if(stringParams.indexOf(key) !== -1 || key === 'parent_id'){
@@ -1134,9 +1136,41 @@ Data.new = function(projectId, collection, optionalParams, callback, requestType
 				}
 			}
 		}
+
+		if(isset(optionalParams.special) && Object.keys(optionalParams.special).length > 0){
+			var predefined = ['data1', 'data2', 'data3'];
+			for(key in optionalParams.special){
+				if(optionalParams.special.hasOwnProperty(key)){
+					value = optionalParams.special[key];
+					var idx = predefined.indexOf(key);
+					if(idx !== -1){
+						params[key] = value;
+						predefined[idx] = null;
+						delete optionalParams.special[key];
+					}
+				}
+			}
+			if(Object.keys(optionalParams.special).length > 0){
+				// there are some keys left, so we didn't use default data1...data3 names
+				for(key in optionalParams.special){
+					if(optionalParams.special.hasOwnProperty(key)){
+						value = optionalParams.special[key];
+						var predefinedKey;
+						do {
+							predefinedKey = predefined.shift();
+						} while(predefinedKey === null && predefined.length > 0);
+						if(typeof predefinedKey !== 'undefined'){
+							params[predefinedKey] = value;
+							params[key] = predefinedKey;
+						}
+					}
+				}
+			}
+		}
 	}
+
 	this.__super__.ignoreNextNew = true;
-	this.__super__.__sendWithCallback(method, params, 'data', callback, requestType);
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
 
@@ -1242,7 +1276,7 @@ Data.get = function(projectId, collection, optionalParams, callback){
 		}
 		
 		if(isset(optionalParams.orderBy)){
-			if(inArray(optionalParams.orderBy.toLowerCase(), ['created_at', 'updated_at'])){
+			if(inArray(optionalParams.orderBy.toLowerCase(), ['created_at', 'updated_at', 'data1', 'data2', 'data3'])){
 				params.order_by = optionalParams.orderBy;
 			} else {
 				throw new Error('incorrect value of order_by param - only "created_at" and "updated_at" are allowed');
@@ -1262,6 +1296,17 @@ Data.get = function(projectId, collection, optionalParams, callback){
 				params.include_children = optionalParams.includeChildren;
 			} else {
 				throw new Error('includeChildren param must be boolean');
+			}
+		}
+
+		var specialFields = ['data1', 'data2', 'data3'];
+		var operators = ['eq', 'neq', 'lte', 'lt', 'gte', 'gt'];
+		for(var f=0; f<specialFields.length; f++){
+			for(var o=0; o<operators.length; o++){
+				var key = specialFields[f] + '__' + operators[o];
+				if(isset(optionalParams[key])){
+					params[key] = optionalParams[key];
+				}
 			}
 		}
 	}
@@ -1304,6 +1349,82 @@ Data.getOne = function(projectId, collection, dataKeyOrId, callback){
 		throw new Error('Data key/id must be passed');
 	}
 	
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+/**
+ * Increase one of special fields in data object
+ *
+ *  @method Data.increase
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
+ *  @param {string} field One of predefined fields - data1, data2 or data3
+ *  @param {int} value Value by which the field has to be increased
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.increase = function(projectId, collection, dataKeyOrId, field, value, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.update';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+
+	var allowedFields = ['data1', 'data2', 'data3'];
+	if(allowedFields.indexOf(field) !== -1){
+		params[field + '__inc'] = value;
+	}
+
+	this.__super__.ignoreNextChange = true;
+	this.__super__.__sendWithCallback(method, params, 'data', callback);
+};
+
+
+/**
+ * Decrease one of special fields in data object
+ *
+ *  @method Data.increase
+ *  @param {number} projectId Project id
+ *  @param {string / Number} collection Either collection id (number) or key (string)
+ *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)
+ *  @param {string} field One of predefined fields - data1, data2 or data3
+ *  @param {int} value Value by which the field has to be decreased
+ *  @param {function} [callback] Function to be called when successful response comes
+ */
+Data.decrease = function(projectId, collection, dataKeyOrId, field, value, callback){
+	this.__super__.__checkProjectId(projectId);
+	
+	var method = 'data.update';
+	var params = {
+		project_id: projectId
+	};
+	params = this.__super__.__addCollectionIdentifier(params, collection);
+	
+	if(typeof dataKeyOrId === 'string'){
+		params.data_key = dataKeyOrId;
+	} else if (typeof dataKeyOrId == 'number'){
+		params.data_id = dataKeyOrId;
+	} else {
+		throw new Error('Data key/id must be passed');
+	}
+
+	var allowedFields = ['data1', 'data2', 'data3'];
+	if(allowedFields.indexOf(field) !== -1){
+		params[field + '__dec'] = value;
+	}
+
+	this.__super__.ignoreNextChange = true;
 	this.__super__.__sendWithCallback(method, params, 'data', callback);
 };
 
@@ -1913,7 +2034,7 @@ User.login = function(userName, password, instanceName, apiKey, callback){
 	var method = 'user.login';
 	var params = {};
 
-	if(type(userName) === 'object' && isFunction(password)){
+	if(type(userName) === 'object' && (isFunction(password) || isPlainObject(password))){
 		var tempParams = userName;
 		callback = password;
 		apiKey = tempParams.api_key;
@@ -1939,16 +2060,30 @@ User.login = function(userName, password, instanceName, apiKey, callback){
 		params.apiKey = apiKey;
 	}
 
+	var success = function(){};
+	var error = function(msg){
+		this.__super__.trigger('syncano:error', msg);
+	}.bind(this);
+
+	if(typeof callback === 'function'){
+		success = callback;
+	} else if(typeof callback === 'object'){
+		if(typeof callback.success === 'function'){
+			success = callback.success;
+		}
+		if(typeof callback.error === 'function'){
+			error = callback.error;
+		}
+	}
+
 	this.__super__.__sendAjaxRequest(method, params, 'user', function(result){
-		if(typeof result.auth_key !== 'undefined'){
+		if(typeof result.auth_key !== 'undefined' && result.result === 'OK'){
 			this.auth_key = result.auth_key;
-			if(typeof callback === 'function'){
-				callback(result);
-			}
+			success(result);
+		} else if(result.result === 'NOK'){
+			error(result.error);
 		} else {
-			if(typeof callback === 'function'){
-				callback(result);
-			}
+			success(result);
 		}
 	}.bind(this.__super__));
 };
@@ -2694,7 +2829,7 @@ Syncano.prototype.connect = function(params, callback){
 		return;
 	}
 
-	if(typeof callback === 'function'){
+	if(typeof callback !== 'undefined'){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
 
@@ -2762,15 +2897,22 @@ Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
 	if(data.result === 'NOK'){
-		this.trigger('syncano:error', data.error || data.data.error);
-			if(data.type === 'auth'){
-				this.socket.close();
-				this.trigger('syncano:auth:error');
-			} else {
-				this.requestInProgress = false;
-				this.sendQueue();
-			}
-			return;
+		var messageId = (data.type === 'auth') ? 'auth' : data.message_id;
+		var errMsg = data.error || data.data.error;
+
+		if(typeof messageId !== 'undefined' && typeof this.waitingForResponse[messageId] !== 'undefined' && typeof this.waitingForResponse[messageId][1] === 'object' && typeof this.waitingForResponse[messageId][1].error === 'function'){
+			this.waitingForResponse[messageId][1].error(errMsg);
+		} else {
+			this.trigger('syncano:error', errMsg);
+		}
+		if(data.type === 'auth'){
+			this.socket.close();
+			this.trigger('syncano:auth:error');
+		} else {
+			this.requestInProgress = false;
+			this.sendQueue();
+		}
+		return;
 	}
 	
 	switch(data.type){
@@ -3026,6 +3168,8 @@ Syncano.prototype.parseCallResponse = function(data){
 		this.trigger('syncano:' + actionType, data.data);
 		if(typeof callback === 'function'){
 			callback(data.data);
+		} else if(typeof callback === 'object' && typeof callback.success === 'function'){
+			callback.success(data.data);
 		}
 		delete this.waitingForResponse[messageId];
 	} else {
@@ -3164,7 +3308,22 @@ Syncano.prototype.__addCollectionIdentifier = function(params, collection){
  *  Internal shortcut method to send request and run the callback function with proper data as parameter
  */
 Syncano.prototype.__sendWithCallback = function(method, params, key, callback, requestType){
-	this.sendRequest(method, params, function(data){
+
+	var success = function(){};
+	var error;
+
+	if(typeof callback === 'function'){
+		success = callback;
+	} else if(typeof callback === 'object'){
+		if(typeof callback.success === 'function'){
+			success = callback.success;
+		}
+		if(typeof callback.error === 'function'){
+			error = callback.error;
+		}
+	}
+
+	var customSuccess = function(data){
 		var res;
 		if(key === null){
 			res = true;
@@ -3175,9 +3334,12 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 				res = data;
 			}
 		}
-		if(typeof callback === 'function'){
-			callback(res);
-		}
+		success(res);
+	};
+
+	this.sendRequest(method, params, {
+		success: customSuccess,
+		error: error
 	}, requestType);
 };
 

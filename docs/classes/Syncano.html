@@ -90,7 +90,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/dist_syncano.js.html#l2588"><code>dist&#x2F;syncano.js:2588</code></a>
+            Defined in: <a href="../files/dist_syncano.js.html#l2723"><code>dist&#x2F;syncano.js:2723</code></a>
         </div>
     
 
@@ -141,7 +141,7 @@
             
         
         
-        <a href="../files/dist_syncano.js.html#l2588"><code>dist&#x2F;syncano.js:2588</code></a>
+        <a href="../files/dist_syncano.js.html#l2723"><code>dist&#x2F;syncano.js:2723</code></a>
         
         </p>
 
@@ -331,6 +331,20 @@
                         
                             <li class="index-item method">
                                 <a href="#method_Data.getOne">Data.getOne</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_Data.increase">Data.increase</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_Data.increase">Data.increase</a>
 
                                 
                                 
@@ -3053,7 +3067,7 @@ collection_id/collection_key parameter means that one can use either one of them
             
         
         
-        <a href="../files/dist_syncano.js.html#l2664"><code>dist&#x2F;syncano.js:2664</code></a>
+        <a href="../files/dist_syncano.js.html#l2799"><code>dist&#x2F;syncano.js:2799</code></a>
         
         </p>
 
@@ -3164,7 +3178,7 @@ collection_id/collection_key parameter means that one can use either one of them
             
         
         
-        <a href="../files/dist_syncano.js.html#l2346"><code>dist&#x2F;syncano.js:2346</code></a>
+        <a href="../files/dist_syncano.js.html#l2481"><code>dist&#x2F;syncano.js:2481</code></a>
         
         </p>
 
@@ -3347,7 +3361,7 @@ collection_id/collection_key parameter means that one can use either one of them
             
         
         
-        <a href="../files/dist_syncano.js.html#l2394"><code>dist&#x2F;syncano.js:2394</code></a>
+        <a href="../files/dist_syncano.js.html#l2529"><code>dist&#x2F;syncano.js:2529</code></a>
         
         </p>
 
@@ -3549,7 +3563,7 @@ collection_id/collection_key parameter means that one can use either one of them
             
         
         
-        <a href="../files/dist_syncano.js.html#l1617"><code>dist&#x2F;syncano.js:1617</code></a>
+        <a href="../files/dist_syncano.js.html#l1738"><code>dist&#x2F;syncano.js:1738</code></a>
         
         </p>
 
@@ -3751,7 +3765,7 @@ Note: There is a limit of maximum 250 parents per Data Object, but there is no l
             
         
         
-        <a href="../files/dist_syncano.js.html#l1536"><code>dist&#x2F;syncano.js:1536</code></a>
+        <a href="../files/dist_syncano.js.html#l1657"><code>dist&#x2F;syncano.js:1657</code></a>
         
         </p>
 
@@ -3940,7 +3954,7 @@ Note: There is a limit of maximum 250 parents per Data Object, but there is no l
             
         
         
-        <a href="../files/dist_syncano.js.html#l1485"><code>dist&#x2F;syncano.js:1485</code></a>
+        <a href="../files/dist_syncano.js.html#l1606"><code>dist&#x2F;syncano.js:1606</code></a>
         
         </p>
 
@@ -4109,7 +4123,7 @@ s.Data.copy(projectId, &#39;Default&#39;, dataId, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1768"><code>dist&#x2F;syncano.js:1768</code></a>
+        <a href="../files/dist_syncano.js.html#l1889"><code>dist&#x2F;syncano.js:1889</code></a>
         
         </p>
 
@@ -4330,7 +4344,7 @@ s.Data.copy(projectId, &#39;Default&#39;, dataId, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1699"><code>dist&#x2F;syncano.js:1699</code></a>
+        <a href="../files/dist_syncano.js.html#l1820"><code>dist&#x2F;syncano.js:1820</code></a>
         
         </p>
 
@@ -4581,7 +4595,7 @@ s.Data.copy(projectId, &#39;Default&#39;, dataId, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1143"><code>dist&#x2F;syncano.js:1143</code></a>
+        <a href="../files/dist_syncano.js.html#l1177"><code>dist&#x2F;syncano.js:1177</code></a>
         
         </p>
 
@@ -4985,7 +4999,7 @@ s.Data.get(projectId, &#39;Default&#39;, {}, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1273"><code>dist&#x2F;syncano.js:1273</code></a>
+        <a href="../files/dist_syncano.js.html#l1318"><code>dist&#x2F;syncano.js:1318</code></a>
         
         </p>
 
@@ -5094,6 +5108,406 @@ s.Data.getOne(projectId, &#39;Default&#39;, dataId, function(res){
 </div>
 
                 
+                    <div id="method_Data.increase" class="method item">
+    <h3 class="name"><code>Data.increase</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>projectId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>collection</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>dataKeyOrId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>field</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/dist_syncano.js.html#l1356"><code>dist&#x2F;syncano.js:1356</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Increase one of special fields in data object</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">projectId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Project id</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">collection</code>
+                        <span class="type">String / Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Either collection id (number) or key (string)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">dataKeyOrId</code>
+                        <span class="type">String / Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Either data id (number) or key (string)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">field</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>One of predefined fields - data1, data2 or data3</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Value by which the field has to be increased</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Function to be called when successful response comes</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_Data.increase" class="method item">
+    <h3 class="name"><code>Data.increase</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>projectId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>collection</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>dataKeyOrId</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>field</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/dist_syncano.js.html#l1394"><code>dist&#x2F;syncano.js:1394</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Decrease one of special fields in data object</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">projectId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Project id</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">collection</code>
+                        <span class="type">String / Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Either collection id (number) or key (string)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">dataKeyOrId</code>
+                        <span class="type">String / Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Either data id (number) or key (string)</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">field</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>One of predefined fields - data1, data2 or data3</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Value by which the field has to be decreased</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Function to be called when successful response comes</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_Data.move" class="method item">
     <h3 class="name"><code>Data.move</code></h3>
 
@@ -5154,7 +5568,7 @@ s.Data.getOne(projectId, &#39;Default&#39;, dataId, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1402"><code>dist&#x2F;syncano.js:1402</code></a>
+        <a href="../files/dist_syncano.js.html#l1523"><code>dist&#x2F;syncano.js:1523</code></a>
         
         </p>
 
@@ -5414,12 +5828,6 @@ s.Data.move(projectId, &#39;Default&#39;, {newFolder: &#39;Output folder&#39;});
                 <li class="arg">
                     
                         <code class="optional">[callback]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[requestType]</code>
                     
                 </li>
             
@@ -5702,6 +6110,21 @@ s.Data.move(projectId, &#39;Default&#39;, {newFolder: &#39;Output folder&#39;});
                                 
                             </li>
                             
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[special]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Special object with max 3 keys - data1, data2 and data3. These fields are &quot;special purpose&quot; integers - one can sort and filter by them in Data.get method</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
                         </ul>
                     
                 </li>
@@ -5717,23 +6140,6 @@ s.Data.move(projectId, &#39;Default&#39;, {newFolder: &#39;Output folder&#39;});
 
                     <div class="param-description">
                         <p>Function to be called when successful response comes</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[requestType]</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Optional parameter to force ajax request. Only possible value = &#39;ajax&#39;</p>
 
                     </div>
 
@@ -5829,7 +6235,7 @@ s.Data.new(projectId, &#39;Default&#39;, {}, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1662"><code>dist&#x2F;syncano.js:1662</code></a>
+        <a href="../files/dist_syncano.js.html#l1783"><code>dist&#x2F;syncano.js:1783</code></a>
         
         </p>
 
@@ -6007,7 +6413,7 @@ s.Data.new(projectId, &#39;Default&#39;, {}, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1580"><code>dist&#x2F;syncano.js:1580</code></a>
+        <a href="../files/dist_syncano.js.html#l1701"><code>dist&#x2F;syncano.js:1701</code></a>
         
         </p>
 
@@ -6185,7 +6591,7 @@ s.Data.new(projectId, &#39;Default&#39;, {}, function(res){
             
         
         
-        <a href="../files/dist_syncano.js.html#l1311"><code>dist&#x2F;syncano.js:1311</code></a>
+        <a href="../files/dist_syncano.js.html#l1432"><code>dist&#x2F;syncano.js:1432</code></a>
         
         </p>
 
@@ -7175,7 +7581,7 @@ Params newName and sourceId can be passed as a single object: {newName: &#39;&#3
             
         
         
-        <a href="../files/dist_syncano.js.html#l3051"><code>dist&#x2F;syncano.js:3051</code></a>
+        <a href="../files/dist_syncano.js.html#l3195"><code>dist&#x2F;syncano.js:3195</code></a>
         
         </p>
 
@@ -7367,7 +7773,7 @@ Params newName and sourceId can be passed as a single object: {newName: &#39;&#3
             
         
         
-        <a href="../files/dist_syncano.js.html#l2510"><code>dist&#x2F;syncano.js:2510</code></a>
+        <a href="../files/dist_syncano.js.html#l2645"><code>dist&#x2F;syncano.js:2645</code></a>
         
         </p>
 
@@ -7559,7 +7965,7 @@ Params newName and sourceId can be passed as a single object: {newName: &#39;&#3
             
         
         
-        <a href="../files/dist_syncano.js.html#l2455"><code>dist&#x2F;syncano.js:2455</code></a>
+        <a href="../files/dist_syncano.js.html#l2590"><code>dist&#x2F;syncano.js:2590</code></a>
         
         </p>
 
@@ -8052,7 +8458,7 @@ Params newName and sourceId can be passed as a single object: {newName: &#39;&#3
             
         
         
-        <a href="../files/dist_syncano.js.html#l2742"><code>dist&#x2F;syncano.js:2742</code></a>
+        <a href="../files/dist_syncano.js.html#l2877"><code>dist&#x2F;syncano.js:2877</code></a>
         
         </p>
 
@@ -8132,7 +8538,7 @@ If there was an error, e.data.result is &#39;NOK&#39; (not ok), otherwise e.data
             
         
         
-        <a href="../files/dist_syncano.js.html#l2726"><code>dist&#x2F;syncano.js:2726</code></a>
+        <a href="../files/dist_syncano.js.html#l2861"><code>dist&#x2F;syncano.js:2861</code></a>
         
         </p>
 
@@ -8188,7 +8594,7 @@ waiting request to reconnect, handles reconnection with the same params.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2714"><code>dist&#x2F;syncano.js:2714</code></a>
+        <a href="../files/dist_syncano.js.html#l2849"><code>dist&#x2F;syncano.js:2849</code></a>
         
         </p>
 
@@ -8254,7 +8660,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2816"><code>dist&#x2F;syncano.js:2816</code></a>
+        <a href="../files/dist_syncano.js.html#l2958"><code>dist&#x2F;syncano.js:2958</code></a>
         
         </p>
 
@@ -8343,7 +8749,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l3009"><code>dist&#x2F;syncano.js:3009</code></a>
+        <a href="../files/dist_syncano.js.html#l3151"><code>dist&#x2F;syncano.js:3151</code></a>
         
         </p>
 
@@ -8434,7 +8840,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2940"><code>dist&#x2F;syncano.js:2940</code></a>
+        <a href="../files/dist_syncano.js.html#l3082"><code>dist&#x2F;syncano.js:3082</code></a>
         
         </p>
 
@@ -8523,7 +8929,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2905"><code>dist&#x2F;syncano.js:2905</code></a>
+        <a href="../files/dist_syncano.js.html#l3047"><code>dist&#x2F;syncano.js:3047</code></a>
         
         </p>
 
@@ -8612,7 +9018,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2964"><code>dist&#x2F;syncano.js:2964</code></a>
+        <a href="../files/dist_syncano.js.html#l3106"><code>dist&#x2F;syncano.js:3106</code></a>
         
         </p>
 
@@ -8701,7 +9107,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2993"><code>dist&#x2F;syncano.js:2993</code></a>
+        <a href="../files/dist_syncano.js.html#l3135"><code>dist&#x2F;syncano.js:3135</code></a>
         
         </p>
 
@@ -8790,7 +9196,7 @@ defined in this.connectionParams.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2835"><code>dist&#x2F;syncano.js:2835</code></a>
+        <a href="../files/dist_syncano.js.html#l2977"><code>dist&#x2F;syncano.js:2977</code></a>
         
         </p>
 
@@ -8881,7 +9287,7 @@ You can handle any of them.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l2875"><code>dist&#x2F;syncano.js:2875</code></a>
+        <a href="../files/dist_syncano.js.html#l3017"><code>dist&#x2F;syncano.js:3017</code></a>
         
         </p>
 
@@ -9543,7 +9949,7 @@ You can handle any of them.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l3037"><code>dist&#x2F;syncano.js:3037</code></a>
+        <a href="../files/dist_syncano.js.html#l3181"><code>dist&#x2F;syncano.js:3181</code></a>
         
         </p>
 
@@ -9620,7 +10026,7 @@ You can handle any of them.</p>
             
         
         
-        <a href="../files/dist_syncano.js.html#l3073"><code>dist&#x2F;syncano.js:3073</code></a>
+        <a href="../files/dist_syncano.js.html#l3217"><code>dist&#x2F;syncano.js:3217</code></a>
         
         </p>
 
@@ -9743,7 +10149,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l3062"><code>dist&#x2F;syncano.js:3062</code></a>
+        <a href="../files/dist_syncano.js.html#l3206"><code>dist&#x2F;syncano.js:3206</code></a>
         
         </p>
 
@@ -9837,7 +10243,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2320"><code>dist&#x2F;syncano.js:2320</code></a>
+        <a href="../files/dist_syncano.js.html#l2455"><code>dist&#x2F;syncano.js:2455</code></a>
         
         </p>
 
@@ -9956,7 +10362,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2274"><code>dist&#x2F;syncano.js:2274</code></a>
+        <a href="../files/dist_syncano.js.html#l2409"><code>dist&#x2F;syncano.js:2409</code></a>
         
         </p>
 
@@ -10084,7 +10490,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2236"><code>dist&#x2F;syncano.js:2236</code></a>
+        <a href="../files/dist_syncano.js.html#l2371"><code>dist&#x2F;syncano.js:2371</code></a>
         
         </p>
 
@@ -10202,7 +10608,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2297"><code>dist&#x2F;syncano.js:2297</code></a>
+        <a href="../files/dist_syncano.js.html#l2432"><code>dist&#x2F;syncano.js:2432</code></a>
         
         </p>
 
@@ -10330,7 +10736,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2255"><code>dist&#x2F;syncano.js:2255</code></a>
+        <a href="../files/dist_syncano.js.html#l2390"><code>dist&#x2F;syncano.js:2390</code></a>
         
         </p>
 
@@ -10640,7 +11046,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2140"><code>dist&#x2F;syncano.js:2140</code></a>
+        <a href="../files/dist_syncano.js.html#l2275"><code>dist&#x2F;syncano.js:2275</code></a>
         
         </p>
 
@@ -10844,7 +11250,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2024"><code>dist&#x2F;syncano.js:2024</code></a>
+        <a href="../files/dist_syncano.js.html#l2159"><code>dist&#x2F;syncano.js:2159</code></a>
         
         </p>
 
@@ -11038,7 +11444,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2207"><code>dist&#x2F;syncano.js:2207</code></a>
+        <a href="../files/dist_syncano.js.html#l2342"><code>dist&#x2F;syncano.js:2342</code></a>
         
         </p>
 
@@ -11150,7 +11556,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1984"><code>dist&#x2F;syncano.js:1984</code></a>
+        <a href="../files/dist_syncano.js.html#l2119"><code>dist&#x2F;syncano.js:2119</code></a>
         
         </p>
 
@@ -11261,7 +11667,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2074"><code>dist&#x2F;syncano.js:2074</code></a>
+        <a href="../files/dist_syncano.js.html#l2209"><code>dist&#x2F;syncano.js:2209</code></a>
         
         </p>
 
@@ -11379,7 +11785,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1957"><code>dist&#x2F;syncano.js:1957</code></a>
+        <a href="../files/dist_syncano.js.html#l2092"><code>dist&#x2F;syncano.js:2092</code></a>
         
         </p>
 
@@ -11514,7 +11920,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2102"><code>dist&#x2F;syncano.js:2102</code></a>
+        <a href="../files/dist_syncano.js.html#l2237"><code>dist&#x2F;syncano.js:2237</code></a>
         
         </p>
 
@@ -11630,7 +12036,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2753"><code>dist&#x2F;syncano.js:2753</code></a>
+        <a href="../files/dist_syncano.js.html#l2888"><code>dist&#x2F;syncano.js:2888</code></a>
         
         </p>
 
@@ -11674,7 +12080,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2822"><code>dist&#x2F;syncano.js:2822</code></a>
+        <a href="../files/dist_syncano.js.html#l2964"><code>dist&#x2F;syncano.js:2964</code></a>
         
         </p>
 
@@ -11717,7 +12123,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l3083"><code>dist&#x2F;syncano.js:3083</code></a>
+        <a href="../files/dist_syncano.js.html#l3227"><code>dist&#x2F;syncano.js:3227</code></a>
         
         </p>
 
@@ -11761,7 +12167,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2911"><code>dist&#x2F;syncano.js:2911</code></a>
+        <a href="../files/dist_syncano.js.html#l3053"><code>dist&#x2F;syncano.js:3053</code></a>
         
         </p>
 
@@ -12192,7 +12598,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2357"><code>dist&#x2F;syncano.js:2357</code></a>
+        <a href="../files/dist_syncano.js.html#l2492"><code>dist&#x2F;syncano.js:2492</code></a>
         
         </p>
 
@@ -12235,7 +12641,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2405"><code>dist&#x2F;syncano.js:2405</code></a>
+        <a href="../files/dist_syncano.js.html#l2540"><code>dist&#x2F;syncano.js:2540</code></a>
         
         </p>
 
@@ -12278,7 +12684,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1629"><code>dist&#x2F;syncano.js:1629</code></a>
+        <a href="../files/dist_syncano.js.html#l1750"><code>dist&#x2F;syncano.js:1750</code></a>
         
         </p>
 
@@ -12321,7 +12727,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1547"><code>dist&#x2F;syncano.js:1547</code></a>
+        <a href="../files/dist_syncano.js.html#l1668"><code>dist&#x2F;syncano.js:1668</code></a>
         
         </p>
 
@@ -12364,7 +12770,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1500"><code>dist&#x2F;syncano.js:1500</code></a>
+        <a href="../files/dist_syncano.js.html#l1621"><code>dist&#x2F;syncano.js:1621</code></a>
         
         </p>
 
@@ -12407,7 +12813,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1781"><code>dist&#x2F;syncano.js:1781</code></a>
+        <a href="../files/dist_syncano.js.html#l1902"><code>dist&#x2F;syncano.js:1902</code></a>
         
         </p>
 
@@ -12450,7 +12856,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1714"><code>dist&#x2F;syncano.js:1714</code></a>
+        <a href="../files/dist_syncano.js.html#l1835"><code>dist&#x2F;syncano.js:1835</code></a>
         
         </p>
 
@@ -12493,7 +12899,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1178"><code>dist&#x2F;syncano.js:1178</code></a>
+        <a href="../files/dist_syncano.js.html#l1212"><code>dist&#x2F;syncano.js:1212</code></a>
         
         </p>
 
@@ -12536,7 +12942,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1288"><code>dist&#x2F;syncano.js:1288</code></a>
+        <a href="../files/dist_syncano.js.html#l1333"><code>dist&#x2F;syncano.js:1333</code></a>
         
         </p>
 
@@ -12579,7 +12985,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1423"><code>dist&#x2F;syncano.js:1423</code></a>
+        <a href="../files/dist_syncano.js.html#l1544"><code>dist&#x2F;syncano.js:1544</code></a>
         
         </p>
 
@@ -12665,7 +13071,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1672"><code>dist&#x2F;syncano.js:1672</code></a>
+        <a href="../files/dist_syncano.js.html#l1793"><code>dist&#x2F;syncano.js:1793</code></a>
         
         </p>
 
@@ -12708,7 +13114,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1590"><code>dist&#x2F;syncano.js:1590</code></a>
+        <a href="../files/dist_syncano.js.html#l1711"><code>dist&#x2F;syncano.js:1711</code></a>
         
         </p>
 
@@ -12751,7 +13157,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1339"><code>dist&#x2F;syncano.js:1339</code></a>
+        <a href="../files/dist_syncano.js.html#l1460"><code>dist&#x2F;syncano.js:1460</code></a>
         
         </p>
 
@@ -12794,7 +13200,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2946"><code>dist&#x2F;syncano.js:2946</code></a>
+        <a href="../files/dist_syncano.js.html#l3088"><code>dist&#x2F;syncano.js:3088</code></a>
         
         </p>
 
@@ -12838,7 +13244,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2749"><code>dist&#x2F;syncano.js:2749</code></a>
+        <a href="../files/dist_syncano.js.html#l2884"><code>dist&#x2F;syncano.js:2884</code></a>
         
         </p>
 
@@ -13097,7 +13503,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l3015"><code>dist&#x2F;syncano.js:3015</code></a>
+        <a href="../files/dist_syncano.js.html#l3157"><code>dist&#x2F;syncano.js:3157</code></a>
         
         </p>
 
@@ -13141,7 +13547,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2999"><code>dist&#x2F;syncano.js:2999</code></a>
+        <a href="../files/dist_syncano.js.html#l3141"><code>dist&#x2F;syncano.js:3141</code></a>
         
         </p>
 
@@ -13185,7 +13591,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2885"><code>dist&#x2F;syncano.js:2885</code></a>
+        <a href="../files/dist_syncano.js.html#l3027"><code>dist&#x2F;syncano.js:3027</code></a>
         
         </p>
 
@@ -13229,7 +13635,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2851"><code>dist&#x2F;syncano.js:2851</code></a>
+        <a href="../files/dist_syncano.js.html#l2993"><code>dist&#x2F;syncano.js:2993</code></a>
         
         </p>
 
@@ -13273,7 +13679,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2843"><code>dist&#x2F;syncano.js:2843</code></a>
+        <a href="../files/dist_syncano.js.html#l2985"><code>dist&#x2F;syncano.js:2985</code></a>
         
         </p>
 
@@ -13317,7 +13723,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2847"><code>dist&#x2F;syncano.js:2847</code></a>
+        <a href="../files/dist_syncano.js.html#l2989"><code>dist&#x2F;syncano.js:2989</code></a>
         
         </p>
 
@@ -13361,7 +13767,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2881"><code>dist&#x2F;syncano.js:2881</code></a>
+        <a href="../files/dist_syncano.js.html#l3023"><code>dist&#x2F;syncano.js:3023</code></a>
         
         </p>
 
@@ -13405,7 +13811,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2522"><code>dist&#x2F;syncano.js:2522</code></a>
+        <a href="../files/dist_syncano.js.html#l2657"><code>dist&#x2F;syncano.js:2657</code></a>
         
         </p>
 
@@ -13448,7 +13854,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2465"><code>dist&#x2F;syncano.js:2465</code></a>
+        <a href="../files/dist_syncano.js.html#l2600"><code>dist&#x2F;syncano.js:2600</code></a>
         
         </p>
 
@@ -13706,7 +14112,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l3087"><code>dist&#x2F;syncano.js:3087</code></a>
+        <a href="../files/dist_syncano.js.html#l3231"><code>dist&#x2F;syncano.js:3231</code></a>
         
         </p>
 
@@ -13750,7 +14156,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2757"><code>dist&#x2F;syncano.js:2757</code></a>
+        <a href="../files/dist_syncano.js.html#l2892"><code>dist&#x2F;syncano.js:2892</code></a>
         
         </p>
 
@@ -13794,7 +14200,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2974"><code>dist&#x2F;syncano.js:2974</code></a>
+        <a href="../files/dist_syncano.js.html#l3116"><code>dist&#x2F;syncano.js:3116</code></a>
         
         </p>
 
@@ -13838,7 +14244,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2970"><code>dist&#x2F;syncano.js:2970</code></a>
+        <a href="../files/dist_syncano.js.html#l3112"><code>dist&#x2F;syncano.js:3112</code></a>
         
         </p>
 
@@ -13882,7 +14288,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2327"><code>dist&#x2F;syncano.js:2327</code></a>
+        <a href="../files/dist_syncano.js.html#l2462"><code>dist&#x2F;syncano.js:2462</code></a>
         
         </p>
 
@@ -13925,7 +14331,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2282"><code>dist&#x2F;syncano.js:2282</code></a>
+        <a href="../files/dist_syncano.js.html#l2417"><code>dist&#x2F;syncano.js:2417</code></a>
         
         </p>
 
@@ -13968,7 +14374,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2243"><code>dist&#x2F;syncano.js:2243</code></a>
+        <a href="../files/dist_syncano.js.html#l2378"><code>dist&#x2F;syncano.js:2378</code></a>
         
         </p>
 
@@ -14011,7 +14417,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2305"><code>dist&#x2F;syncano.js:2305</code></a>
+        <a href="../files/dist_syncano.js.html#l2440"><code>dist&#x2F;syncano.js:2440</code></a>
         
         </p>
 
@@ -14054,7 +14460,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2262"><code>dist&#x2F;syncano.js:2262</code></a>
+        <a href="../files/dist_syncano.js.html#l2397"><code>dist&#x2F;syncano.js:2397</code></a>
         
         </p>
 
@@ -14097,7 +14503,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2152"><code>dist&#x2F;syncano.js:2152</code></a>
+        <a href="../files/dist_syncano.js.html#l2287"><code>dist&#x2F;syncano.js:2287</code></a>
         
         </p>
 
@@ -14140,7 +14546,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2214"><code>dist&#x2F;syncano.js:2214</code></a>
+        <a href="../files/dist_syncano.js.html#l2349"><code>dist&#x2F;syncano.js:2349</code></a>
         
         </p>
 
@@ -14183,7 +14589,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2036"><code>dist&#x2F;syncano.js:2036</code></a>
+        <a href="../files/dist_syncano.js.html#l2171"><code>dist&#x2F;syncano.js:2171</code></a>
         
         </p>
 
@@ -14226,7 +14632,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1991"><code>dist&#x2F;syncano.js:1991</code></a>
+        <a href="../files/dist_syncano.js.html#l2126"><code>dist&#x2F;syncano.js:2126</code></a>
         
         </p>
 
@@ -14269,7 +14675,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2081"><code>dist&#x2F;syncano.js:2081</code></a>
+        <a href="../files/dist_syncano.js.html#l2216"><code>dist&#x2F;syncano.js:2216</code></a>
         
         </p>
 
@@ -14312,7 +14718,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l1965"><code>dist&#x2F;syncano.js:1965</code></a>
+        <a href="../files/dist_syncano.js.html#l2100"><code>dist&#x2F;syncano.js:2100</code></a>
         
         </p>
 
@@ -14355,7 +14761,7 @@ Uses internal &#39;waitingForResponse&#39; object to match request with response
             
         
         
-        <a href="../files/dist_syncano.js.html#l2110"><code>dist&#x2F;syncano.js:2110</code></a>
+        <a href="../files/dist_syncano.js.html#l2245"><code>dist&#x2F;syncano.js:2245</code></a>
         
         </p>
 

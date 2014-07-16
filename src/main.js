@@ -189,10 +189,7 @@ Syncano.prototype.onMessage = function(e){
 		var messageId = (data.type === 'auth') ? 'auth' : data.message_id;
 		var errMsg = data.error || data.data.error;
 
-		if(typeof messageId !== 'undefined' 
-			&& typeof this.waitingForResponse[messageId] !== 'undefined'
-			&& typeof this.waitingForResponse[messageId][1] === 'object'
-			&& typeof this.waitingForResponse[messageId][1].error === 'function'){
+		if(typeof messageId !== 'undefined' && typeof this.waitingForResponse[messageId] !== 'undefined' && typeof this.waitingForResponse[messageId][1] === 'object' && typeof this.waitingForResponse[messageId][1].error === 'function'){
 			this.waitingForResponse[messageId][1].error(errMsg);
 		} else {
 			this.trigger('syncano:error', errMsg);
@@ -605,7 +602,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 	var error;
 
 	if(typeof callback === 'function'){
-		success == callback;
+		success = callback;
 	} else if(typeof callback === 'object'){
 		if(typeof callback.success === 'function'){
 			success = callback.success;
@@ -627,7 +624,7 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 			}
 		}
 		success(res);
-	}
+	};
 
 	this.sendRequest(method, params, {
 		success: customSuccess,
