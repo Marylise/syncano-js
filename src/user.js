@@ -10,7 +10,7 @@ User.login = function(userName, password, instanceName, apiKey, callback){
 	var method = 'user.login';
 	var params = {};
 
-	if(type(userName) === 'object' && isFunction(password)){
+	if(type(userName) === 'object' && (isFunction(password) || isPlainObject(password))){
 		var tempParams = userName;
 		callback = password;
 		apiKey = tempParams.api_key;
@@ -36,16 +36,30 @@ User.login = function(userName, password, instanceName, apiKey, callback){
 		params.apiKey = apiKey;
 	}
 
+	var success = function(){};
+	var error = function(msg){
+		this.__super__.trigger('syncano:error', msg);
+	}.bind(this);
+
+	if(typeof callback === 'function'){
+		success = callback;
+	} else if(typeof callback === 'object'){
+		if(typeof callback.success === 'function'){
+			success = callback.success;
+		}
+		if(typeof callback.error === 'function'){
+			error = callback.error;
+		}
+	}
+
 	this.__super__.__sendAjaxRequest(method, params, 'user', function(result){
-		if(typeof result.auth_key !== 'undefined'){
+		if(typeof result.auth_key !== 'undefined' && result.result === 'OK'){
 			this.auth_key = result.auth_key;
-			if(typeof callback === 'function'){
-				callback(result);
-			}
+			success(result);
+		} else if(result.result === 'NOK'){
+			error(result.error);
 		} else {
-			if(typeof callback === 'function'){
-				callback(result);
-			}
+			success(result);
 		}
 	}.bind(this.__super__));
 };

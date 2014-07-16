@@ -118,7 +118,7 @@ Syncano.prototype.connect = function(params, callback){
 		return;
 	}
 
-	if(typeof callback === 'function'){
+	if(typeof callback !== 'undefined'){
 		this.waitingForResponse.auth = ['auth', callback];
 	}
 
@@ -186,15 +186,25 @@ Syncano.prototype.onMessage = function(e){
 	var data = JSON.parse(e.data);
 	
 	if(data.result === 'NOK'){
-		this.trigger('syncano:error', data.error || data.data.error);
-			if(data.type === 'auth'){
-				this.socket.close();
-				this.trigger('syncano:auth:error');
-			} else {
-				this.requestInProgress = false;
-				this.sendQueue();
-			}
-			return;
+		var messageId = (data.type === 'auth') ? 'auth' : data.message_id;
+		var errMsg = data.error || data.data.error;
+
+		if(typeof messageId !== 'undefined' 
+			&& typeof this.waitingForResponse[messageId] !== 'undefined'
+			&& typeof this.waitingForResponse[messageId][1] === 'object'
+			&& typeof this.waitingForResponse[messageId][1].error === 'function'){
+			this.waitingForResponse[messageId][1].error(errMsg);
+		} else {
+			this.trigger('syncano:error', errMsg);
+		}
+		if(data.type === 'auth'){
+			this.socket.close();
+			this.trigger('syncano:auth:error');
+		} else {
+			this.requestInProgress = false;
+			this.sendQueue();
+		}
+		return;
 	}
 	
 	switch(data.type){
@@ -450,6 +460,8 @@ Syncano.prototype.parseCallResponse = function(data){
 		this.trigger('syncano:' + actionType, data.data);
 		if(typeof callback === 'function'){
 			callback(data.data);
+		} else if(typeof callback === 'object' && typeof callback.success === 'function'){
+			callback.success(data.data);
 		}
 		delete this.waitingForResponse[messageId];
 	} else {
@@ -588,7 +600,22 @@ Syncano.prototype.__addCollectionIdentifier = function(params, collection){
  *  Internal shortcut method to send request and run the callback function with proper data as parameter
  */
 Syncano.prototype.__sendWithCallback = function(method, params, key, callback, requestType){
-	this.sendRequest(method, params, function(data){
+
+	var success = function(){};
+	var error;
+
+	if(typeof callback === 'function'){
+		success == callback;
+	} else if(typeof callback === 'object'){
+		if(typeof callback.success === 'function'){
+			success = callback.success;
+		}
+		if(typeof callback.error === 'function'){
+			error = callback.error;
+		}
+	}
+
+	var customSuccess = function(data){
 		var res;
 		if(key === null){
 			res = true;
@@ -599,9 +626,12 @@ Syncano.prototype.__sendWithCallback = function(method, params, key, callback, r
 				res = data;
 			}
 		}
-		if(typeof callback === 'function'){
-			callback(res);
-		}
+		success(res);
+	}
+
+	this.sendRequest(method, params, {
+		success: customSuccess,
+		error: error
 	}, requestType);
 };
 
