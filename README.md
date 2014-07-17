@@ -90,6 +90,19 @@ Every SyncanoJS method sends a single asynchronous request to the server. Syncan
 
 Every method provided by the SyncanoJS library takes a callback function as the last parameter. The callback is called when a response from the server is successful. If the server returns error, tha callback is not called. The callback takes the server response as the only parameter. For further details see examples below.
 
+Starting from version 3.1.3beta you can pass as a callback an object with two methods - success and error - defined:
+
+```javascript
+{
+	success: function(data){...},
+	error: function(errorMessage){...}
+}
+```
+
+The `success` method is called when a response from the server is successful (`result = OK`), the `error` method - when server returns `result = NOK`.
+
+When you register error handler with `error` method, you won't get `syncano:error` notification when something goes wrong.
+
 ### Notifications
 ---
 
