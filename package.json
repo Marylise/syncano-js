@@ -1,6 +1,6 @@
 {
   "name": "syncano",
-  "version": "3.1.2beta",
+  "version": "3.1.3beta",
   "main": "dist/syncano.min.js",
   "description": "Real time high level library for Syncano (www.syncano.com)",
   "keywords": [],

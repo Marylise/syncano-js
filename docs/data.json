@@ -2,7 +2,7 @@
     "project": {
         "name": "syncano",
         "description": "Real time high level library for Syncano (www.syncano.com)",
-        "version": "3.1.2beta",
+        "version": "3.1.3beta",
         "url": ""
     },
     "files": {
