@@ -7,7 +7,7 @@
 			if(pLen === 0 || pLen !== limit){
 				callback(res);
 			} else {
-				params.sinceId = part[pLen - 1].id;
+				params.sinceId = parseInt(part[pLen - 1].id, 10);
 				this.__internalDataGet(res, limit, projectId, collectionId, params, callback);
 			}
 		}.bind(this));
