@@ -342,7 +342,7 @@
 	/**
 	 * Decrease one of special fields in data object
 	 *
-	 *  @method Data.increase
+	 *  @method Data.decrease
 	 *  @param {number} projectId Project id
 	 *  @param {string / Number} collection Either collection id (number) or key (string)
 	 *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)

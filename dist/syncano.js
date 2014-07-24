@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.3beta
-build date: 18-07-2014
+build date: 24-07-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -889,7 +889,7 @@ Copyright 2014 Syncano Inc.
 	/**
 	 *  Get folders for specified collection
 	 *
-	 *  @name method Folder.get 
+	 *  @method Folder.get 
 	 *  @param {number} projectId Project id
 	 *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
 	 *  @param {function} [callback] Function to be called when successful response comes
@@ -1392,7 +1392,7 @@ Copyright 2014 Syncano Inc.
 	/**
 	 * Decrease one of special fields in data object
 	 *
-	 *  @method Data.increase
+	 *  @method Data.decrease
 	 *  @param {number} projectId Project id
 	 *  @param {string / Number} collection Either collection id (number) or key (string)
 	 *  @param {string / Number} dataKeyOrId Either data id (number) or key (string)

@@ -36,7 +36,7 @@
 	/**
 	 *  Get folders for specified collection
 	 *
-	 *  @name method Folder.get 
+	 *  @method Folder.get 
 	 *  @param {number} projectId Project id
 	 *  @param {string / Number} collection Collection id or key defining collection for which folders will be returned
 	 *  @param {function} [callback] Function to be called when successful response comes

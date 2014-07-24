@@ -890,7 +890,8 @@
             "file": "dist/syncano.js",
             "line": 889,
             "description": "Get folders for specified collection",
-            "name": "method Folder.get",
+            "itemtype": "method",
+            "name": "Folder.get",
             "params": [
                 {
                     "name": "projectId",
@@ -1404,7 +1405,7 @@
             "line": 1392,
             "description": "Decrease one of special fields in data object",
             "itemtype": "method",
-            "name": "Data.increase",
+            "name": "Data.decrease",
             "params": [
                 {
                     "name": "projectId",
@@ -3153,10 +3154,6 @@
     "warnings": [
         {
             "message": "unknown tag: name",
-            "line": " dist/syncano.js:889"
-        },
-        {
-            "message": "unknown tag: name",
             "line": " dist/syncano.js:912"
         },
         {
@@ -3214,10 +3211,6 @@
         {
             "message": "Missing item type\nmethods for handling folders - creating, reading, updating, deleting",
             "line": " dist/syncano.js:854"
-        },
-        {
-            "message": "Missing item type\nGet folders for specified collection",
-            "line": " dist/syncano.js:889"
         },
         {
             "message": "Missing item type\nGet folders for specified collection",
