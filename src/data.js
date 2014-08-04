@@ -426,11 +426,15 @@
 		}
 		
 		if(isset(optionalParams)){
-			var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl', 'dataKey'];
+			var paramsToPass = ['updateMethod', 'userName', 'sourceUrl', 'title', 'text', 'link', 'image', 'imageUrl', 'dataKey', 'data1', 'data2', 'data3'];
 			for(var i=0; i<paramsToPass.length; i++){
 				var jsParam = paramsToPass[i];
 				if(isset(optionalParams[jsParam])){
-					params[uncamelize(jsParam)] = optionalParams[jsParam];
+					var tmpK = jsParam;
+					if(jsParam !== 'data1' && jsParam !== 'data2' && jsParam !== 'data3'){
+						tmpK = uncamelize(jsParam);
+					}
+					params[tmpK] = optionalParams[jsParam];
 				}
 			}
 			

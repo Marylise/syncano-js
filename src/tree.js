@@ -50,3 +50,71 @@
 			this.__internalRemoveIds(projectId, collection, ids, folders, callback);
 		}.bind(this));
 	};
+
+
+	/*
+		odczytaj wszystkie rekordy ze wskazanych folderów
+		zapisz je w tablicy
+		zapamiętaj wszystkie identyfikatory rekordów mających children_count > 0
+	*/
+	Tree.get = function(projectId, collection, folders, callback){
+		var params = {
+			folders: folders,
+			includeChildren: false
+		};
+		var out = [];
+		var parents = [];
+		var relations = {};
+
+		var internalReadChildren = function(){
+			console.log('Przetwarzam, liczba węzłów:', parents.length);
+			var parent = parents.shift();
+			relations[parent] = [];
+			var params = {
+				includeChildren: false,
+				parentIds: parent
+			};
+			this.__super__.BigData.get(projectId, collection, params, function(data){
+				// w data mamy wszystkie dzieci zadanego węzła
+				for(var i=0; i<data.length; i++){
+					var rec = data[i];
+					rec.id = rec.id | 0;
+
+					// zapamiętaj relację
+					relations[parent].push(rec.id);
+					// zapamiętaj data object
+					out.push(rec);
+					// jeśli ma dzieci, dopisz go do listy
+					if(rec.children_count > 0){
+						parents.push(rec.id);
+					}
+				}
+				
+				// przetworzono wszystkie dzieci. Zdecyduj, czy przetwarzamy dalej
+				if(parents.length === 0){
+					callback(out, relations);
+				} else {
+					internalReadChildren();
+				}
+			}.bind(this));
+		}.bind(this);
+
+		this.__super__.BigData.get(projectId, collection, params, function(data){
+			for(var i=0; i<data.length; i++){
+				var rec = data[i];
+				rec.id = rec.id | 0;
+				out.push(rec);
+				if(rec.children_count > 0){
+					parents.push(rec.id);
+				}
+			}
+			internalReadChildren();
+		});
+	};
+
+
+
+
+
+
+
