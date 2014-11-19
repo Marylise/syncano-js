@@ -15,6 +15,8 @@ SyncanoJS requires a [SockJS client library](https://github.com/sockjs/sockjs-cl
 
 You can download the latest version from [GitHub](https://github.com/Syncano/syncano-js/tree/master/dist). You can choose the normal version, with some comments (syncano.js) or minified (syncano.min.js). If you prefer to build a distribution version yourself, follow the Build section.
 
+We recommend using our hosted file, available on [jsDelivr](http://www.jsdelivr.com/#!syncanojs). See "Usage" to learn how to add it to your project.
+
 ## Build
 ---
 
