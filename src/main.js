@@ -143,7 +143,12 @@
 	 */
 	Syncano.prototype.onSocketOpen = function(){
 		this.status = states.CONNECTED;
-		this.socketSend(this.connectionParams);
+		var obj = {
+			instance: this.connectionParams.instance,
+			api_key: this.connectionParams.api_key,
+			'user-agent': 'syncano-js-3.1beta'
+		};
+		this.socketSend(obj);
 	};
 
 

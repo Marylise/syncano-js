@@ -1,7 +1,7 @@
 /*
 syncano
 ver: 3.1.3beta
-build date: 04-08-2014
+build date: 15-12-2014
 Copyright 2014 Syncano Inc.
 */
 (function(root, undefined) {
@@ -2925,7 +2925,12 @@ Copyright 2014 Syncano Inc.
 	 */
 	Syncano.prototype.onSocketOpen = function(){
 		this.status = states.CONNECTED;
-		this.socketSend(this.connectionParams);
+		var obj = {
+			instance: this.connectionParams.instance,
+			api_key: this.connectionParams.api_key,
+			'user-agent': 'syncano-js-3.1beta'
+		};
+		this.socketSend(obj);
 	};
 
 
